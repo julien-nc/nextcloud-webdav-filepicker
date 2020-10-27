@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { delay } from '../utils'
-import { showSuccess, showError } from '@nextcloud/dialogs'
+// import axios from '@nextcloud/axios'
+// import { delay } from '../utils'
+// import { showSuccess, showError } from '@nextcloud/dialogs'
 
 import NcFilePicker from './NcFilePicker'
 
