@@ -143,6 +143,8 @@ export default {
 			// for potential global listener
 			const event = new CustomEvent('pathSelected', { detail: this.currentElements[0] })
 			document.dispatchEvent(event)
+
+			this.close()
 		},
 		onUp() {
 			console.debug('we are at ' + this.currentPath)

@@ -22,9 +22,9 @@ const comp = new Vue({
 	el: '#mount_point',
 	render: h => h(NcFilePicker, {
 		props: {
-			ncUrl: 'https://ripley.minifox.fr/nc/n20git',
+			ncUrl: 'https://localhost/dev/server',
 			login: 'julien',
-			password: '',
+			password: 'Nm8cC-kHczM-HGz55-S9SE2-Frf4F',
 		},
 	}),
 })

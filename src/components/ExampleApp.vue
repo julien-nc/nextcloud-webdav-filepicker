@@ -2,9 +2,10 @@
 	<div id="example-app">
 		This is an example Vue application
 		<NcFilePicker
-			nc-url="https://ripley.minifox.fr/nc/n20git"
+			nc-url="https://localhost/dev/server"
 			login="julien"
-			password="" />
+			password="Nm8cC-kHczM-HGz55-S9SE2-Frf4F"
+			@pathSelected="onPathSelected" />
 	</div>
 </template>
 
@@ -39,6 +40,10 @@ export default {
 	},
 
 	methods: {
+		onPathSelected(e) {
+			console.debug('something was selected')
+			console.debug(e)
+		},
 	},
 }
 </script>
