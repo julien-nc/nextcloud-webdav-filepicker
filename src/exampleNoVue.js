@@ -23,8 +23,8 @@ const comp = new Vue({
 	render: h => h(NcFilePicker, {
 		props: {
 			ncUrl: 'https://localhost/dev/server',
-			login: 'julien',
-			password: 'Nm8cC-kHczM-HGz55-S9SE2-Frf4F',
+			ncLogin: 'julien',
+			ncPassword: 'Nm8cC-kHczM-HGz55-S9SE2-Frf4F',
 		},
 	}),
 })

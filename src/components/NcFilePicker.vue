@@ -58,11 +58,11 @@ export default {
 			type: String,
 			required: true,
 		},
-		login: {
+		ncLogin: {
 			type: String,
 			default: '',
 		},
-		password: {
+		ncPassword: {
 			type: String,
 			default: '',
 		},
@@ -70,12 +70,16 @@ export default {
 
 	data() {
 		return {
+			login: this.ncLogin,
+			password: this.ncPassword,
+			url: this.ncUrl,
 			client: null,
 			isOpen: false,
 			currentElements: [],
 			currentPath: '/',
 			// modes : getFilePath, downloadFile, getSaveFilePath
 			mode: '',
+			loginWindow: null,
 		}
 	},
 
@@ -103,20 +107,9 @@ export default {
 	},
 
 	watch: {
-		login() {
-			console.debug('login changed to "' + this.login + '" !')
-			this.createClient()
-		},
-		password() {
-			this.createClient()
-		},
-		ncUrl() {
-			this.createClient()
-		},
 	},
 
 	mounted() {
-		this.createClient()
 	},
 
 	methods: {
@@ -125,12 +118,35 @@ export default {
 			this.currentElements = []
 			this.currentPath = '/'
 
-			this.client = createClient(
-				this.davUrl + '/' + this.login, {
-					username: this.login,
-					password: this.password,
+			if (this.login && this.password) {
+				this.client = createClient(
+					this.davUrl + '/' + this.login, {
+						username: this.login,
+						password: this.password,
+					}
+				)
+				this.getFolderContent()
+			} else {
+				const authUrl = this.authUrl + '?target-origin=' + encodeURIComponent(window.location.href)
+				this.loginWindow = window.open(
+					authUrl,
+					'Nextcloud Login',
+					'width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no'
+				)
+				window.addEventListener('message', this.onReceiveWindowMessage)
+			}
+		},
+		onReceiveWindowMessage(e) {
+			const data = e.data
+			if (data.type === 'webapppassword') {
+				if (this.loginWindow !== null) {
+					this.loginWindow.close()
 				}
-			)
+				window.removeEventListener('message', this.onReceiveWindowMessage)
+				this.login = data.loginName
+				this.password = data.token
+				this.createClient()
+			}
 		},
 		getFilePath() {
 			this.mode = 'getFilePath'
@@ -141,9 +157,13 @@ export default {
 			if (path) {
 				this.currentPath = path
 			}
-			const directoryItems = await this.client.getDirectoryContents(this.currentPath)
-			this.currentElements = directoryItems
-			// console.debug(directoryItems)
+			if (this.client === null) {
+				this.createClient()
+			} else {
+				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
+				this.currentElements = directoryItems
+				// console.debug(directoryItems)
+			}
 		},
 		close() {
 			this.isOpen = false

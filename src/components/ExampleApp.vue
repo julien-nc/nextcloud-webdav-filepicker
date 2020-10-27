@@ -7,8 +7,8 @@
 		<hr>
 		<NcFilePicker
 			:nc-url="ncUrl"
-			:login="login"
-			:password="password"
+			:nc-login="login"
+			:nc-password="password"
 			@pathSelected="onPathSelected" />
 	</div>
 </template>
