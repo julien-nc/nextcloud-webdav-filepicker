@@ -158,4 +158,8 @@ export default {
 	display: inline-flex;
 	width: 100%;
 }
+
+.modal__content {
+	background: white;
+}
 </style>
