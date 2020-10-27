@@ -103,18 +103,35 @@ export default {
 	},
 
 	watch: {
+		login() {
+			console.debug('login changed to "' + this.login + '" !')
+			this.createClient()
+		},
+		password() {
+			this.createClient()
+		},
+		ncUrl() {
+			this.createClient()
+		},
 	},
 
 	mounted() {
-		this.client = createClient(
-			this.davUrl + '/' + this.login, {
-				username: this.login,
-				password: this.password,
-			}
-		)
+		this.createClient()
 	},
 
 	methods: {
+		createClient() {
+			// reset
+			this.currentElements = []
+			this.currentPath = '/'
+
+			this.client = createClient(
+				this.davUrl + '/' + this.login, {
+					username: this.login,
+					password: this.password,
+				}
+			)
+		},
 		getFilePath() {
 			this.mode = 'getFilePath'
 			this.isOpen = true

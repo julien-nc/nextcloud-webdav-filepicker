@@ -30,6 +30,8 @@ const comp = new Vue({
 })
 
 document.getElementById('selectButton').addEventListener('click', function(e) {
+	// console.debug(comp)
+	// comp.$children[0].$props.login = 'juju'
 	comp.$children[0].getFilePath()
 })
 
