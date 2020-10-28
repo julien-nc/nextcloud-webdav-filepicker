@@ -89,6 +89,11 @@
 					bar-color="lightblue"
 					:val="uploadProgress"
 					:text="uploadProgress + '%'" />
+				<ProgressBar v-if="downloadingFiles"
+					size="medium"
+					bar-color="lightblue"
+					:val="downloadProgress"
+					:text="downloadProgress + '%'" />
 				<button v-else-if="canValidate" id="validate" @click="onValidate">
 					{{ validateButtonText }}
 				</button>
@@ -162,6 +167,8 @@ export default {
 			loadingDirectory: false,
 			uploadingFiles: false,
 			uploadProgress: 0,
+			downloadingFiles: false,
+			downloadProgress: 0,
 			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles
 			mode: '',
 			loginWindow: null,
@@ -411,7 +418,16 @@ export default {
 			this.filesToUpload = []
 		},
 		async webdavDownload() {
+			this.downloadingFiles = true
+			this.downloadProgress = 0
 			const results = []
+			let totalSize = 0
+			let totalDownloaded = 0
+			for (let i = 0; i < this.selection.length; i++) {
+				const filepath = this.selection[i]
+				const selectedElement = this.currentElementsByPath[filepath]
+				totalSize += selectedElement.size
+			}
 			for (let i = 0; i < this.selection.length; i++) {
 				const filepath = this.selection[i]
 				const selectedElement = this.currentElementsByPath[filepath]
@@ -420,6 +436,8 @@ export default {
 					const buff = await this.client.getFileContents(filepath)
 					const file = new File([buff], selectedElement.basename, { type: selectedElement.mime })
 					results.push(file)
+					totalDownloaded += selectedElement.size
+					this.downloadProgress = parseInt(totalDownloaded / totalSize * 100)
 				} catch (error) {
 					console.error(error)
 				}
@@ -430,6 +448,8 @@ export default {
 			const event = new CustomEvent('filesDownloaded', { detail: results })
 			document.dispatchEvent(event)
 			this.close()
+			this.downloadingFiles = false
+			this.downloadProgress = 0
 		},
 		hashChange(event, elem) {
 			event.preventDefault()
