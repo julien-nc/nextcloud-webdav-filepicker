@@ -10,10 +10,11 @@
 			:nc-login="login"
 			:nc-password="password"
 			@filesDownloaded="onFilesDownloaded"
-			@savePathSelected="onSavePathSelected"
+			@filesUploaded="onFilesUploaded"
+			@getSaveFilePath="onGetSaveFilePath"
 			@uploadPathLinkGenerated="onUploadPathLinkGenerated"
 			@getFilesLink="onGetFilesLink"
-			@pathSelected="onPathSelected" />
+			@getFilesPath="onGetFilesPath" />
 	</div>
 </template>
 
@@ -51,7 +52,7 @@ export default {
 	},
 
 	methods: {
-		onPathSelected(e) {
+		onGetFilesPath(e) {
 			console.debug('something was selected')
 			console.debug(e)
 		},
@@ -59,12 +60,16 @@ export default {
 			console.debug('links were retreived')
 			console.debug(e)
 		},
-		onSavePathSelected(e) {
+		onGetSaveFilePath(e) {
 			console.debug('This target directory was selected')
 			console.debug(e)
 		},
 		onUploadPathLinkGenerated(e) {
 			console.debug('This upload link was generated')
+			console.debug(e)
+		},
+		onFilesUploaded(e) {
+			console.debug('Files were uploaded')
 			console.debug(e)
 		},
 		onFilesDownloaded(files) {

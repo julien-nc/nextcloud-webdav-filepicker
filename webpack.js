@@ -12,7 +12,7 @@ webpackConfig.stats = {
 
 webpackConfig.entry = {
 	exampleVue: { import: path.join(__dirname, 'src', 'exampleVue.js'), filename: 'exampleVue.js' },
-	exampleNoVue: { import: path.join(__dirname, 'src', 'exampleNoVue.js'), filename: 'exampleNoVue.js' },
+	filePickerWrapper: { import: path.join(__dirname, 'src', 'filePickerWrapper.js'), filename: 'filePickerWrapper.js' },
 }
 
 webpackConfig.resolve.fallback = { 'path': require.resolve('path-browserify') }

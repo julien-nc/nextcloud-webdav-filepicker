@@ -407,9 +407,9 @@ export default {
 				console.debug('get file path in ' + this.currentPath)
 				// const downloadLink = this.client.getFileDownloadLink(element)
 				// for parent component
-				this.$emit('pathSelected', this.selection)
+				this.$emit('getFilesPath', this.selection)
 				// for potential global listener
-				const event = new CustomEvent('pathSelected', { detail: this.selection })
+				const event = new CustomEvent('getFilesPath', { detail: this.selection })
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
@@ -426,9 +426,9 @@ export default {
 			} else if (this.mode === 'getSaveFilePath') {
 				console.debug('user wants to save in ' + this.currentPath)
 				// for parent component
-				this.$emit('savePathSelected', this.currentPath)
+				this.$emit('getSaveFilePath', this.currentPath)
 				// for potential global listener
-				const event = new CustomEvent('savePathSelected', { detail: this.currentPath })
+				const event = new CustomEvent('getSaveFilePath', { detail: this.currentPath })
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getUploadFileLink') {
@@ -486,6 +486,12 @@ export default {
 						console.error(error)
 					})
 			}
+			// for parent component
+			this.$emit('filesUploaded', this.filesToUpload)
+			// for potential global listener
+			const event = new CustomEvent('filesUploaded', { detail: this.filesToUpload })
+			document.dispatchEvent(event)
+
 			this.uploadingFiles = false
 			this.uploadProgress = 0
 			this.filesToUpload = []
@@ -635,7 +641,7 @@ export default {
 		width: 100px;
 		height: 50px;
 		background-repeat: no-repeat;
-		background-size: 50px;
+		background-size: 30px;
 		background-position: center;
 	}
 
