@@ -614,6 +614,10 @@ export default {
 		height: 50px;
 	}
 
+	tr:not(:first-child) td {
+		border-top: 1px solid lightgrey;
+	}
+
 	tr:not(.selectable) {
 		opacity: 30%;
 	}
