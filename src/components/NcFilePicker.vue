@@ -613,6 +613,11 @@ export default {
 			margin-top: -6px;
 			top: 2px;
 			position: relative;
+			opacity: 0.4;
+		}
+
+		&::before {
+			color: #dbdbdb;
 		}
 	}
 }
@@ -657,7 +662,7 @@ export default {
 	}
 
 	tr:not(:first-child) td {
-		border-top: 1px solid lightgrey;
+		border-top: 1px solid #e3e3e3;
 	}
 
 	tr:not(.selectable) {
@@ -674,7 +679,7 @@ export default {
 		}
 
 		&:hover {
-			background-color: lightgrey;
+			background-color: #e3e3e3;
 		}
 	}
 
