@@ -250,6 +250,15 @@ export default {
 	},
 
 	watch: {
+		ncLogin() {
+			this.updateLogin(this.ncLogin)
+		},
+		ncPassword() {
+			this.updateLogin(this.ncPassword)
+		},
+		ncUrl() {
+			this.updateLogin(this.ncUrl)
+		},
 	},
 
 	mounted() {
@@ -257,6 +266,18 @@ export default {
 	},
 
 	methods: {
+		updateUrl(newValue) {
+			this.client = null
+			this.url = newValue
+		},
+		updateLogin(newValue) {
+			this.client = null
+			this.login = newValue
+		},
+		updatePassword(newValue) {
+			this.client = null
+			this.password = newValue
+		},
 		createClient() {
 			// reset
 			this.currentElements = []

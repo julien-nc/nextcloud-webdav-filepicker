@@ -18,15 +18,24 @@ import NcFilePicker from './components/NcFilePicker'
 // eslint-disable-next-line
 'use strict'
 
+const initialUrl = document.getElementById('url').value
+const initialLogin = document.getElementById('login').value
+const initialPassword = document.getElementById('password').value
+
 const comp = new Vue({
 	el: '#mount_point',
 	render: h => h(NcFilePicker, {
 		props: {
-			ncUrl: 'https://localhost/dev/server',
-			ncLogin: 'julien',
-			ncPassword: 'Nm8cC-kHczM-HGz55-S9SE2-Frf4F',
+			ncUrl: initialUrl,
+			ncLogin: initialLogin,
+			ncPassword: initialPassword,
 		},
 	}),
+})
+
+// monitor value change
+document.getElementById('login').addEventListener('input', function(e) {
+	comp.$children[0].updateLogin(e.target.value)
 })
 
 document.getElementById('selectButton').addEventListener('click', function(e) {
