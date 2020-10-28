@@ -28,8 +28,9 @@
 							:title="p.name"
 							:href="'#' + p.path" />
 					</Breadcrumbs>
+					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading" />
 				</div>
-				<v-table v-if="!loadingDirectory && currentElements.length > 0"
+				<v-table v-if="currentElements.length > 0"
 					id="element-table"
 					:data="sortedCurrentElements">
 					<thead slot="head">
@@ -47,7 +48,7 @@
 					<tbody slot="body" slot-scope="{displayData}">
 						<tr v-for="value in displayData"
 							:key="value.filename"
-							:class="{ selected: selection.includes(value.filename) }"
+							:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
 							@click="onElemClick(value)">
 							<td>
 								<span :class="{ icon: true, 'icon-folder': value.type === 'directory', 'icon-file': value.type !== 'directory' }" />
@@ -70,9 +71,6 @@
 						</tr>
 					</tbody>
 				</v-table>
-				<div v-else-if="loadingDirectory" class="loading">
-					Loading...
-				</div>
 				<EmptyContent v-else icon="icon-folder" class="empty-content">
 					This directory is empty
 				</EmptyContent>
@@ -82,8 +80,8 @@
 					bar-color="lightblue"
 					:val="uploadProgress"
 					:text="uploadProgress + '%'" />
-				<button v-else id="validate" @click="onValidate">
-					OK
+				<button v-else-if="canValidate" id="validate" @click="onValidate">
+					{{ validateButtonText }}
 				</button>
 			</div>
 		</Modal>
@@ -135,6 +133,10 @@ export default {
 			type: String,
 			default: '',
 		},
+		multiple: {
+			type: Boolean,
+			default: true,
+		},
 	},
 
 	data() {
@@ -181,6 +183,25 @@ export default {
 			return this.currentElements.slice().sort((a, b) => {
 				return a.basename.toLowerCase() > b.basename.toLowerCase()
 			})
+		},
+		validateButtonText() {
+			if (['getFilePath', 'downloadFiles'].includes(this.mode)) {
+				const nbSelected = this.selection.length
+				return `Get ${nbSelected} selected files`
+			} else if (['getSaveFilePath'].includes(this.mode)) {
+				return `Save to ${basename(this.currentPath) || '/'}`
+			} else if (['uploadFiles'].includes(this.mode)) {
+				const nbToUpload = this.filesToUpload.length
+				return `Upload ${nbToUpload} files to ${basename(this.currentPath) || '/'}`
+			}
+			return ''
+		},
+		canValidate() {
+			if (['getFilePath', 'downloadFiles'].includes(this.mode)) {
+				return this.selection.length > 0
+			} else {
+				return true
+			}
 		},
 	},
 
@@ -276,10 +297,18 @@ export default {
 			if (e.type === 'directory') {
 				this.getFolderContent(e.filename)
 			} else {
-				if (this.selection.includes(e.filename)) {
-					this.selection.splice(this.selection.indexOf(e.filename), 1)
+				if (this.multiple) {
+					if (this.selection.includes(e.filename)) {
+						this.selection.splice(this.selection.indexOf(e.filename), 1)
+					} else {
+						this.selection.push(e.filename)
+					}
 				} else {
-					this.selection.push(e.filename)
+					if (this.selection.includes(e.filename)) {
+						this.selection = []
+					} else {
+						this.selection = [e.filename]
+					}
 				}
 			}
 		},
@@ -388,6 +417,9 @@ export default {
 		lastModFormat(ts) {
 			return moment.unix(ts).format('L HH:mm:ss')
 		},
+		isSelectable(elem) {
+			return elem.type === 'directory' || ['getFilePath', 'downloadFiles'].includes(this.mode)
+		},
 	},
 }
 </script>
@@ -411,6 +443,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
+
+	button {
+		padding: 10px;
+		font-weight: bold;
+		border-radius: 100px;
+		border: 1px solid lightgrey;
+	}
 }
 
 ::v-deep .breadcrumb {
@@ -468,7 +507,11 @@ export default {
 		height: 50px;
 	}
 
-	tr {
+	tr:not(.selectable) {
+		opacity: 30%;
+	}
+
+	tr.selectable {
 		&.selected:hover {
 			background-color: lightblue;
 		}
@@ -495,6 +538,13 @@ export default {
 	flex-grow: 1;
 	text-align: center;
 	padding-top: 50px;
+}
+
+.icon-loading {
+	background: url('./../../img/loading.gif');
+	background-size: 20px;
+	width: 20px;
+	height: 20px;
 }
 
 .empty-content {
