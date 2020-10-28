@@ -16,7 +16,12 @@
 			@click="getSaveFilePath">
 			Get save file path
 		</button>
+		<button
+			@click="openFileInput">
+			Upload files
+		</button>
 		<input
+			v-show="false"
 			id="file-input"
 			ref="myFiles"
 			type="file"
@@ -40,7 +45,7 @@
 					<thead slot="head">
 						<th style="width: 10%;" />
 						<v-th sort-key="basename" style="width: 50%;">
-							File name
+							Name
 						</v-th>
 						<v-th sort-key="size" style="width: 15%;">
 							Size
@@ -203,6 +208,8 @@ export default {
 		canValidate() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
 				return this.selection.length > 0
+			} else if (this.mode === 'uploadFiles') {
+				return this.filesToUpload.length > 0
 			} else {
 				return true
 			}
@@ -251,6 +258,9 @@ export default {
 				this.password = data.token
 				this.createClient()
 			}
+		},
+		openFileInput() {
+			this.$refs.myFiles.click()
 		},
 		getFilesPath() {
 			this.mode = 'getFilesPath'
@@ -398,6 +408,7 @@ export default {
 			}
 			this.uploadingFiles = false
 			this.uploadProgress = 0
+			this.filesToUpload = []
 		},
 		async webdavDownload() {
 			const results = []
