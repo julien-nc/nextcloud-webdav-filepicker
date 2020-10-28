@@ -197,7 +197,7 @@ export default {
 		},
 		sortedCurrentElements() {
 			return this.currentElements.slice().sort((a, b) => {
-				return a.basename.toLowerCase() > b.basename.toLowerCase()
+				return a.basename.toLowerCase().localeCompare(b.basename.toLowerCase())
 			})
 		},
 		validateButtonText() {
@@ -311,7 +311,6 @@ export default {
 						lastmod_ts: moment(el.lastmod).unix(),
 					}
 				})
-				console.debug(this.currentElements)
 				this.loadingDirectory = false
 			}
 		},
