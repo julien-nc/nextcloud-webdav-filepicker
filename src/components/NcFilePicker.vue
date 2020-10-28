@@ -254,10 +254,10 @@ export default {
 			this.updateLogin(this.ncLogin)
 		},
 		ncPassword() {
-			this.updateLogin(this.ncPassword)
+			this.updatePassword(this.ncPassword)
 		},
 		ncUrl() {
-			this.updateLogin(this.ncUrl)
+			this.updateUrl(this.ncUrl)
 		},
 	},
 
@@ -269,14 +269,23 @@ export default {
 		updateUrl(newValue) {
 			this.client = null
 			this.url = newValue
+			// set login/passwd to props values again
+			this.login = this.ncLogin
+			this.password = this.ncPassword
 		},
 		updateLogin(newValue) {
 			this.client = null
 			this.login = newValue
+
+			this.url = this.ncUrl
+			this.password = this.ncPassword
 		},
 		updatePassword(newValue) {
 			this.client = null
 			this.password = newValue
+
+			this.login = this.ncLogin
+			this.url = this.ncUrl
 		},
 		createClient() {
 			// reset
