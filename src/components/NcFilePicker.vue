@@ -94,9 +94,18 @@
 					bar-color="lightblue"
 					:val="downloadProgress"
 					:text="downloadProgress + '%'" />
-				<button v-else-if="canValidate" id="validate" @click="onValidate">
-					{{ validateButtonText }}
-				</button>
+				<div v-else class="footer">
+					<ProgressBar v-if="quota"
+						size="small"
+						bar-color="lightblue"
+						class="quota"
+						:val="quotaPercent"
+						:text="quotaText" />
+
+					<button v-if="canValidate" id="validate" @click="onValidate">
+						{{ validateButtonText }}
+					</button>
+				</div>
 			</div>
 		</Modal>
 	</div>
@@ -164,6 +173,7 @@ export default {
 			currentElementsByPath: {},
 			currentPath: '/',
 			selection: [],
+			quota: null,
 			loadingDirectory: false,
 			uploadingFiles: false,
 			uploadProgress: 0,
@@ -199,6 +209,18 @@ export default {
 			return this.currentElements.slice().sort((a, b) => {
 				return a.basename.toLowerCase().localeCompare(b.basename.toLowerCase())
 			})
+		},
+		quotaPercent() {
+			if (this.quota?.used && this.quota?.available) {
+				return this.quota.available === 'unlimited'
+					? 0
+					: parseInt(this.quota.used / this.quota.available * 100)
+			} else {
+				return 0
+			}
+		},
+		quotaText() {
+			return this.myHumanFileSize(this.quota.used, true) + ' used (' + this.quotaPercent + ' %)'
 		},
 		validateButtonText() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
@@ -243,6 +265,7 @@ export default {
 						password: this.password,
 					}
 				)
+				this.updateWebdavQuota()
 				this.getFolderContent()
 			} else {
 				const authUrl = this.authUrl + '?target-origin=' + encodeURIComponent(window.location.href)
@@ -291,6 +314,7 @@ export default {
 		},
 		openFilePicker() {
 			this.isOpen = true
+			this.updateWebdavQuota()
 			this.getFolderContent()
 		},
 		async getFolderContent(path = null) {
@@ -376,10 +400,12 @@ export default {
 			}
 		},
 		async updateWebdavQuota() {
-			try {
-				this.quota = await this.client.getQuota()
-			} catch (error) {
-				console.error(error)
+			if (this.client) {
+				try {
+					this.quota = await this.client.getQuota()
+				} catch (error) {
+					console.error(error)
+				}
 			}
 		},
 		async webdavUploadFiles() {
@@ -415,6 +441,7 @@ export default {
 			this.uploadingFiles = false
 			this.uploadProgress = 0
 			this.filesToUpload = []
+			this.updateWebdavQuota()
 		},
 		async webdavDownload() {
 			this.downloadingFiles = true
@@ -502,6 +529,15 @@ export default {
 		font-weight: bold;
 		border-radius: 100px;
 		border: 1px solid lightgrey;
+	}
+
+	.footer {
+		display: flex;
+	}
+
+	.quota {
+		width: 150px;
+		margin-top: 20px;
 	}
 }
 
