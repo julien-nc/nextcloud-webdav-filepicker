@@ -21,10 +21,8 @@
 							:href="'#' + p.path" />
 					</Breadcrumbs>
 				</div>
-				<button @click="onUp">
-					Up
-				</button>
-				<v-table id="element-table"
+				<v-table v-if="!loadingDirectory && currentElements.length > 0"
+					id="element-table"
 					:data="sortedCurrentElements">
 					<thead slot="head">
 						<th />
@@ -64,6 +62,9 @@
 						</tr>
 					</tbody>
 				</v-table>
+				<div v-else-if="loadingDirectory" class="loading">
+					Loading...
+				</div>
 				<button @click="onValidate">
 					OK
 				</button>
@@ -124,6 +125,7 @@ export default {
 			currentElements: [],
 			currentPath: '/',
 			selection: [],
+			loadingDirectory: false,
 			// modes : getFilePath, downloadFile, getSaveFilePath, uploadFiles
 			mode: '',
 			loginWindow: null,
@@ -218,9 +220,11 @@ export default {
 				this.createClient()
 			} else {
 				this.selection = []
+				this.loadingDirectory = true
 				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
 				this.currentElements = directoryItems
 				console.debug(directoryItems)
+				this.loadingDirectory = false
 			}
 		},
 		close() {
@@ -252,11 +256,6 @@ export default {
 				this.close()
 			}
 		},
-		onUp() {
-			console.debug('we are at ' + this.currentPath)
-			console.debug('go up to ' + (dirname(this.currentPath) || '/'))
-			this.getFolderContent(dirname(this.currentPath) || '/')
-		},
 		hashChange(event, elem) {
 			event.preventDefault()
 			event.stopPropagation()
@@ -280,6 +279,7 @@ export default {
 ::v-deep .modal-container {
 	display: flex !important;
 	min-height: 80%;
+	border-radius: 10px !important;
 }
 
 .modal__content {
@@ -295,6 +295,14 @@ export default {
 	.crumb {
 		>a {
 			padding: 12px;
+			text-decoration: none;
+			color: grey;
+		}
+
+		.icon {
+			margin-top: -6px;
+			top: 2px;
+			position: relative;
 		}
 	}
 }
@@ -355,4 +363,9 @@ export default {
 	}
 }
 
+.loading {
+	flex-grow: 1;
+	text-align: center;
+	padding-top: 50px;
+}
 </style>
