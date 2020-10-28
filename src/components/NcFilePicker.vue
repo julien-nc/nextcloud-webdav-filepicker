@@ -380,6 +380,9 @@ export default {
 			this.isOpen = false
 		},
 		onElemClick(e) {
+			if (this.loadingDirectory || this.uploadingFiles || this.downloadingFiles) {
+				return
+			}
 			if (e.type === 'directory') {
 				this.getFolderContent(e.filename)
 			} else {
@@ -534,6 +537,9 @@ export default {
 		hashChange(event, elem) {
 			event.preventDefault()
 			event.stopPropagation()
+			if (this.loadingDirectory || this.uploadingFiles || this.downloadingFiles) {
+				return
+			}
 			const path = elem.getAttribute('href').replace('#', '')
 			this.getFolderContent(path)
 		},
