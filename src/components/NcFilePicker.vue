@@ -474,6 +474,10 @@ export default {
 	flex-direction: column;
 	padding: 20px;
 
+	font-weight: normal;
+	font-size: 0.875em;
+	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+
 	button {
 		padding: 10px;
 		font-weight: bold;
