@@ -4,6 +4,12 @@
 			@click="getFilePath">
 			select file
 		</button>
+		<input
+			id="file-input"
+			ref="myFiles"
+			type="file"
+			multiple
+			@change="onFileInputChange">
 		<Modal v-if="isOpen" @close="close">
 			<div class="modal__content">
 				<div class="bread-container">
@@ -35,6 +41,7 @@
 					<tbody slot="body" slot-scope="{displayData}">
 						<tr v-for="value in displayData"
 							:key="value.filename"
+							:class="{ selected: selection.includes(value.filename) }"
 							@click="onElemClick(value)">
 							<td>
 								<span :class="{ icon: true, 'icon-folder': value.type === 'directory', 'icon-file': value.type !== 'directory' }" />
@@ -116,9 +123,11 @@ export default {
 			isOpen: false,
 			currentElements: [],
 			currentPath: '/',
-			// modes : getFilePath, downloadFile, getSaveFilePath
+			selection: [],
+			// modes : getFilePath, downloadFile, getSaveFilePath, uploadFiles
 			mode: '',
 			loginWindow: null,
+			filesToUpload: [],
 		}
 	},
 
@@ -196,6 +205,11 @@ export default {
 			this.isOpen = true
 			this.getFolderContent()
 		},
+		uploadFiles() {
+			this.mode = 'uploadFiles'
+			this.isOpen = true
+			this.getFolderContent()
+		},
 		async getFolderContent(path = null) {
 			if (path) {
 				this.currentPath = path
@@ -203,6 +217,7 @@ export default {
 			if (this.client === null) {
 				this.createClient()
 			} else {
+				this.selection = []
 				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
 				this.currentElements = directoryItems
 				console.debug(directoryItems)
@@ -214,17 +229,28 @@ export default {
 		onElemClick(e) {
 			if (e.type === 'directory') {
 				this.getFolderContent(e.filename)
+			} else {
+				if (this.selection.includes(e.filename)) {
+					this.selection.splice(this.selection.indexOf(e.filename), 1)
+				} else {
+					this.selection.push(e.filename)
+				}
 			}
 		},
 		onValidate() {
-			// for parent component
-			this.$emit('pathSelected', this.currentElements[0])
+			if (this.mode === 'uploadFiles') {
+				console.debug('upload to ' + this.currentPath)
+				console.debug(this.filesToUpload)
+			} else if (this.mode === 'getFilePath') {
+				console.debug('get file path in ' + this.currentPath)
+				// for parent component
+				this.$emit('pathSelected', this.selection)
 
-			// for potential global listener
-			const event = new CustomEvent('pathSelected', { detail: this.currentElements[0] })
-			document.dispatchEvent(event)
-
-			this.close()
+				// for potential global listener
+				const event = new CustomEvent('pathSelected', { detail: this.selection })
+				document.dispatchEvent(event)
+				this.close()
+			}
 		},
 		onUp() {
 			console.debug('we are at ' + this.currentPath)
@@ -236,6 +262,10 @@ export default {
 			event.stopPropagation()
 			const path = elem.getAttribute('href').replace('#', '')
 			this.getFolderContent(path)
+		},
+		onFileInputChange(e) {
+			this.filesToUpload = [...this.$refs.myFiles.files]
+			this.uploadFiles()
 		},
 	},
 }
@@ -306,8 +336,18 @@ export default {
 		text-align: left;
 	}
 
-	tr:hover {
-		background-color: lightgrey;
+	tr {
+		&.selected:hover {
+			background-color: lightblue;
+		}
+
+		&.selected {
+			background-color: lightcyan;
+		}
+
+		&:hover {
+			background-color: lightgrey;
+		}
 	}
 
 	td {
