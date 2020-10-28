@@ -45,6 +45,7 @@
     "webdav": "^3.3.0",
     "path-browserify": "^1.0.1",
     "vuejs-smart-table": "^0.0.5",
+    "vue-simple-progress": "^1.1.1",
     "vue-click-outside": "^1.1.0"
   },
   "engines": {

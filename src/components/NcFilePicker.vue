@@ -73,7 +73,16 @@
 				<div v-else-if="loadingDirectory" class="loading">
 					Loading...
 				</div>
-				<button id="validate" @click="onValidate">
+				<EmptyContent v-else icon="icon-folder" class="empty-content">
+					This directory is empty
+				</EmptyContent>
+
+				<ProgressBar v-if="uploadingFiles"
+					size="medium"
+					bar-color="lightblue"
+					:val="uploadProgress"
+					:text="uploadProgress + '%'" />
+				<button v-else id="validate" @click="onValidate">
 					OK
 				</button>
 			</div>
@@ -85,6 +94,8 @@
 import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import ProgressBar from 'vue-simple-progress'
 import {
 	dirname,
 	basename,
@@ -107,6 +118,8 @@ export default {
 		Modal,
 		Breadcrumb,
 		Breadcrumbs,
+		ProgressBar,
+		EmptyContent,
 	},
 
 	props: {
@@ -136,6 +149,8 @@ export default {
 			currentPath: '/',
 			selection: [],
 			loadingDirectory: false,
+			uploadingFiles: false,
+			uploadProgress: 0,
 			// modes : getFilePath, downloadFiles, getSaveFilePath, uploadFiles
 			mode: '',
 			loginWindow: null,
@@ -304,6 +319,15 @@ export default {
 			}
 		},
 		async webdavUploadFiles() {
+			this.uploadingFiles = true
+			this.uploadProgress = 0
+			// calc total upload size
+			let totalSize = 0
+			let totalUploaded = 0
+			for (let i = 0; i < this.filesToUpload.length; i++) {
+				const file = this.filesToUpload[i]
+				totalSize += file.size
+			}
 			for (let i = 0; i < this.filesToUpload.length; i++) {
 				const file = this.filesToUpload[i]
 				console.debug(file)
@@ -311,15 +335,21 @@ export default {
 					.putFileContents(this.currentPath + '/' + file.name, file, {
 						overwrite: false,
 						onUploadProgress: progress => {
-							console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
+							// console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
+							console.debug(`uploaded ${totalUploaded + progress.loaded} on ${totalSize}`)
+							this.uploadProgress = parseInt((totalUploaded + progress.loaded) / totalSize * 100)
 						},
 					}).then(() => {
 						console.debug('UPLOAD success' + file.name)
+						totalUploaded += file.size
+						this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
 						this.getFolderContent()
 					}).catch(error => {
 						console.error(error)
 					})
 			}
+			this.uploadingFiles = false
+			this.uploadProgress = 0
 		},
 		async webdavDownload() {
 			const results = []
@@ -465,5 +495,10 @@ export default {
 	flex-grow: 1;
 	text-align: center;
 	padding-top: 50px;
+}
+
+.empty-content {
+	flex-grow: 1;
+	color: lightgrey;
 }
 </style>
