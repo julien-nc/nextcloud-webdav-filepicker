@@ -11,6 +11,7 @@
 			:nc-password="password"
 			@filesDownloaded="onFilesDownloaded"
 			@savePathSelected="onSavePathSelected"
+			@getFilesLink="onGetFilesLink"
 			@pathSelected="onPathSelected" />
 	</div>
 </template>
@@ -51,6 +52,10 @@ export default {
 	methods: {
 		onPathSelected(e) {
 			console.debug('something was selected')
+			console.debug(e)
+		},
+		onGetFilesLink(e) {
+			console.debug('links were retreived')
 			console.debug(e)
 		},
 		onSavePathSelected(e) {

@@ -1,8 +1,12 @@
 <template>
 	<div>
 		<button
-			@click="getFilePath">
-			Select files
+			@click="getFilesPath">
+			Get files path
+		</button>
+		<button
+			@click="getFilesLink">
+			Get files link
 		</button>
 		<button
 			@click="downloadFiles">
@@ -153,7 +157,7 @@ export default {
 			loadingDirectory: false,
 			uploadingFiles: false,
 			uploadProgress: 0,
-			// modes : getFilePath, downloadFiles, getSaveFilePath, uploadFiles
+			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles
 			mode: '',
 			loginWindow: null,
 			filesToUpload: [],
@@ -185,7 +189,7 @@ export default {
 			})
 		},
 		validateButtonText() {
-			if (['getFilePath', 'downloadFiles'].includes(this.mode)) {
+			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
 				const nbSelected = this.selection.length
 				return `Get ${nbSelected} selected files`
 			} else if (['getSaveFilePath'].includes(this.mode)) {
@@ -197,7 +201,7 @@ export default {
 			return ''
 		},
 		canValidate() {
-			if (['getFilePath', 'downloadFiles'].includes(this.mode)) {
+			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
 				return this.selection.length > 0
 			} else {
 				return true
@@ -248,8 +252,12 @@ export default {
 				this.createClient()
 			}
 		},
-		getFilePath() {
-			this.mode = 'getFilePath'
+		getFilesPath() {
+			this.mode = 'getFilesPath'
+			this.openFilePicker()
+		},
+		getFilesLink() {
+			this.mode = 'getFilesLink'
 			this.openFilePicker()
 		},
 		uploadFiles() {
@@ -317,13 +325,24 @@ export default {
 				console.debug('upload to ' + this.currentPath)
 				console.debug(this.filesToUpload)
 				this.webdavUploadFiles()
-			} else if (this.mode === 'getFilePath') {
+			} else if (this.mode === 'getFilesPath') {
 				console.debug('get file path in ' + this.currentPath)
 				// const downloadLink = this.client.getFileDownloadLink(element)
 				// for parent component
 				this.$emit('pathSelected', this.selection)
 				// for potential global listener
 				const event = new CustomEvent('pathSelected', { detail: this.selection })
+				document.dispatchEvent(event)
+				this.close()
+			} else if (this.mode === 'getFilesLink') {
+				console.debug('get files link in ' + this.currentPath)
+				const links = this.selection.map((path) => {
+					return this.client.getFileDownloadLink(path)
+				})
+				// for parent component
+				this.$emit('getFilesLink', links)
+				// for potential global listener
+				const event = new CustomEvent('getFilesLink', { detail: links })
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getSaveFilePath') {
@@ -418,7 +437,7 @@ export default {
 			return moment.unix(ts).format('L HH:mm:ss')
 		},
 		isSelectable(elem) {
-			return elem.type === 'directory' || ['getFilePath', 'downloadFiles'].includes(this.mode)
+			return elem.type === 'directory' || ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)
 		},
 	},
 }
