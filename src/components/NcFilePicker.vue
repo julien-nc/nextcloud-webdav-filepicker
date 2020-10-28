@@ -18,11 +18,45 @@
 				<button @click="onUp">
 					Up
 				</button>
-				<p v-for="e in currentElements"
-					:key="e.filename"
-					@click="onElemClick(e)">
-					name : {{ e.filename }} size : {{ e.size }}
-				</p>
+				<v-table id="element-table"
+					:data="sortedCurrentElements">
+					<thead slot="head">
+						<th />
+						<v-th sort-key="basename">
+							File name
+						</v-th>
+						<v-th sort-key="size">
+							Size
+						</v-th>
+						<v-th sort-key="lastmod">
+							Modified
+						</v-th>
+					</thead>
+					<tbody slot="body" slot-scope="{displayData}">
+						<tr v-for="value in displayData"
+							:key="value.filename"
+							@click="onElemClick(value)">
+							<td>
+								<span :class="{ icon: true, 'icon-folder': value.type === 'directory', 'icon-file': value.type !== 'directory' }" />
+							</td>
+							<td :style="''">
+								<div>
+									{{ value.basename }}
+								</div>
+							</td>
+							<td :style="''">
+								<div>
+									{{ value.size }}
+								</div>
+							</td>
+							<td :style="''">
+								<div>
+									{{ value.lastmod }}
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</v-table>
 				<button @click="onValidate">
 					OK
 				</button>
@@ -44,6 +78,10 @@ import {
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
 import { addCustomEventListener } from '../utils'
+
+import Vue from 'vue'
+import SmartTable from 'vuejs-smart-table'
+Vue.use(SmartTable)
 
 export default {
 	name: 'NcFilePicker',
@@ -102,6 +140,11 @@ export default {
 				tmpPath = dirname(tmpPath)
 			}
 			return parts.slice().reverse()
+		},
+		sortedCurrentElements() {
+			return this.currentElements.slice().sort((a, b) => {
+				return a.basename.toLowerCase() > b.basename.toLowerCase()
+			})
 		},
 	},
 
@@ -162,7 +205,7 @@ export default {
 			} else {
 				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
 				this.currentElements = directoryItems
-				// console.debug(directoryItems)
+				console.debug(directoryItems)
 			}
 		},
 		close() {
@@ -204,10 +247,18 @@ export default {
 	width: 100%;
 }
 
+::v-deep .modal-container {
+	display: flex !important;
+	min-height: 80%;
+}
+
 .modal__content {
 	width: 900px;
-	height: 800px;
+	// height: 800px;
 	background: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 }
 
 ::v-deep .breadcrumb {
@@ -218,9 +269,50 @@ export default {
 	}
 }
 
-::v-deep .icon-home {
+::v-deep .icon {
 	min-width: 16px;
 	min-height: 16px;
+	display: inline-block;
+}
+
+::v-deep .icon-home {
 	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiPjxwYXRoIGQ9Im04IDFsLTggOGgzdjZoMTB2LTZoM2wtMy0zdi00aC0zdjFsLTItMnoiIGZpbGw9IiMwMDAiLz48L3N2Zz4K);
 }
+
+::v-deep .icon-folder {
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiIGhlaWdodD0iMTYiPjxwYXRoIGZpbGw9IiMwMDgyYzkiIGQ9Im0xLjUgMmMtMC4yNSAwLTAuNSAwLjI1LTAuNSAwLjV2MTFjMCAwLjI2IDAuMjQgMC41IDAuNSAwLjVoMTNjMC4yNiAwIDAuNS0wLjI0MSAwLjUtMC41di05YzAtMC4yNS0wLjI1LTAuNS0wLjUtMC41aC02LjVsLTItMnoiLz48L3N2Zz4K);
+}
+
+::v-deep .icon-file {
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGZpbGw9IiM5Njk2OTYiIGQ9Im0yLjUgMWMtMC4yOCAwLTAuNSAwLjIyLTAuNSAwLjV2MTNjMCAwLjI4IDAuMjIgMC41IDAuNSAwLjVoMTFjMC4yOCAwIDAuNS0wLjIyIDAuNS0wLjV2LTEwLjVsLTMtM3oiLz48L3N2Zz4K);
+}
+
+#element-table {
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+	display: block;
+	border-spacing: 0;
+
+	.icon {
+		width: 100px;
+		height: 50px;
+		background-repeat: no-repeat;
+		background-size: 50px;
+		background-position: center;
+	}
+
+	th {
+		text-align: left;
+	}
+
+	tr:hover {
+		background-color: lightgrey;
+	}
+
+	td {
+		border: 0;
+	}
+}
+
 </style>
