@@ -10,6 +10,7 @@
 			:nc-login="login"
 			:nc-password="password"
 			@filesDownloaded="onFilesDownloaded"
+			@savePathSelected="onSavePathSelected"
 			@pathSelected="onPathSelected" />
 	</div>
 </template>
@@ -50,6 +51,10 @@ export default {
 	methods: {
 		onPathSelected(e) {
 			console.debug('something was selected')
+			console.debug(e)
+		},
+		onSavePathSelected(e) {
+			console.debug('This target directory was selected')
 			console.debug(e)
 		},
 		onFilesDownloaded(files) {

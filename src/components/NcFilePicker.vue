@@ -272,8 +272,10 @@ export default {
 			if (this.mode === 'uploadFiles') {
 				console.debug('upload to ' + this.currentPath)
 				console.debug(this.filesToUpload)
+				this.webdavUploadFiles()
 			} else if (this.mode === 'getFilePath') {
 				console.debug('get file path in ' + this.currentPath)
+				// const downloadLink = this.client.getFileDownloadLink(element)
 				// for parent component
 				this.$emit('pathSelected', this.selection)
 				// for potential global listener
@@ -292,6 +294,31 @@ export default {
 				console.debug('user wants to download files')
 				console.debug(this.selection)
 				this.webdavDownload()
+			}
+		},
+		async updateWebdavQuota() {
+			try {
+				this.quota = await this.client.getQuota()
+			} catch (error) {
+				console.error(error)
+			}
+		},
+		async webdavUploadFiles() {
+			for (let i = 0; i < this.filesToUpload.length; i++) {
+				const file = this.filesToUpload[i]
+				console.debug(file)
+				await this.client
+					.putFileContents(this.currentPath + '/' + file.name, file, {
+						overwrite: false,
+						onUploadProgress: progress => {
+							console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
+						},
+					}).then(() => {
+						console.debug('UPLOAD success' + file.name)
+						this.getFolderContent()
+					}).catch(error => {
+						console.error(error)
+					})
 			}
 		},
 		async webdavDownload() {
