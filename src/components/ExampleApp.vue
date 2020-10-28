@@ -9,6 +9,7 @@
 			:nc-url="ncUrl"
 			:nc-login="login"
 			:nc-password="password"
+			@filesDownloaded="onFilesDownloaded"
 			@pathSelected="onPathSelected" />
 	</div>
 </template>
@@ -50,6 +51,22 @@ export default {
 		onPathSelected(e) {
 			console.debug('something was selected')
 			console.debug(e)
+		},
+		onFilesDownloaded(files) {
+			console.debug('something was downloaded')
+			files.forEach(file => {
+				console.debug('File : ' + file.name)
+				console.debug(file)
+				const reader = new FileReader()
+				reader.readAsText(file)
+				reader.onload = function() {
+					console.debug(reader.result)
+				}
+				reader.onerror = function() {
+					console.error('Impossible to read downloaded file')
+					console.debug(reader.error)
+				}
+			})
 		},
 	},
 }

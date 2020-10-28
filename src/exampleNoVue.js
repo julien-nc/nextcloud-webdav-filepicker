@@ -38,3 +38,21 @@ document.getElementById('selectButton').addEventListener('click', function(e) {
 document.addEventListener('pathSelected', function(e) {
 	console.debug(e.detail)
 })
+
+document.addEventListener('filesDownloaded', function(e) {
+	const files = e.detail
+	console.debug('something was downloaded')
+	files.forEach(file => {
+		console.debug('File : ' + file.name)
+		console.debug(file)
+		const reader = new FileReader()
+		reader.readAsText(file)
+		reader.onload = function() {
+			console.debug(reader.result)
+		}
+		reader.onerror = function() {
+			console.error('Impossible to read downloaded file')
+			console.debug(reader.error)
+		}
+	})
+})

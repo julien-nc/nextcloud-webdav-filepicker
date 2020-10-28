@@ -2,7 +2,15 @@
 	<div>
 		<button
 			@click="getFilePath">
-			select file
+			Select files
+		</button>
+		<button
+			@click="downloadFiles">
+			Download files
+		</button>
+		<button
+			@click="getSaveFilePath">
+			Get save file path
 		</button>
 		<input
 			id="file-input"
@@ -124,10 +132,11 @@ export default {
 			client: null,
 			isOpen: false,
 			currentElements: [],
+			currentElementsByPath: {},
 			currentPath: '/',
 			selection: [],
 			loadingDirectory: false,
-			// modes : getFilePath, downloadFile, getSaveFilePath, uploadFiles
+			// modes : getFilePath, downloadFiles, getSaveFilePath, uploadFiles
 			mode: '',
 			loginWindow: null,
 			filesToUpload: [],
@@ -205,11 +214,21 @@ export default {
 		},
 		getFilePath() {
 			this.mode = 'getFilePath'
-			this.isOpen = true
-			this.getFolderContent()
+			this.openFilePicker()
 		},
 		uploadFiles() {
 			this.mode = 'uploadFiles'
+			this.openFilePicker()
+		},
+		downloadFiles() {
+			this.mode = 'downloadFiles'
+			this.openFilePicker()
+		},
+		getSaveFilePath() {
+			this.mode = 'getSaveFilePath'
+			this.openFilePicker()
+		},
+		openFilePicker() {
 			this.isOpen = true
 			this.getFolderContent()
 		},
@@ -221,9 +240,11 @@ export default {
 				this.createClient()
 			} else {
 				this.selection = []
+				this.currentElementsByPath = {}
 				this.loadingDirectory = true
 				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
 				this.currentElements = directoryItems.map((el) => {
+					this.currentElementsByPath[el.filename] = el
 					return {
 						...el,
 						lastmod_ts: moment(el.lastmod).unix(),
@@ -231,10 +252,6 @@ export default {
 				})
 				console.debug(this.currentElements)
 				this.loadingDirectory = false
-				// const m = moment(directoryItems[0].lastmod)
-				// console.debug(m.format('LLL'))
-				// console.debug(m)
-				// console.debug(directoryItems[0].lastmod)
 			}
 		},
 		close() {
@@ -259,12 +276,44 @@ export default {
 				console.debug('get file path in ' + this.currentPath)
 				// for parent component
 				this.$emit('pathSelected', this.selection)
-
 				// for potential global listener
 				const event = new CustomEvent('pathSelected', { detail: this.selection })
 				document.dispatchEvent(event)
 				this.close()
+			} else if (this.mode === 'getSaveFilePath') {
+				console.debug('user wants to save in ' + this.currentPath)
+				// for parent component
+				this.$emit('savePathSelected', this.currentPath)
+				// for potential global listener
+				const event = new CustomEvent('savePathSelected', { detail: this.currentPath })
+				document.dispatchEvent(event)
+				this.close()
+			} else if (this.mode === 'downloadFiles') {
+				console.debug('user wants to download files')
+				console.debug(this.selection)
+				this.webdavDownload()
 			}
+		},
+		async webdavDownload() {
+			const results = []
+			for (let i = 0; i < this.selection.length; i++) {
+				const filepath = this.selection[i]
+				const selectedElement = this.currentElementsByPath[filepath]
+				try {
+					console.debug('DOWNLOADING ' + filepath)
+					const buff = await this.client.getFileContents(filepath)
+					const file = new File([buff], selectedElement.basename, { type: selectedElement.mime })
+					results.push(file)
+				} catch (error) {
+					console.error(error)
+				}
+			}
+			// for parent component
+			this.$emit('filesDownloaded', results)
+			// for potential global listener
+			const event = new CustomEvent('filesDownloaded', { detail: results })
+			document.dispatchEvent(event)
+			this.close()
 		},
 		hashChange(event, elem) {
 			event.preventDefault()
