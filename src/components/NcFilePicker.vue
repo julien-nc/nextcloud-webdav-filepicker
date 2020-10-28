@@ -8,11 +8,11 @@
 			<div class="modal__content">
 				<div class="bread-container">
 					<Breadcrumbs>
-						<Breadcrumb title="Home" />
+						<Breadcrumb title="Home" href="#/" />
 						<Breadcrumb v-for="p in currentPathParts"
 							:key="p.path"
 							:title="p.name"
-							:href="p.path" />
+							:href="'#' + p.path" />
 					</Breadcrumbs>
 				</div>
 				<button @click="onUp">
@@ -43,6 +43,7 @@ import {
 } from '@nextcloud/paths'
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
+import { addCustomEventListener } from '../utils'
 
 export default {
 	name: 'NcFilePicker',
@@ -94,15 +95,13 @@ export default {
 			const parts = []
 			let tmpPath = this.currentPath
 			while (tmpPath && tmpPath !== '/') {
-				parts.push(basename(tmpPath))
+				parts.push({
+					name: basename(tmpPath),
+					path: tmpPath,
+				})
 				tmpPath = dirname(tmpPath)
 			}
-			return parts.map((p) => {
-				return {
-					path: p,
-					name: basename(p),
-				}
-			}).slice().reverse()
+			return parts.slice().reverse()
 		},
 	},
 
@@ -110,6 +109,7 @@ export default {
 	},
 
 	mounted() {
+		addCustomEventListener('.crumb a', 'click', this.hashChange)
 	},
 
 	methods: {
@@ -188,6 +188,12 @@ export default {
 			console.debug('go up to ' + (dirname(this.currentPath) || '/'))
 			this.getFolderContent(dirname(this.currentPath) || '/')
 		},
+		hashChange(event, elem) {
+			event.preventDefault()
+			event.stopPropagation()
+			const path = elem.getAttribute('href').replace('#', '')
+			this.getFolderContent(path)
+		},
 	},
 }
 </script>
@@ -199,6 +205,22 @@ export default {
 }
 
 .modal__content {
+	width: 900px;
+	height: 800px;
 	background: white;
+}
+
+::v-deep .breadcrumb {
+	.crumb {
+		>a {
+			padding: 12px;
+		}
+	}
+}
+
+::v-deep .icon-home {
+	min-width: 16px;
+	min-height: 16px;
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiPjxwYXRoIGQ9Im04IDFsLTggOGgzdjZoMTB2LTZoM2wtMy0zdi00aC0zdjFsLTItMnoiIGZpbGw9IiMwMDAiLz48L3N2Zz4K);
 }
 </style>
