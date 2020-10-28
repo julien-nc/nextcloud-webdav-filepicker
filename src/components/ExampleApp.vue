@@ -11,6 +11,7 @@
 			:nc-password="password"
 			@filesDownloaded="onFilesDownloaded"
 			@savePathSelected="onSavePathSelected"
+			@uploadPathLinkGenerated="onUploadPathLinkGenerated"
 			@getFilesLink="onGetFilesLink"
 			@pathSelected="onPathSelected" />
 	</div>
@@ -60,6 +61,10 @@ export default {
 		},
 		onSavePathSelected(e) {
 			console.debug('This target directory was selected')
+			console.debug(e)
+		},
+		onUploadPathLinkGenerated(e) {
+			console.debug('This upload link was generated')
 			console.debug(e)
 		},
 		onFilesDownloaded(files) {

@@ -17,6 +17,10 @@
 			Get save file path
 		</button>
 		<button
+			@click="getUploadFileLink">
+			Get file upload link
+		</button>
+		<button
 			@click="openFileInput">
 			Upload files
 		</button>
@@ -179,7 +183,7 @@ export default {
 			uploadProgress: 0,
 			downloadingFiles: false,
 			downloadProgress: 0,
-			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles
+			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles, getUploadFileLink
 			mode: '',
 			loginWindow: null,
 			filesToUpload: [],
@@ -226,7 +230,7 @@ export default {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
 				const nbSelected = this.selection.length
 				return `Get ${nbSelected} selected files`
-			} else if (['getSaveFilePath'].includes(this.mode)) {
+			} else if (['getSaveFilePath', 'getUploadFileLink'].includes(this.mode)) {
 				return `Save to ${basename(this.currentPath) || '/'}`
 			} else if (['uploadFiles'].includes(this.mode)) {
 				const nbToUpload = this.filesToUpload.length
@@ -312,6 +316,10 @@ export default {
 			this.mode = 'getSaveFilePath'
 			this.openFilePicker()
 		},
+		getUploadFileLink() {
+			this.mode = 'getUploadFileLink'
+			this.openFilePicker()
+		},
 		openFilePicker() {
 			this.isOpen = true
 			this.updateWebdavQuota()
@@ -391,6 +399,16 @@ export default {
 				this.$emit('savePathSelected', this.currentPath)
 				// for potential global listener
 				const event = new CustomEvent('savePathSelected', { detail: this.currentPath })
+				document.dispatchEvent(event)
+				this.close()
+			} else if (this.mode === 'getUploadFileLink') {
+				console.debug('user wants to get an upload link in ' + this.currentPath)
+				const uploadPath = this.currentPath + '/file.txt'
+				const uploadLink = this.client.getFileUploadLink(uploadPath)
+				// for parent component
+				this.$emit('uploadPathLinkGenerated', uploadLink)
+				// for potential global listener
+				const event = new CustomEvent('uploadPathLinkGenerated', { detail: uploadLink })
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'downloadFiles') {
