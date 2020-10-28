@@ -25,14 +25,14 @@
 					id="element-table"
 					:data="sortedCurrentElements">
 					<thead slot="head">
-						<th />
-						<v-th sort-key="basename">
+						<th style="width: 10%;" />
+						<v-th sort-key="basename" style="width: 50%;">
 							File name
 						</v-th>
-						<v-th sort-key="size">
+						<v-th sort-key="size" style="width: 15%;">
 							Size
 						</v-th>
-						<v-th sort-key="lastmod">
+						<v-th sort-key="lastmod_ts" style="width: 25%;">
 							Modified
 						</v-th>
 					</thead>
@@ -51,12 +51,12 @@
 							</td>
 							<td :style="''">
 								<div>
-									{{ value.size }}
+									{{ myHumanFileSize(value.size, true) }}
 								</div>
 							</td>
 							<td :style="''">
 								<div>
-									{{ value.lastmod }}
+									{{ lastModFormat(value.lastmod_ts) }}
 								</div>
 							</td>
 						</tr>
@@ -65,7 +65,7 @@
 				<div v-else-if="loadingDirectory" class="loading">
 					Loading...
 				</div>
-				<button @click="onValidate">
+				<button id="validate" @click="onValidate">
 					OK
 				</button>
 			</div>
@@ -75,6 +75,7 @@
 
 <script>
 import { createClient } from 'webdav/web'
+import moment from '@nextcloud/moment'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import {
 	dirname,
@@ -85,7 +86,7 @@ import {
 } from '@nextcloud/paths'
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
-import { addCustomEventListener } from '../utils'
+import { addCustomEventListener, humanFileSize } from '../utils'
 
 import Vue from 'vue'
 import SmartTable from 'vuejs-smart-table'
@@ -222,9 +223,18 @@ export default {
 				this.selection = []
 				this.loadingDirectory = true
 				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
-				this.currentElements = directoryItems
-				console.debug(directoryItems)
+				this.currentElements = directoryItems.map((el) => {
+					return {
+						...el,
+						lastmod_ts: moment(el.lastmod).unix(),
+					}
+				})
+				console.debug(this.currentElements)
 				this.loadingDirectory = false
+				// const m = moment(directoryItems[0].lastmod)
+				// console.debug(m.format('LLL'))
+				// console.debug(m)
+				// console.debug(directoryItems[0].lastmod)
 			}
 		},
 		close() {
@@ -265,6 +275,12 @@ export default {
 		onFileInputChange(e) {
 			this.filesToUpload = [...this.$refs.myFiles.files]
 			this.uploadFiles()
+		},
+		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
+			return humanFileSize(bytes, approx, si, dp)
+		},
+		lastModFormat(ts) {
+			return moment.unix(ts).format('L HH:mm:ss')
 		},
 	},
 }
@@ -331,6 +347,7 @@ export default {
 	overflow: scroll;
 	display: block;
 	border-spacing: 0;
+	padding: 10px 0 10px 0;
 
 	.icon {
 		width: 100px;
@@ -342,6 +359,7 @@ export default {
 
 	th {
 		text-align: left;
+		height: 50px;
 	}
 
 	tr {
@@ -361,6 +379,10 @@ export default {
 	td {
 		border: 0;
 	}
+}
+
+#validate {
+	margin-left: auto;
 }
 
 .loading {
