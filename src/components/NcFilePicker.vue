@@ -674,6 +674,7 @@ export default {
 	}
 	.icon-calendar {
 		background-image: url('./../../img/calendar.svg');
+		opacity: 0.4;
 	}
 	.icon-text {
 		background-image: url('./../../img/text.svg');
@@ -686,6 +687,7 @@ export default {
 	}
 	.icon-picture {
 		background-image: url('./../../img/picture.svg');
+		opacity: 0.4;
 	}
 	.icon-pdf {
 		background-image: url('./../../img/pdf.svg');
