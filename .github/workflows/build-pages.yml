@@ -23,8 +23,9 @@ jobs:
           cd /tmp/repo
           npm install
           npm run build
-          sed -i 's/Dev version/Generated at '`date -u`'/' examples/without-vue.html
-          sed -i 's/Dev version/Generated at '`date -u`'/' examples/with-vue.html
+          DATE=`date -u`
+          sed -i "s/Dev version/Generated at $DATE/" examples/without-vue.html
+          sed -i "s/Dev version/Generated at $DATE/" examples/with-vue.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
