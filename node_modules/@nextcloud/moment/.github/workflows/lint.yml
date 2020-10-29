@@ -1,0 +1,17 @@
+name: Lint
+on: pull_request
+
+jobs:
+  node-linters:
+    runs-on: ubuntu-latest
+    name: Check types
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: npm install
+      run: npm i
+    - name: Check types
+      run: npm run check-types

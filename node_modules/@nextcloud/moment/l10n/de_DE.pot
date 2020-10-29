@@ -1,0 +1,14 @@
+# Translators:
+# Christoph Wurst <christoph@winzerhof-wurst.at>, 2020
+# 
+msgid ""
+msgstr ""
+"Last-Translator: Christoph Wurst <christoph@winzerhof-wurst.at>, 2020\n"
+"Language-Team: German (Germany) (https://www.transifex.com/nextcloud/teams/64236/de_DE/)\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/index.ts:22
+msgid "seconds"
+msgstr "Sekunden"

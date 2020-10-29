@@ -1,8 +1,0 @@
-js/
-.code-workspace
-.DS_Store
-.idea/
-.vscode/
-.vscode-upload.json
-.*.sw*
-node_modules

@@ -1,0 +1,11 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn test:unit
+      - store_test_results:
+          path: tests/results
