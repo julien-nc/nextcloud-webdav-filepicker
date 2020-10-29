@@ -19,8 +19,8 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -yqq
           sudo apt-get install npm sed make rsync -yqq > /dev/null 2>&1
-          cp -r $GITHUB_WORKSPACE /tmp/
-          cd /tmp/$GITHUB_WORKSPACE
+          cp -r $GITHUB_WORKSPACE /tmp/repo
+          cd /tmp/repo
           npm install
           npm run build
 
@@ -28,4 +28,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /tmp/$GITHUB_WORKSPACE
+          publish_dir: /tmp/repo
