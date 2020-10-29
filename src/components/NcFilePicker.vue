@@ -64,7 +64,7 @@
 							:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
 							@click="onElemClick(value)">
 							<td>
-								<span :class="{ icon: true, 'icon-folder': value.type === 'directory', 'icon-file': value.type !== 'directory' }" />
+								<span :class="{ icon: true, ...getElemTypeClass(value) }" />
 							</td>
 							<td :style="''">
 								<div>
@@ -373,6 +373,7 @@ export default {
 						lastmod_ts: moment(el.lastmod).unix(),
 					}
 				})
+				console.debug(this.currentElements)
 				this.loadingDirectory = false
 			}
 		},
@@ -556,157 +557,214 @@ export default {
 		isSelectable(elem) {
 			return elem.type === 'directory' || ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)
 		},
+		getElemTypeClass(elem) {
+			if (elem.type === 'directory') {
+				return { 'icon-folder': true }
+			} else {
+				const mime = elem.mime
+				if (mime.match(/^video\//)) {
+					return { 'icon-video': true }
+				} else if (mime === 'text/calendar') {
+					return { 'icon-calendar': true }
+				} else if (mime === 'text/csv' || mime.match(/^application\/.*opendocument\.spreadsheet$/) || mime.match(/^application\/.*office.*sheet$/)) {
+					return { 'icon-spreadsheet': true }
+				} else if (mime.match(/^text\//)) {
+					return { 'icon-text': true }
+				} else if (mime.match(/^application\/pdf$/)) {
+					return { 'icon-pdf': true }
+				} else if (mime.match(/^application\/gpx/)) {
+					return { 'icon-location': true }
+				} else if (mime.match(/^image\//)) {
+					return { 'icon-picture': true }
+				} else if (mime.match(/^audio\//)) {
+					return { 'icon-audio': true }
+				} else if (mime.match(/^application\/.*opendocument\.text$/) || mime.match(/^application\/.*word.*document$/)) {
+					return { 'icon-office-document': true }
+				} else if (mime.match(/^application\/.*opendocument\.presentation$/) || mime.match(/^application\/.*office.*presentation$/)) {
+					return { 'icon-office-presentation': true }
+				}
+				return { 'icon-file': true }
+			}
+		},
 	},
 }
 </script>
 
 <style scoped lang="scss">
-.bread-container {
-	display: inline-flex;
-	width: 100%;
-}
-
 ::v-deep .modal-container {
 	display: flex !important;
 	min-height: 80%;
 	border-radius: 10px !important;
-}
 
-.modal__content {
-	width: 900px;
-	// height: 800px;
-	background: white;
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-
-	font-weight: normal;
-	font-size: 0.875em;
-	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
-
-	button {
-		padding: 10px;
-		font-weight: bold;
-		border-radius: 100px;
-		border: 1px solid lightgrey;
-	}
-
-	.footer {
+	.modal__content {
+		width: 900px;
+		// height: 800px;
+		background: white;
 		display: flex;
-	}
+		flex-direction: column;
+		padding: 20px;
 
-	.quota {
-		width: 150px;
-		margin-top: 20px;
-	}
-}
+		font-weight: normal;
+		font-size: 0.875em;
+		font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
 
-::v-deep .breadcrumb {
-	.crumb {
-		>a {
-			padding: 12px;
-			text-decoration: none;
-			color: grey;
+		.bread-container {
+			display: inline-flex;
+			width: 100%;
 		}
 
-		.icon {
-			margin-top: -6px;
-			top: 2px;
-			position: relative;
-			opacity: 0.4;
+		button {
+			padding: 10px;
+			font-weight: bold;
+			border-radius: 100px;
+			border: 1px solid lightgrey;
 		}
 
-		&::before {
-			color: #dbdbdb;
+		.footer {
+			display: flex;
+		}
+
+		.quota {
+			width: 150px;
+			margin-top: 20px;
+		}
+
+		.breadcrumb {
+			.crumb {
+				>a {
+					padding: 12px;
+					text-decoration: none;
+					color: grey;
+				}
+
+				.icon {
+					margin-top: -6px;
+					top: 2px;
+					position: relative;
+					opacity: 0.4;
+				}
+
+				&::before {
+					color: #dbdbdb;
+				}
+			}
 		}
 	}
-}
-
-::v-deep .icon {
-	min-width: 16px;
-	min-height: 16px;
-	display: inline-block;
-}
-
-::v-deep .icon-home {
-	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiPjxwYXRoIGQ9Im04IDFsLTggOGgzdjZoMTB2LTZoM2wtMy0zdi00aC0zdjFsLTItMnoiIGZpbGw9IiMwMDAiLz48L3N2Zz4K);
-}
-
-::v-deep .icon-folder {
-	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiIGhlaWdodD0iMTYiPjxwYXRoIGZpbGw9IiMwMDgyYzkiIGQ9Im0xLjUgMmMtMC4yNSAwLTAuNSAwLjI1LTAuNSAwLjV2MTFjMCAwLjI2IDAuMjQgMC41IDAuNSAwLjVoMTNjMC4yNiAwIDAuNS0wLjI0MSAwLjUtMC41di05YzAtMC4yNS0wLjI1LTAuNS0wLjUtMC41aC02LjVsLTItMnoiLz48L3N2Zz4K);
-}
-
-::v-deep .icon-file {
-	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGZpbGw9IiM5Njk2OTYiIGQ9Im0yLjUgMWMtMC4yOCAwLTAuNSAwLjIyLTAuNSAwLjV2MTNjMCAwLjI4IDAuMjIgMC41IDAuNSAwLjVoMTFjMC4yOCAwIDAuNS0wLjIyIDAuNS0wLjV2LTEwLjVsLTMtM3oiLz48L3N2Zz4K);
-}
-
-#element-table {
-	width: 100%;
-	height: 100%;
-	overflow: scroll;
-	display: block;
-	border-spacing: 0;
-	padding: 10px 0 10px 0;
 
 	.icon {
-		width: 100px;
-		height: 50px;
-		background-repeat: no-repeat;
-		background-size: 30px;
-		background-position: center;
+		min-width: 16px;
+		min-height: 16px;
+		display: inline-block;
 	}
 
-	th {
-		text-align: left;
-		height: 50px;
+	.icon-home {
+		background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiPjxwYXRoIGQ9Im04IDFsLTggOGgzdjZoMTB2LTZoM2wtMy0zdi00aC0zdjFsLTItMnoiIGZpbGw9IiMwMDAiLz48L3N2Zz4K);
+	}
+	.icon-folder {
+		background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiIGhlaWdodD0iMTYiPjxwYXRoIGZpbGw9IiMwMDgyYzkiIGQ9Im0xLjUgMmMtMC4yNSAwLTAuNSAwLjI1LTAuNSAwLjV2MTFjMCAwLjI2IDAuMjQgMC41IDAuNSAwLjVoMTNjMC4yNiAwIDAuNS0wLjI0MSAwLjUtMC41di05YzAtMC4yNS0wLjI1LTAuNS0wLjUtMC41aC02LjVsLTItMnoiLz48L3N2Zz4K);
+	}
+	.icon-file {
+		background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGZpbGw9IiM5Njk2OTYiIGQ9Im0yLjUgMWMtMC4yOCAwLTAuNSAwLjIyLTAuNSAwLjV2MTNjMCAwLjI4IDAuMjIgMC41IDAuNSAwLjVoMTFjMC4yOCAwIDAuNS0wLjIyIDAuNS0wLjV2LTEwLjVsLTMtM3oiLz48L3N2Zz4K);
+	}
+	.icon-video {
+		background-image: url('./../../img/video.svg');
+	}
+	.icon-audio {
+		background-image: url('./../../img/audio.svg');
+	}
+	.icon-calendar {
+		background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Ym94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Im00IDFjLTAuNSAwLTEgMC41LTEgMXYyYzAgMC41IDAuNSAxIDEgMXMxLTAuNSAxLTF2LTJjMC0wLjUtMC41LTEtMS0xem04IDBjLTAuNSAwLTEgMC41LTEgMXYyYzAgMC41IDAuNSAxIDEgMXMxLTAuNSAxLTF2LTJjMC0wLjUtMC41LTEtMS0xem0tNi41IDJ2MWMwIDAuODMxLTAuNSAxLjUtMS41IDEuNXMtMS41LTAuNS0xLjUtMS41di0wLjkzNzVjLTAuODg0MSAwLjIyNy0xLjUgMS4wMjQ3LTEuNSAxLjkzNzV2OGMwIDEuMTA4IDAuODkyIDIgMiAyaDEwYzEuMTA4IDAgMi0wLjg5MiAyLTJ2LThjMC0wLjkxMjgtMC42MTU4OC0xLjcxMDUtMS41LTEuOTM3NXYwLjkzNzVjMCAwLjgzMS0wLjUgMS41LTEuNSAxLjVzLTEuNS0wLjUtMS41LTEuNXYtMXptNy41IDV2NWgtMTB2LTV6IiBmaWxsPSIjMDAwIi8+PC9zdmc+Cg==);
+	}
+	.icon-text {
+		background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiIGhlaWdodD0iMTYiPjxwYXRoIGZpbGw9IiMwMDAiIGQ9Im0yLjUgMWMtMC4yOCAwLTAuNSAwLjIyLTAuNSAwLjV2MTNjMCAwLjI4IDAuMjIgMC41IDAuNSAwLjVoMTFjMC4yOCAwIDAuNS0wLjIyIDAuNS0wLjV2LTEwLjVsLTMtM2gtOC41em0xLjUgMmg2djFoLTZ2LTF6bTAgM2g1djFoLTV2LTF6bTAgM2g4djFoLTh2LTF6bTAgM2g0djFoLTR2LTF6Ii8+PC9zdmc+Cg==);
+	}
+	.icon-spreadsheet {
+		background-image: url('./../../img/spreadsheet.svg');
+	}
+	.icon-location {
+		background-image: url('./../../img/location.svg');
+	}
+	.icon-picture {
+		background-image: url('./../../img/picture.svg');
+	}
+	.icon-pdf {
+		background-image: url('./../../img/pdf.svg');
+	}
+	.icon-office-document {
+		background-image: url('./../../img/office-document.svg');
+	}
+	.icon-office-presentation {
+		background-image: url('./../../img/office-presentation.svg');
 	}
 
-	tr:not(:first-child) td {
-		border-top: 1px solid #e3e3e3;
-	}
+	#element-table {
+		width: 100%;
+		height: 100%;
+		overflow: scroll;
+		display: block;
+		border-spacing: 0;
+		padding: 10px 0 10px 0;
 
-	tr:not(.selectable) {
-		opacity: 30%;
-	}
-
-	tr.selectable {
-		&.selected:hover {
-			background-color: lightblue;
+		.icon {
+			width: 100px;
+			height: 50px;
+			background-repeat: no-repeat;
+			background-size: 30px;
+			background-position: center;
 		}
 
-		&.selected {
-			background-color: lightcyan;
+		th {
+			text-align: left;
+			height: 50px;
 		}
 
-		&:hover {
-			background-color: #e3e3e3;
+		tr:not(:first-child) td {
+			border-top: 1px solid #e3e3e3;
+		}
+
+		tr:not(.selectable) {
+			opacity: 30%;
+		}
+
+		tr.selectable {
+			&.selected:hover {
+				background-color: lightblue;
+			}
+
+			&.selected {
+				background-color: lightcyan;
+			}
+
+			&:hover {
+				background-color: #e3e3e3;
+			}
+		}
+
+		td {
+			border: 0;
 		}
 	}
 
-	td {
-		border: 0;
+	#validate {
+		margin-left: auto;
 	}
-}
 
-#validate {
-	margin-left: auto;
-}
+	.loading {
+		flex-grow: 1;
+		text-align: center;
+		padding-top: 50px;
+	}
 
-.loading {
-	flex-grow: 1;
-	text-align: center;
-	padding-top: 50px;
-}
+	.icon-loading {
+		background: url('./../../img/loading.gif');
+		background-size: 20px;
+		width: 20px;
+		height: 20px;
+	}
 
-.icon-loading {
-	background: url('./../../img/loading.gif');
-	background-size: 20px;
-	width: 20px;
-	height: 20px;
-}
-
-.empty-content {
-	flex-grow: 1;
-	color: lightgrey;
+	.empty-content {
+		flex-grow: 1;
+		color: lightgrey;
+	}
 }
 </style>
