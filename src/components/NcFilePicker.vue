@@ -84,8 +84,11 @@
 						</tr>
 					</tbody>
 				</v-table>
-				<EmptyContent v-else icon="icon-folder" class="empty-content">
+				<EmptyContent v-else-if="connected" icon="icon-folder" class="empty-content">
 					This directory is empty
+				</EmptyContent>
+				<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
+					File picker is not connected
 				</EmptyContent>
 
 				<ProgressBar v-if="uploadingFiles"
@@ -172,6 +175,7 @@ export default {
 			password: this.ncPassword,
 			url: this.ncUrl,
 			client: null,
+			connected: false,
 			isOpen: false,
 			currentElements: [],
 			currentElementsByPath: {},
@@ -268,6 +272,7 @@ export default {
 	methods: {
 		updateUrl(newValue) {
 			this.client = null
+			this.connected = false
 			this.url = newValue
 			// set login/passwd to props values again
 			this.login = this.ncLogin
@@ -275,6 +280,7 @@ export default {
 		},
 		updateLogin(newValue) {
 			this.client = null
+			this.connected = false
 			this.login = newValue
 
 			this.url = this.ncUrl
@@ -282,6 +288,7 @@ export default {
 		},
 		updatePassword(newValue) {
 			this.client = null
+			this.connected = false
 			this.password = newValue
 
 			this.login = this.ncLogin
@@ -365,15 +372,20 @@ export default {
 				this.selection = []
 				this.currentElementsByPath = {}
 				this.loadingDirectory = true
-				const directoryItems = await this.client.getDirectoryContents(this.currentPath)
-				this.currentElements = directoryItems.map((el) => {
-					this.currentElementsByPath[el.filename] = el
-					return {
-						...el,
-						lastmod_ts: moment(el.lastmod).unix(),
-					}
-				})
-				console.debug(this.currentElements)
+				try {
+					const directoryItems = await this.client.getDirectoryContents(this.currentPath)
+					this.currentElements = directoryItems.map((el) => {
+						this.currentElementsByPath[el.filename] = el
+						return {
+							...el,
+							lastmod_ts: moment(el.lastmod).unix(),
+						}
+					})
+					console.debug(this.currentElements)
+					this.connected = true
+				} catch (error) {
+					console.error(error)
+				}
 				this.loadingDirectory = false
 			}
 		},
@@ -697,6 +709,10 @@ export default {
 	}
 	.icon-office-presentation {
 		background-image: url('./../../img/office-presentation.svg');
+	}
+	.icon-disabled-user {
+		background-image: url('./../../img/disabled-user.svg');
+		opacity: 0.4;
 	}
 
 	#element-table {
