@@ -1,9 +1,17 @@
 <template>
 	<div id="example-app">
-		<h2>This is an example Vue application</h2>
-		<input v-model="ncUrl" type="text">
-		<input v-model="login" type="text">
-		<input v-model="password" type="password">
+		<h2>This is an example Vue application using the file picker component.</h2>
+		<p>
+			Make sure you installed the
+			<a href="https://apps.nextcloud.com/apps/webapppassword">WebAppPassword app</a>
+			and added <b>{{ domainToAuthorize }}</b> as allowed origin in WebAppPassword settings.
+		</p>
+		<p>
+			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password.
+		</p>
+		<input v-model="ncUrl" type="text" placeholder="Nextcloud address">
+		<input v-model="login" type="text" placeholder="login">
+		<input v-model="password" type="password" placeholder="password">
 		<hr>
 		<NcFilePicker
 			:nc-url="ncUrl"
@@ -37,8 +45,9 @@ export default {
 	data() {
 		return {
 			ncUrl: 'https://localhost/dev/server',
-			login: 'julien',
-			password: 'Nm8cC-kHczM-HGz55-S9SE2-Frf4F',
+			login: '',
+			password: '',
+			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 		}
 	},
 
