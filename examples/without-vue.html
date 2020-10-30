@@ -9,33 +9,46 @@
     </header>
     <main>
         <h1>Nextcloud file picker</h1>
-        <input id="url" type="text" value="https://localhost/dev/server">
-        <input id="login" type="text" value="julien">
-        <input id="password" type="password" value="Nm8cC-kHczM-HGz55-S9SE2-Frf4F">
+		<h2>This is an example page importing the file picker wrapper. Vue.js is awesome 😁 but the file picker can be used without it.</h2>
+		<p>
+			Make sure you installed the
+			<a href="https://apps.nextcloud.com/apps/webapppassword">WebAppPassword app</a>
+			and added <b id="domainToAuthorize"></b> as allowed origin in WebAppPassword settings.
+        </p>
+        <p>
+            Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password.
+        </p>
+        <input id="url" type="text" placeholder="Nextcloud address" value="https://localhost/dev/server">
+        <input id="login" type="text" placeholder="login" value="">
+        <input id="password" type="password" placeholder="password" value="">
         <hr>
         <div id="mount_point"></div>
 
         <button id="selectButton">select file!</button>
     </main>
 	<footer style="position: absolute; bottom: 0;">
-		Generated at Fri Oct 30 00:21:32 UTC 2020
+		Generated at Fri Oct 30 01:07:03 UTC 2020
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
 <script>
-    const initialUrl = document.getElementById('url').value
-    const initialLogin = document.getElementById('login').value
-    const initialPassword = document.getElementById('password').value
+    document.addEventListener('DOMContentLoaded', function(event) {
+        document.getElementById('domainToAuthorize').textContent = window.location.protocol + '//' + window.location.host
 
-    const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword)
+        const initialUrl = document.getElementById('url').value
+        const initialLogin = document.getElementById('login').value
+        const initialPassword = document.getElementById('password').value
 
-    // monitor value change
-    document.getElementById('login').addEventListener('input', function(e) {
-        filepicker.updateLogin(e.target.value)
-    })
+        const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword)
 
-    document.getElementById('selectButton').addEventListener('click', function(e) {
-        filepicker.getFilesPath()
+        // monitor value change
+        document.getElementById('login').addEventListener('input', function(e) {
+            filepicker.updateLogin(e.target.value)
+        })
+
+        document.getElementById('selectButton').addEventListener('click', function(e) {
+            filepicker.getFilesPath()
+        })
     })
 
     document.addEventListener('getFilesPath', function(e) {
