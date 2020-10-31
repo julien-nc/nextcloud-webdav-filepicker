@@ -18,7 +18,7 @@ import NcFilePicker from './components/NcFilePicker'
 // eslint-disable-next-line
 'use strict'
 
-window.createFilePicker = function(mp, url, login, password, enableGetFilesPath = true) {
+window.createFilePicker = function(mp, url, login, password, themeColor, enableGetFilesPath = true) {
 	const vm = new Vue({
 		el: '#' + mp,
 		render: h => h(NcFilePicker, {
@@ -26,6 +26,7 @@ window.createFilePicker = function(mp, url, login, password, enableGetFilesPath 
 				ncUrl: url,
 				ncLogin: login,
 				ncPassword: password,
+				themeColor,
 				enableGetFilesPath,
 			},
 		}),

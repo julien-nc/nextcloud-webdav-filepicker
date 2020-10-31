@@ -50,6 +50,21 @@ export function humanFileSize(bytes, approx = false, si = false, dp = 1) {
 	}
 }
 
+export function colorOpacity(hexColor, opacity) {
+	// validate hex string
+	let hex = String(hexColor).replace(/[^0-9a-f]/gi, '')
+	if (hex.length < 6) {
+		hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+	}
+
+	const dec = {
+		r: parseInt(hex.substr(0, 2), 16),
+		g: parseInt(hex.substr(2, 2), 16),
+		b: parseInt(hex.substr(4, 2), 16),
+	}
+	return `rgba(${dec.r},${dec.g},${dec.b},${opacity})`
+}
+
 export function colorLuminance(hexColor, lumModifier) {
 	// validate hex string
 	let hex = String(hexColor).replace(/[^0-9a-f]/gi, '')

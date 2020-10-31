@@ -116,19 +116,19 @@
 
 				<ProgressBar v-if="uploadingFiles"
 					size="medium"
-					bar-color="lightblue"
+					:bar-color="mainColorLight"
 					:val="uploadProgress"
 					:text="uploadProgress + '%'" />
 				<ProgressBar v-if="downloadingFiles"
 					size="medium"
-					bar-color="lightblue"
+					:bar-color="mainColorLight"
 					:val="downloadProgress"
 					:text="downloadProgress + '%'" />
 				<div v-else class="footer">
 					<ProgressBar v-if="quota"
 						size="small"
-						bar-color="lightblue"
 						class="quota"
+						:bar-color="mainColorLight"
 						:val="quotaPercent"
 						:text="quotaText" />
 
@@ -156,7 +156,7 @@ import {
 } from '@nextcloud/paths'
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
-import { addCustomEventListener, humanFileSize, colorLuminance } from '../utils'
+import { addCustomEventListener, humanFileSize, colorOpacity, colorLuminance } from '../utils'
 
 import Vue from 'vue'
 import SmartTable from 'vuejs-smart-table'
@@ -199,9 +199,12 @@ export default {
 			default: null,
 		},
 		// theming
-		mainColor: {
+		themeColor: {
 			type: String,
-			default: '#e0ffff',
+			default: '#0082c9',
+			validator: (value) => {
+				return value.match(/^#[0-9a-fA-F]{6}$/)
+			},
 		},
 		// toggle buttons
 		enableGetFilesPath: {
@@ -232,9 +235,12 @@ export default {
 
 	data() {
 		return {
+			// initialize values with props
 			login: this.ncLogin,
 			password: this.ncPassword,
 			url: this.ncUrl,
+			mainColor: this.themeColor,
+			// state data
 			client: null,
 			connected: false,
 			isOpen: false,
@@ -259,11 +265,23 @@ export default {
 		cssVars() {
 			return {
 				'--main-color': this.mainColor,
+				'--main-color-light': this.mainColorLight,
+				'--main-color-lighter': this.mainColorLighter,
 				'--main-color-dark': this.mainColorDark,
+				'--main-color-darker': this.mainColorDarker,
 			}
+		},
+		mainColorLight() {
+			return colorOpacity(this.mainColor, 0.4)
+		},
+		mainColorLighter() {
+			return colorOpacity(this.mainColor, 0.2)
 		},
 		mainColorDark() {
 			return colorLuminance(this.mainColor, -0.2)
+		},
+		mainColorDarker() {
+			return colorLuminance(this.mainColor, -0.4)
 		},
 		authUrl() {
 			return this.ncUrl + '/index.php/apps/webapppassword'
@@ -345,6 +363,9 @@ export default {
 		ncUrl() {
 			this.updateUrl(this.ncUrl)
 		},
+		themeColor() {
+			this.setMainColor(this.themeColor)
+		},
 	},
 
 	mounted() {
@@ -375,6 +396,9 @@ export default {
 
 			this.login = this.ncLogin
 			this.url = this.ncUrl
+		},
+		setMainColor(color) {
+			this.mainColor = color
 		},
 		createClient() {
 			// reset
@@ -768,7 +792,13 @@ export default {
 		background-image: url('./../../img/home.svg');
 	}
 	.icon-folder {
-		background-image: url('./../../img/folder.svg');
+		mask: url('./../../img/folder.svg') no-repeat;
+		mask-size: 30px auto;
+		mask-position: center;
+		-webkit-mask: url('./../../img/folder.svg') no-repeat;
+		-webkit-mask-size: 30px auto;
+		-webkit-mask-position: center;
+		background-color: var(--main-color);
 	}
 	.icon-file {
 		background-image: url('./../../img/file.svg');
@@ -841,11 +871,11 @@ export default {
 
 		tr.selectable {
 			&.selected:hover {
-				background-color: var(--main-color-dark);
+				background-color: var(--main-color-light);
 			}
 
 			&.selected {
-				background-color: var(--main-color);
+				background-color: var(--main-color-lighter);
 			}
 
 			&:hover {

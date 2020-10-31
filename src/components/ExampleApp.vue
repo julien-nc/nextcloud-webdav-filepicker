@@ -12,11 +12,13 @@
 		<input v-model="ncUrl" type="text" placeholder="Nextcloud address">
 		<input v-model="login" type="text" placeholder="login">
 		<input v-model="password" type="password" placeholder="password">
+		<input v-model="color" type="color">
 		<hr>
 		<NcFilePicker
 			:nc-url="ncUrl"
 			:nc-login="login"
 			:nc-password="password"
+			:theme-color="color"
 			@filesDownloaded="onFilesDownloaded"
 			@filesUploaded="onFilesUploaded"
 			@getSaveFilePath="onGetSaveFilePath"
@@ -47,6 +49,7 @@ export default {
 			ncUrl: 'https://localhost/dev/server',
 			login: '',
 			password: '',
+			color: '#ff9b00',
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 		}
 	},
