@@ -1,29 +1,47 @@
 <template>
 	<div>
-		<button
-			@click="getFilesPath">
-			Get files path
-		</button>
-		<button
-			@click="getFilesLink">
-			Get files link
-		</button>
-		<button
-			@click="downloadFiles">
-			Download files
-		</button>
-		<button
-			@click="getSaveFilePath">
-			Get save file path
-		</button>
-		<button
-			@click="getUploadFileLink">
-			Get file upload link
-		</button>
-		<button
-			@click="openFileInput">
-			Upload files
-		</button>
+		<div @click="getFilesPath">
+			<slot name="get-files-path">
+				<button>
+					Get files path
+				</button>
+			</slot>
+		</div>
+		<div @click="getFilesLink">
+			<slot name="get-files-link">
+				<button>
+					Get files link
+				</button>
+			</slot>
+		</div>
+		<div @click="downloadFiles">
+			<slot name="download-files">
+				<button>
+					Download files
+				</button>
+			</slot>
+		</div>
+		<div @click="getSaveFilePath">
+			<slot name="get-save-file-path">
+				<button>
+					Get save file path
+				</button>
+			</slot>
+		</div>
+		<div @click="getUploadFileLink">
+			<slot name="get-upload-fileLink">
+				<button>
+					Get file upload link
+				</button>
+			</slot>
+		</div>
+		<div @click="openFileInput">
+			<slot name="open-file-input">
+				<button>
+					Upload files
+				</button>
+			</slot>
+		</div>
 		<input
 			v-show="false"
 			id="file-input"
