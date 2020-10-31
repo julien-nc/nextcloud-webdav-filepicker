@@ -35,6 +35,22 @@
     document.addEventListener('DOMContentLoaded', function(event) {
         document.getElementById('domainToAuthorize').textContent = window.location.protocol + '//' + window.location.host
 
+        // get url values
+		const uri = window.location.search.substring(1)
+		const params = new URLSearchParams(uri)
+		const login = params.get('login')
+		if (login) {
+			document.getElementById('login').value = login
+		}
+		const password = params.get('password')
+		if (password) {
+			document.getElementById('password').value = password
+		}
+		const url = params.get('url')
+		if (url) {
+			document.getElementById('url').value = url
+		}
+
         const initialUrl = document.getElementById('url').value
         const initialLogin = document.getElementById('login').value
         const initialPassword = document.getElementById('password').value

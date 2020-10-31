@@ -58,6 +58,20 @@ export default {
 	},
 
 	mounted() {
+		const uri = window.location.search.substring(1)
+		const params = new URLSearchParams(uri)
+		const login = params.get('login')
+		if (login) {
+			this.login = login
+		}
+		const password = params.get('password')
+		if (password) {
+			this.password = password
+		}
+		const url = params.get('url')
+		if (url) {
+			this.ncUrl = url
+		}
 	},
 
 	methods: {
