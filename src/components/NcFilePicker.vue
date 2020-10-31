@@ -1,49 +1,48 @@
 <template>
 	<div>
-		<div @click="getFilesPath">
+		<div v-if="enableGetFilesPath" @click="getFilesPath">
 			<slot name="get-files-path">
 				<button>
 					Get files path
 				</button>
 			</slot>
 		</div>
-		<div @click="getFilesLink">
+		<div v-if="enableGetFilesLink" @click="getFilesLink">
 			<slot name="get-files-link">
 				<button>
 					Get files link
 				</button>
 			</slot>
 		</div>
-		<div @click="downloadFiles">
+		<div v-if="enableDownloadFiles" @click="downloadFiles">
 			<slot name="download-files">
 				<button>
 					Download files
 				</button>
 			</slot>
 		</div>
-		<div @click="getSaveFilePath">
+		<div v-if="enableGetSaveFilePath" @click="getSaveFilePath">
 			<slot name="get-save-file-path">
 				<button>
 					Get save file path
 				</button>
 			</slot>
 		</div>
-		<div @click="getUploadFileLink">
+		<div v-if="enableGetUploadFileLink" @click="getUploadFileLink">
 			<slot name="get-upload-fileLink">
 				<button>
 					Get file upload link
 				</button>
 			</slot>
 		</div>
-		<div @click="openFileInput">
+		<div v-if="enableOpenFileInput" @click="openFileInput">
 			<slot name="open-file-input">
 				<button>
 					Upload files
 				</button>
 			</slot>
 		</div>
-		<input
-			v-show="false"
+		<input v-show="false"
 			id="file-input"
 			ref="myFiles"
 			type="file"
@@ -195,6 +194,31 @@ export default {
 		putTitle: {
 			type: String,
 			default: null,
+		},
+		// toggle buttons
+		enableGetFilesPath: {
+			type: Boolean,
+			default: true,
+		},
+		enableGetFilesLink: {
+			type: Boolean,
+			default: true,
+		},
+		enableDownloadFiles: {
+			type: Boolean,
+			default: true,
+		},
+		enableGetSaveFilePath: {
+			type: Boolean,
+			default: true,
+		},
+		enableGetUploadFileLink: {
+			type: Boolean,
+			default: true,
+		},
+		enableOpenFileInput: {
+			type: Boolean,
+			default: true,
 		},
 	},
 
