@@ -26,12 +26,12 @@
 			:nc-login="login"
 			:nc-password="password"
 			:theme-color="color"
-			@filesDownloaded="onFilesDownloaded"
-			@filesUploaded="onFilesUploaded"
-			@getSaveFilePath="onGetSaveFilePath"
-			@uploadPathLinkGenerated="onUploadPathLinkGenerated"
-			@getFilesLink="onGetFilesLink"
-			@getFilesPath="onGetFilesPath" />
+			@files-downloaded="onFilesDownloaded"
+			@files-uploaded="onFilesUploaded"
+			@get-save-file-path="onGetSaveFilePath"
+			@upload-path-link-generated="onUploadPathLinkGenerated"
+			@get-files-link="onGetFilesLink"
+			@get-files-path="onGetFilesPath" />
 	</div>
 </template>
 

@@ -92,32 +92,32 @@
 		})
 	})
 
-	document.addEventListener('getFilesPath', function(e) {
-		console.log('no vue, received "getFilesPath" event')
+	document.addEventListener('get-files-path', function(e) {
+		console.log('no vue, received "get-files-path" event')
 		console.debug(e.detail)
 	})
 
-	document.addEventListener('getSaveFilePath', function(e) {
-		console.log('no vue, received "getSaveFilePath" event')
+	document.addEventListener('get-save-file-path', function(e) {
+		console.log('no vue, received "get-save-file-path" event')
 		console.debug(e.detail)
 	})
 
-	document.addEventListener('uploadPathLinkGenerated', function(e) {
-		console.log('no vue, received "uploadPathLinkGenerated" event')
+	document.addEventListener('upload-path-link-generated', function(e) {
+		console.log('no vue, received "upload-path-link-generated" event')
 		console.debug(e.detail)
 	})
 
-	document.addEventListener('getFilesLink', function(e) {
-		console.log('no vue, received "getFilesLink" event')
+	document.addEventListener('get-files-link', function(e) {
+		console.log('no vue, received "get-files-link" event')
 		console.debug(e.detail)
 	})
 
-	document.addEventListener('filesUploaded', function(e) {
-		console.log('no vue, received "filesUploaded" event')
+	document.addEventListener('files-uploaded', function(e) {
+		console.log('no vue, received "files-uploaded" event')
 		console.debug(e.detail)
 	})
 
-	document.addEventListener('filesDownloaded', function(e) {
+	document.addEventListener('files-downloaded', function(e) {
 		const files = e.detail
 		console.debug('no vue, something was downloaded')
 		files.forEach(file => {
