@@ -50,9 +50,12 @@
 			@change="onFileInputChange">
 		<Modal v-if="isOpen" @close="close">
 			<div class="modal__content">
-				<h2>
-					{{ modalTitle }}
-				</h2>
+				<div class="modal__header">
+					<h2>
+						{{ modalTitle }}
+					</h2>
+					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading rotate" />
+				</div>
 				<div class="bread-container">
 					<Breadcrumbs>
 						<Breadcrumb title="Home" href="#/" />
@@ -61,7 +64,6 @@
 							:title="p.name"
 							:href="'#' + p.path" />
 					</Breadcrumbs>
-					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading" />
 				</div>
 				<v-table v-if="currentElements.length > 0"
 					id="element-table"
@@ -685,8 +687,17 @@ export default {
 		font-size: 0.875em;
 		font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
 
-		>h2 {
-			margin: 0 0 10px 0;
+		.rotate {
+			animation: rotation 2s infinite linear;
+		}
+
+		.modal__header {
+			display: flex;
+
+			h2 {
+				margin: 0 0 10px 0;
+				flex-grow: 1;
+			}
 		}
 
 		.bread-container {
@@ -843,7 +854,7 @@ export default {
 	}
 
 	.icon-loading {
-		background: url('./../../img/loading.gif');
+		background: url('./../../img/loading.png');
 		background-size: 20px;
 		width: 20px;
 		height: 20px;
@@ -852,6 +863,15 @@ export default {
 	.empty-content {
 		flex-grow: 1;
 		color: lightgrey;
+	}
+}
+
+@keyframes rotation {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
 	}
 }
 </style>
