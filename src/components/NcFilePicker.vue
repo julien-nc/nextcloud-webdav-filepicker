@@ -33,6 +33,9 @@
 			@change="onFileInputChange">
 		<Modal v-if="isOpen" @close="close">
 			<div class="modal__content">
+				<h2>
+					{{ modalTitle }}
+				</h2>
 				<div class="bread-container">
 					<Breadcrumbs>
 						<Breadcrumb title="Home" href="#/" />
@@ -167,6 +170,14 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		getTitle: {
+			type: String,
+			default: null,
+		},
+		putTitle: {
+			type: String,
+			default: null,
+		},
 	},
 
 	data() {
@@ -200,6 +211,18 @@ export default {
 		},
 		davUrl() {
 			return this.ncUrl + '/remote.php/dav/files'
+		},
+		modalTitle() {
+			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
+				if (this.multiple) {
+					return this.getTitle || 'Select some files'
+				} else {
+					return this.getTitle || 'Select a file'
+				}
+			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
+				return this.putTitle || 'Choose a target directory'
+			}
+			return ''
 		},
 		currentPathParts() {
 			const parts = []
@@ -619,6 +642,10 @@ export default {
 		font-weight: normal;
 		font-size: 0.875em;
 		font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+
+		>h2 {
+			margin: 0 0 10px 0;
+		}
 
 		.bread-container {
 			display: inline-flex;
