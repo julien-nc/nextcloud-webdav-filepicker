@@ -55,7 +55,7 @@
         const initialLogin = document.getElementById('login').value
         const initialPassword = document.getElementById('password').value
 
-        const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword)
+        const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword, true)
 
         // monitor value change
         document.getElementById('login').addEventListener('input', function(e) {
