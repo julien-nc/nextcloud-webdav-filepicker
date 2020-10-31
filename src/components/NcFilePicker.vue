@@ -1,46 +1,48 @@
 <template>
-	<div>
-		<div v-if="enableGetFilesPath" @click="getFilesPath">
-			<slot name="get-files-path">
-				<button>
-					Get files path
-				</button>
-			</slot>
-		</div>
-		<div v-if="enableGetFilesLink" @click="getFilesLink">
-			<slot name="get-files-link">
-				<button>
-					Get files link
-				</button>
-			</slot>
-		</div>
-		<div v-if="enableDownloadFiles" @click="downloadFiles">
-			<slot name="download-files">
-				<button>
-					Download files
-				</button>
-			</slot>
-		</div>
-		<div v-if="enableGetSaveFilePath" @click="getSaveFilePath">
-			<slot name="get-save-file-path">
-				<button>
-					Get save file path
-				</button>
-			</slot>
-		</div>
-		<div v-if="enableGetUploadFileLink" @click="getUploadFileLink">
-			<slot name="get-upload-fileLink">
-				<button>
-					Get file upload link
-				</button>
-			</slot>
-		</div>
-		<div v-if="enableOpenFileInput" @click="openFileInput">
-			<slot name="open-file-input">
-				<button>
-					Upload files
-				</button>
-			</slot>
+	<div class="nextcloud-filepicker">
+		<div id="trigger-buttons">
+			<div v-if="enableGetFilesPath" @click="getFilesPath">
+				<slot name="get-files-path">
+					<button>
+						Get files path
+					</button>
+				</slot>
+			</div>
+			<div v-if="enableGetFilesLink" @click="getFilesLink">
+				<slot name="get-files-link">
+					<button>
+						Get files link
+					</button>
+				</slot>
+			</div>
+			<div v-if="enableDownloadFiles" @click="downloadFiles">
+				<slot name="download-files">
+					<button>
+						Download files
+					</button>
+				</slot>
+			</div>
+			<div v-if="enableGetSaveFilePath" @click="getSaveFilePath">
+				<slot name="get-save-file-path">
+					<button>
+						Get save file path
+					</button>
+				</slot>
+			</div>
+			<div v-if="enableGetUploadFileLink" @click="getUploadFileLink">
+				<slot name="get-upload-fileLink">
+					<button>
+						Get file upload link
+					</button>
+				</slot>
+			</div>
+			<div v-if="enableOpenFileInput" @click="openFileInput">
+				<slot name="open-file-input">
+					<button>
+						Upload files
+					</button>
+				</slot>
+			</div>
 		</div>
 		<input v-show="false"
 			id="file-input"
@@ -709,6 +711,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#trigger-buttons {
+	display: flex;
+
+	button {
+		padding: 10px;
+		font-weight: bold;
+		border-radius: 100px;
+		border: 1px solid lightgrey;
+	}
+}
+
 ::v-deep .modal-container {
 	display: flex !important;
 	min-height: 80%;

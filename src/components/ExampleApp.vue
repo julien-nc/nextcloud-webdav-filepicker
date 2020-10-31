@@ -9,10 +9,17 @@
 		<p>
 			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password.
 		</p>
+		<br>
+		<p>
+			These fields are directly plugged to NcFilePicker component's props.
+		</p>
 		<input v-model="ncUrl" type="text" placeholder="Nextcloud address">
 		<input v-model="login" type="text" placeholder="login">
 		<input v-model="password" type="password" placeholder="password">
 		<input v-model="color" type="color">
+		<p>
+			NcFilePicker component is placed under this line.
+		</p>
 		<hr>
 		<NcFilePicker
 			:nc-url="ncUrl"
@@ -29,10 +36,6 @@
 </template>
 
 <script>
-// import axios from '@nextcloud/axios'
-// import { delay } from '../utils'
-// import { showSuccess, showError } from '@nextcloud/dialogs'
-
 import NcFilePicker from './NcFilePicker'
 
 export default {
@@ -74,6 +77,10 @@ export default {
 		const url = params.get('url')
 		if (url) {
 			this.ncUrl = url
+		}
+		const color = params.get('color')
+		if (color) {
+			this.color = '#' + color
 		}
 	},
 
@@ -122,5 +129,4 @@ export default {
 #example-app {
 	width: 100%;
 }
-
 </style>
