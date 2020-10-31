@@ -83,6 +83,7 @@
 					<tbody slot="body" slot-scope="{displayData}">
 						<tr v-for="value in displayData"
 							:key="value.filename"
+							:style="cssVars"
 							:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
 							@click="onElemClick(value)">
 							<td>
@@ -155,7 +156,7 @@ import {
 } from '@nextcloud/paths'
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
-import { addCustomEventListener, humanFileSize } from '../utils'
+import { addCustomEventListener, humanFileSize, colorLuminance } from '../utils'
 
 import Vue from 'vue'
 import SmartTable from 'vuejs-smart-table'
@@ -196,6 +197,11 @@ export default {
 		putTitle: {
 			type: String,
 			default: null,
+		},
+		// theming
+		mainColor: {
+			type: String,
+			default: '#e0ffff',
 		},
 		// toggle buttons
 		enableGetFilesPath: {
@@ -250,6 +256,15 @@ export default {
 	},
 
 	computed: {
+		cssVars() {
+			return {
+				'--main-color': this.mainColor,
+				'--main-color-dark': this.mainColorDark,
+			}
+		},
+		mainColorDark() {
+			return colorLuminance(this.mainColor, -0.2)
+		},
 		authUrl() {
 			return this.ncUrl + '/index.php/apps/webapppassword'
 		},
@@ -826,11 +841,11 @@ export default {
 
 		tr.selectable {
 			&.selected:hover {
-				background-color: lightblue;
+				background-color: var(--main-color-dark);
 			}
 
 			&.selected {
-				background-color: lightcyan;
+				background-color: var(--main-color);
 			}
 
 			&:hover {

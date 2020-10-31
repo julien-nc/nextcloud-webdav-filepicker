@@ -49,3 +49,22 @@ export function humanFileSize(bytes, approx = false, si = false, dp = 1) {
 		return bytes.toFixed(dp) + ' ' + units[u]
 	}
 }
+
+export function colorLuminance(hexColor, lumModifier) {
+	// validate hex string
+	let hex = String(hexColor).replace(/[^0-9a-f]/gi, '')
+	if (hex.length < 6) {
+		hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+	}
+	const lum = lumModifier || 0
+
+	// convert to decimal and change luminosity
+	let rgb = '#'
+	for (let i = 0; i < 3; i++) {
+		let c = parseInt(hex.substr(i * 2, 2), 16)
+		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16)
+		rgb += ('00' + c).substr(c.length)
+	}
+
+	return rgb
+}
