@@ -560,9 +560,14 @@ export default {
 				const uploadPath = this.currentPath + '/file.txt'
 				const uploadLink = this.client.getFileUploadLink(uploadPath)
 				// for parent component
-				this.$emit('upload-path-link-generated', uploadLink)
+				this.$emit('upload-path-link-generated', this.currentPath, uploadLink)
 				// for potential global listener
-				const event = new CustomEvent('upload-path-link-generated', { detail: uploadLink })
+				const event = new CustomEvent('upload-path-link-generated', {
+					detail: {
+						link: uploadLink,
+						targetDir: this.currentPath,
+					},
+				})
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'downloadFiles') {
@@ -611,9 +616,14 @@ export default {
 					})
 			}
 			// for parent component
-			this.$emit('files-uploaded', this.filesToUpload)
+			this.$emit('files-uploaded', this.currentPath, this.filesToUpload)
 			// for potential global listener
-			const event = new CustomEvent('files-uploaded', { detail: this.filesToUpload })
+			const event = new CustomEvent('files-uploaded', {
+				detail: {
+					targetDir: this.currentPath,
+					files: this.filesToUpload,
+				},
+			})
 			document.dispatchEvent(event)
 
 			this.uploadingFiles = false

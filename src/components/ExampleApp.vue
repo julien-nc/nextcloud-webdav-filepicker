@@ -32,6 +32,10 @@
 			@upload-path-link-generated="onUploadPathLinkGenerated"
 			@get-files-link="onGetFilesLink"
 			@get-files-path="onGetFilesPath" />
+		<hr>
+		<p v-for="(line, i) in resultLines" :key="i">
+			{{ line }}
+		</p>
 	</div>
 </template>
 
@@ -54,6 +58,7 @@ export default {
 			password: '',
 			color: '#ff9b00',
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
+			resultLines: [],
 		}
 	},
 
@@ -88,34 +93,50 @@ export default {
 		onGetFilesPath(e) {
 			console.debug('something was selected')
 			console.debug(e)
+			this.resultLines = ['File paths:']
+			e.forEach((l) => {
+				this.resultLines.push(l)
+			})
 		},
 		onGetFilesLink(e) {
 			console.debug('links were retreived')
 			console.debug(e)
+			this.resultLines = ['File links:']
+			e.forEach((l) => {
+				this.resultLines.push(l)
+			})
 		},
 		onGetSaveFilePath(e) {
 			console.debug('This target directory was selected')
 			console.debug(e)
+			this.resultLines = ['This target directory was selected:', e]
 		},
-		onUploadPathLinkGenerated(e) {
+		onUploadPathLinkGenerated(targetDir, link) {
 			console.debug('This upload link was generated')
-			console.debug(e)
+			console.debug(link)
+			this.resultLines = [`Upload link to ${targetDir}:`, link]
 		},
-		onFilesUploaded(e) {
+		onFilesUploaded(targetDir, files) {
 			console.debug('Files were uploaded')
-			console.debug(e)
+			console.debug(files)
+			this.resultLines = [`These files were uploaded in ${targetDir}:`]
+			files.forEach(file => {
+				this.resultLines.push(file.name)
+			})
 		},
 		onFilesDownloaded(files) {
 			console.debug('something was downloaded')
+			this.resultLines = ['Downloaded files:']
 			files.forEach(file => {
 				console.debug('File : ' + file.name)
 				console.debug(file)
 				const reader = new FileReader()
 				reader.readAsText(file)
-				reader.onload = function() {
+				reader.onload = () => {
 					console.debug(reader.result)
+					this.resultLines.push('File ' + file.name + ': ' + reader.result.slice(0, 100) + '...')
 				}
-				reader.onerror = function() {
+				reader.onerror = () => {
 					console.error('Impossible to read downloaded file')
 					console.debug(reader.error)
 				}

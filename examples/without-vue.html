@@ -33,6 +33,8 @@
 		</p>
 		<hr>
 		<div id="mount_point"></div>
+		<hr>
+		<p id="results"></p>
 	</main>
 	<footer style="position: absolute; bottom: 0;">
 		Dev version
@@ -70,7 +72,7 @@
 
 		const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword, initialColor, true)
 
-		// monitor value change
+		// monitor form value change
 		document.getElementById('login').addEventListener('input', function(e) {
 			filepicker.updateLogin(e.target.value)
 		})
@@ -90,48 +92,78 @@
 		document.getElementById('selectButton').addEventListener('click', function(e) {
 			filepicker.getFilesPath()
 		})
-	})
 
-	document.addEventListener('get-files-path', function(e) {
-		console.log('no vue, received "get-files-path" event')
-		console.debug(e.detail)
-	})
+		// events coming from the file picker
+		document.addEventListener('get-files-path', function(e) {
+			console.log('no vue, received "get-files-path" event')
+			console.debug(e.detail)
+			document.getElementById('results').innerHTML = 'Path of selected files:'
+			e.detail.forEach((path) => {
+				const p = document.createElement('p')
+				p.textContent = path
+				document.getElementById('results').appendChild(p)
+			})
+		})
 
-	document.addEventListener('get-save-file-path', function(e) {
-		console.log('no vue, received "get-save-file-path" event')
-		console.debug(e.detail)
-	})
+		document.addEventListener('get-save-file-path', function(e) {
+			console.log('no vue, received "get-save-file-path" event')
+			console.debug(e.detail)
+			document.getElementById('results').innerHTML = `Selected target directory: ${e.detail}`
+		})
 
-	document.addEventListener('upload-path-link-generated', function(e) {
-		console.log('no vue, received "upload-path-link-generated" event')
-		console.debug(e.detail)
-	})
+		document.addEventListener('upload-path-link-generated', function(e) {
+			console.log('no vue, received "upload-path-link-generated" event')
+			console.debug(e.detail)
+			document.getElementById('results').innerHTML = `File upload link in ${e.detail.targetDir}:`
+			const p = document.createElement('p')
+			p.textContent = e.detail.link
+			document.getElementById('results').appendChild(p)
+		})
 
-	document.addEventListener('get-files-link', function(e) {
-		console.log('no vue, received "get-files-link" event')
-		console.debug(e.detail)
-	})
+		document.addEventListener('get-files-link', function(e) {
+			console.log('no vue, received "get-files-link" event')
+			console.debug(e.detail)
+			document.getElementById('results').innerHTML = 'File links: <br>'
+			e.detail.forEach((l) => {
+				const a = document.createElement('a')
+				a.textContent = l
+				a.setAttribute('href', l)
+				document.getElementById('results').appendChild(a)
+				document.getElementById('results').appendChild(document.createElement('br'))
+			})
+		})
 
-	document.addEventListener('files-uploaded', function(e) {
-		console.log('no vue, received "files-uploaded" event')
-		console.debug(e.detail)
-	})
+		document.addEventListener('files-uploaded', function(e) {
+			console.log('no vue, received "files-uploaded" event')
+			console.debug(e.detail)
+			document.getElementById('results').innerHTML = `These files were uploaded in ${e.detail.targetDir}: <br>`
+			e.detail.files.forEach((f) => {
+				const p = document.createElement('p')
+				p.textContent = f.name
+				document.getElementById('results').appendChild(p)
+			})
+		})
 
-	document.addEventListener('files-downloaded', function(e) {
-		const files = e.detail
-		console.debug('no vue, something was downloaded')
-		files.forEach(file => {
-			console.debug('File : ' + file.name)
-			console.debug(file)
-			const reader = new FileReader()
-			reader.readAsText(file)
-			reader.onload = function() {
-				console.debug(reader.result)
-			}
-			reader.onerror = function() {
-				console.error('Impossible to read downloaded file')
-				console.debug(reader.error)
-			}
+		document.addEventListener('files-downloaded', function(e) {
+			const files = e.detail
+			console.debug('no vue, something was downloaded')
+			document.getElementById('results').innerHTML = 'Downloaded files: <br>'
+			files.forEach(file => {
+				console.debug('File : ' + file.name)
+				console.debug(file)
+				const reader = new FileReader()
+				reader.readAsText(file)
+				reader.onload = function() {
+					console.debug(reader.result)
+					const p = document.createElement('P')
+					p.textContent = 'File ' + file.name + ': ' + reader.result.slice(0, 100) + '...'
+					document.getElementById('results').appendChild(p)
+				}
+				reader.onerror = function() {
+					console.error('Impossible to read downloaded file')
+					console.debug(reader.error)
+				}
+			})
 		})
 	})
 </script>
