@@ -133,6 +133,14 @@
 						:bar-color="mainColorLight"
 						:val="quotaPercent"
 						:text="quotaText" />
+					<button v-if="selection.length > 0"
+						@click="selectNone">
+						Select none
+					</button>
+					<button v-if="selection.length < currentFiles.length"
+						@click="selectAll">
+						Select all
+					</button>
 
 					<button v-if="canValidate" id="validate" @click="onValidate">
 						{{ validateButtonText }}
@@ -302,6 +310,11 @@ export default {
 				return this.putTitle || 'Choose a target directory'
 			}
 			return ''
+		},
+		currentFiles() {
+			return this.currentElements.filter((e) => {
+				return e.type === 'file'
+			})
 		},
 		currentPathParts() {
 			const parts = []
@@ -521,6 +534,16 @@ export default {
 					}
 				}
 			}
+		},
+		selectNone() {
+			this.selection = []
+		},
+		selectAll() {
+			this.currentElements.forEach((e) => {
+				if (e.type === 'file' && !this.selection.includes(e.filename)) {
+					this.selection.push(e.filename)
+				}
+			})
 		},
 		onValidate() {
 			if (this.mode === 'uploadFiles') {
@@ -780,7 +803,7 @@ export default {
 
 		.quota {
 			width: 150px;
-			margin-top: 20px;
+			margin: 20px 20px 0 0;
 		}
 
 		.breadcrumb {
