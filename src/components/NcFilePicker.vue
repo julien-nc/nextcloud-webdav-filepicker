@@ -4,6 +4,7 @@
 			<div v-if="enableGetFilesPath" @click="getFilesPath">
 				<slot name="get-files-path">
 					<button>
+						<span class="icon icon-download" />
 						Get files path
 					</button>
 				</slot>
@@ -11,6 +12,7 @@
 			<div v-if="enableGetFilesLink" @click="getFilesLink">
 				<slot name="get-files-link">
 					<button>
+						<span class="icon icon-public" />
 						Get files link
 					</button>
 				</slot>
@@ -18,6 +20,7 @@
 			<div v-if="enableDownloadFiles" @click="downloadFiles">
 				<slot name="download-files">
 					<button>
+						<span class="icon icon-download" />
 						Download files
 					</button>
 				</slot>
@@ -25,6 +28,7 @@
 			<div v-if="enableGetSaveFilePath" @click="getSaveFilePath">
 				<slot name="get-save-file-path">
 					<button>
+						<span class="icon icon-upload" />
 						Get save file path
 					</button>
 				</slot>
@@ -32,6 +36,7 @@
 			<div v-if="enableGetUploadFileLink" @click="getUploadFileLink">
 				<slot name="get-upload-fileLink">
 					<button>
+						<span class="icon icon-upload" />
 						Get file upload link
 					</button>
 				</slot>
@@ -39,6 +44,7 @@
 			<div v-if="enableOpenFileInput" @click="openFileInput">
 				<slot name="open-file-input">
 					<button>
+						<span class="icon icon-upload" />
 						Upload files
 					</button>
 				</slot>
@@ -744,14 +750,31 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#trigger-buttons {
-	display: flex;
+.nextcloud-filepicker {
+	#trigger-buttons {
+		display: flex;
 
-	button {
-		padding: 10px;
-		font-weight: bold;
-		border-radius: 100px;
-		border: 1px solid lightgrey;
+		button {
+			padding: 10px;
+			font-weight: bold;
+			border-radius: 100px;
+			border: 1px solid lightgrey;
+		}
+	}
+
+	.icon {
+		min-width: 16px;
+		min-height: 16px;
+		display: inline-block;
+	}
+	.icon-upload {
+		background-image: url('./../../img/upload.svg');
+	}
+	.icon-download {
+		background-image: url('./../../img/download.svg');
+	}
+	.icon-public {
+		background-image: url('./../../img/public.svg');
 	}
 }
 
@@ -833,7 +856,6 @@ export default {
 		min-height: 16px;
 		display: inline-block;
 	}
-
 	.icon-home {
 		background-image: url('./../../img/home.svg');
 	}
