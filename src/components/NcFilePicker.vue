@@ -56,7 +56,9 @@
 			type="file"
 			multiple
 			@change="onFileInputChange">
-		<Modal v-if="isOpen" @close="close">
+		<Modal v-if="isOpen"
+			:can-close="false"
+			@close="close">
 			<div class="modal__content">
 				<div class="modal__header">
 					<h2>
@@ -118,7 +120,9 @@
 						</tr>
 					</tbody>
 				</v-table>
-				<EmptyContent v-else-if="connected" icon="icon-folder" class="empty-content"
+				<EmptyContent v-else-if="connected"
+					icon="icon-folder"
+					class="empty-content"
 					:style="cssVars">
 					This directory is empty
 				</EmptyContent>
