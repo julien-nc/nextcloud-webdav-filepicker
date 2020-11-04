@@ -52,7 +52,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Wed Nov  4 18:47:01 UTC 2020
+		Generated at Wed Nov  4 23:53:31 UTC 2020
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
@@ -85,7 +85,9 @@
 		const initialPassword = document.getElementById('password').value
 		const initialColor = document.getElementById('color').value
 
-		const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword, initialColor, true)
+		const filepicker = window.createFilePicker(
+			'mount_point', initialUrl, initialLogin, initialPassword, initialColor, true, true, true, true, true, true, true, true
+		)
 
 		// monitor form value change
 		document.getElementById('login').addEventListener('input', (e) => {
