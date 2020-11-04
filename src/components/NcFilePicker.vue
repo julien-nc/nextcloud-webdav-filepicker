@@ -78,7 +78,7 @@
 							:href="'#' + p.path" />
 					</Breadcrumbs>
 				</div>
-				<v-table v-if="currentElements.length > 0"
+				<v-table v-if="connected && currentElements.length > 0"
 					id="element-table"
 					:data="sortedCurrentElements">
 					<thead slot="head">
@@ -147,7 +147,7 @@
 						:bar-color="mainColorLight"
 						:val="quotaPercent"
 						:text="quotaText" />
-					<div v-if="['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
+					<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 						class="newDirectory">
 						<button v-if="!namingNewDirectory"
 							v-tooltip.top="{ content: t('filepicker', 'Create new directory') }"
@@ -185,7 +185,7 @@
 						Select all
 					</button>
 
-					<button v-if="canValidate"
+					<button v-if="connected && canValidate"
 						id="validate"
 						@click="onValidate">
 						{{ validateButtonText }}
@@ -580,6 +580,7 @@ export default {
 					this.connected = true
 				} catch (error) {
 					console.error(error)
+					this.resetFilePicker()
 				}
 				this.loadingDirectory = false
 			}
@@ -679,6 +680,7 @@ export default {
 					this.quota = await this.client.getQuota()
 				} catch (error) {
 					console.error(error)
+					this.resetFilePicker()
 				}
 			}
 		},
@@ -695,22 +697,25 @@ export default {
 			for (let i = 0; i < this.filesToUpload.length; i++) {
 				const file = this.filesToUpload[i]
 				console.debug(file)
-				await this.client
-					.putFileContents(this.currentPath + '/' + file.name, file, {
-						overwrite: false,
-						onUploadProgress: progress => {
-							// console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
-							console.debug(`uploaded ${totalUploaded + progress.loaded} on ${totalSize}`)
-							this.uploadProgress = parseInt((totalUploaded + progress.loaded) / totalSize * 100)
-						},
-					}).then(() => {
-						console.debug('UPLOAD success' + file.name)
-						totalUploaded += file.size
-						this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
-						this.getFolderContent()
-					}).catch(error => {
-						console.error(error)
-					})
+				try {
+					await this.client
+						.putFileContents(this.currentPath + '/' + file.name, file, {
+							overwrite: false,
+							onUploadProgress: progress => {
+								// console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
+								console.debug(`uploaded ${totalUploaded + progress.loaded} on ${totalSize}`)
+								this.uploadProgress = parseInt((totalUploaded + progress.loaded) / totalSize * 100)
+							},
+						})
+				} catch (error) {
+					console.error(error)
+					this.resetFilePicker()
+					return
+				}
+				console.debug('UPLOAD success' + file.name)
+				totalUploaded += file.size
+				this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
+				this.getFolderContent()
 			}
 			// for parent component
 			this.$emit('files-uploaded', this.currentPath, this.filesToUpload)
@@ -751,6 +756,8 @@ export default {
 					this.downloadProgress = parseInt(totalDownloaded / totalSize * 100)
 				} catch (error) {
 					console.error(error)
+					this.resetFilePicker()
+					return
 				}
 			}
 			// for parent component
@@ -776,7 +783,12 @@ export default {
 			this.getFolderContent(newDirectoryPath)
 		},
 		async webdavCreateDirectory(path) {
-			await this.client.createDirectory(path)
+			try {
+				await this.client.createDirectory(path)
+			} catch (error) {
+				console.error(error)
+				this.resetFilePicker()
+			}
 		},
 		hashChange(event, elem) {
 			event.preventDefault()
