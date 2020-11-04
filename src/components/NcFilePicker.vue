@@ -387,15 +387,27 @@ export default {
 		},
 		quotaPercent() {
 			if (this.quota?.used && this.quota?.available) {
-				return this.quota.available === 'unlimited'
-					? 0
-					: parseInt(this.quota.used / this.quota.available * 100)
+				const available = parseInt(this.quota.available)
+				const used = parseInt(this.quota.used)
+				return (!isNaN(available) && available !== 0 && !isNaN(used))
+					? parseInt(used / available * 100)
+					: 0
 			} else {
 				return 0
 			}
 		},
 		quotaText() {
-			return this.myHumanFileSize(this.quota.used, true) + ' used (' + this.quotaPercent + ' %)'
+			if (this.quota?.used && this.quota?.available) {
+				const available = parseInt(this.quota.available)
+				const used = parseInt(this.quota.used)
+				return !isNaN(used)
+					? (!isNaN(available) && available !== 0)
+						? this.myHumanFileSize(used, true) + ' used (' + this.quotaPercent + ' % of ' + this.myHumanFileSize(available, true) + ')'
+						: this.myHumanFileSize(used, true) + ' used (' + this.quotaPercent + ' %)'
+					: t('filepicker', 'invalid quota used')
+			} else {
+				return t('filepicker', 'invalid quota')
+			}
 		},
 		validateButtonText() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
@@ -920,8 +932,8 @@ export default {
 		}
 
 		.quota {
-			width: 150px;
-			margin: 20px 20px 0 0;
+			width: 170px;
+			margin: 9px 20px 0 0;
 		}
 
 		.breadcrumb {
