@@ -80,6 +80,7 @@
 				</div>
 				<v-table v-if="connected && currentElements.length > 0"
 					id="element-table"
+					:style="cssVars"
 					:data="sortedCurrentElements">
 					<thead slot="head">
 						<th style="width: 10%;" />
@@ -96,7 +97,6 @@
 					<tbody slot="body" slot-scope="{displayData}">
 						<tr v-for="value in displayData"
 							:key="value.filename"
-							:style="cssVars"
 							:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
 							@click="onElemClick(value)">
 							<td>
@@ -950,6 +950,8 @@ export default {
 		.quota {
 			width: 170px;
 			margin: 9px 20px 0 0;
+			position: relative;
+			bottom: -5px;
 		}
 
 		.breadcrumb {
@@ -1047,6 +1049,8 @@ export default {
 		width: 100%;
 		height: 100%;
 		overflow: scroll;
+		scrollbar-color: var(--main-color-lighter) transparent;
+		scrollbar-width: thin;
 		display: block;
 		border-spacing: 0;
 		padding: 10px 0 10px 0;
