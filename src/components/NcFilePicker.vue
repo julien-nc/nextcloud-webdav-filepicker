@@ -147,16 +147,47 @@
 						:bar-color="mainColorLight"
 						:val="quotaPercent"
 						:text="quotaText" />
-					<button v-if="selection.length > 0"
+					<div v-if="['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
+						class="newDirectory">
+						<button v-if="!namingNewDirectory"
+							v-tooltip.top="{ content: t('filepicker', 'Create new directory') }"
+							class="newDirectoryButton"
+							@click="onCreateDirectory">
+							<span class="icon icon-add" />
+						</button>
+						<div v-else
+							class="newDirectoryForm">
+							<input v-model="newDirectoryName"
+								type="text"
+								placeholder="New directory name"
+								@keyup.escape="onCancelNewDirectory"
+								@keyup.enter="createDirectory">
+							<button
+								v-tooltip.top="{ content: t('filepicker', 'Cancel') }"
+								class="newDirectoryButton"
+								@click="onCancelNewDirectory">
+								<span class="icon icon-history" />
+							</button>
+							<button
+								v-tooltip.top="{ content: t('filepicker', 'Ok') }"
+								class="newDirectoryButton"
+								@click="createDirectory">
+								<span class="icon icon-checkmark" />
+							</button>
+						</div>
+					</div>
+					<button v-if="showSelectNone"
 						@click="selectNone">
 						Select none
 					</button>
-					<button v-if="selection.length < currentFiles.length"
+					<button v-if="showSelectAll"
 						@click="selectAll">
 						Select all
 					</button>
 
-					<button v-if="canValidate" id="validate" @click="onValidate">
+					<button v-if="canValidate"
+						id="validate"
+						@click="onValidate">
 						{{ validateButtonText }}
 					</button>
 				</div>
@@ -181,10 +212,13 @@ import {
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
 import { addCustomEventListener, humanFileSize, colorOpacity, colorLuminance } from '../utils'
+import '../../css/filepicker.scss'
 
 import Vue from 'vue'
 import SmartTable from 'vuejs-smart-table'
+import { VTooltip } from 'v-tooltip'
 Vue.use(SmartTable)
+Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'NcFilePicker',
@@ -278,6 +312,10 @@ export default {
 			uploadProgress: 0,
 			downloadingFiles: false,
 			downloadProgress: 0,
+			// new dir
+			namingNewDirectory: false,
+			creatingDirectory: false,
+			newDirectoryName: '',
 			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles, getUploadFileLink
 			mode: '',
 			loginWindow: null,
@@ -379,6 +417,12 @@ export default {
 			} else {
 				return true
 			}
+		},
+		showSelectNone() {
+			return ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode) && this.selection.length > 0
+		},
+		showSelectAll() {
+			return ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode) && this.selection.length < this.currentFiles.length
 		},
 	},
 
@@ -533,7 +577,7 @@ export default {
 			}
 			if (e.type === 'directory') {
 				this.getFolderContent(e.filename)
-			} else {
+			} else if (!['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
 				if (this.multiple) {
 					if (this.selection.includes(e.filename)) {
 						this.selection.splice(this.selection.indexOf(e.filename), 1)
@@ -702,6 +746,22 @@ export default {
 			this.downloadingFiles = false
 			this.downloadProgress = 0
 		},
+		onCreateDirectory() {
+			this.namingNewDirectory = true
+		},
+		onCancelNewDirectory() {
+			this.namingNewDirectory = false
+		},
+		async createDirectory() {
+			const newDirectoryPath = this.currentPath.replace(/^\/$/, '') + '/' + this.newDirectoryName
+			await this.webdavCreateDirectory(newDirectoryPath)
+			this.namingNewDirectory = false
+			this.newDirectoryName = ''
+			this.getFolderContent(newDirectoryPath)
+		},
+		async webdavCreateDirectory(path) {
+			await this.client.createDirectory(path)
+		},
 		hashChange(event, elem) {
 			event.preventDefault()
 			event.stopPropagation()
@@ -824,6 +884,15 @@ export default {
 			}
 		}
 
+		.newDirectoryButton {
+			width: 44px;
+			height: 44px;
+
+			.icon {
+				min-height: 14px;
+			}
+		}
+
 		.modal__header {
 			display: flex;
 
@@ -884,6 +953,15 @@ export default {
 	}
 	.icon-close {
 		background-image: url('./../../img/close.svg');
+	}
+	.icon-add {
+		background-image: url('./../../img/add.svg');
+	}
+	.icon-history {
+		background-image: url('./../../img/history.svg');
+	}
+	.icon-checkmark {
+		background-image: url('./../../img/checkmark.svg');
 	}
 	.icon-home {
 		background-image: url('./../../img/home.svg');
