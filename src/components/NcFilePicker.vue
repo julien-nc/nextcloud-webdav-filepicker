@@ -63,6 +63,7 @@
 						{{ modalTitle }}
 					</h2>
 					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading rotate" />
+					<button class="closeButton" @click="close" />
 				</div>
 				<div class="bread-container">
 					<Breadcrumbs>
@@ -799,11 +800,28 @@ export default {
 			animation: rotation 2s infinite linear;
 		}
 
+		.closeButton {
+			width: 44px;
+			height: 44px;
+			//background: no-repeat center/22px url('./../../img/close.svg');
+			mask: url('./../../img/close.svg') no-repeat;
+			mask-size: 22px auto;
+			mask-position: center;
+			-webkit-mask: url('./../../img/close.svg') no-repeat;
+			-webkit-mask-size: 22px auto;
+			-webkit-mask-position: center;
+			background-color: var(--main-color, grey);
+
+			&:hover {
+				background-color: black;
+			}
+		}
+
 		.modal__header {
 			display: flex;
 
 			h2 {
-				margin: 0 0 10px 0;
+				margin: 10px 0 10px 0;
 				flex-grow: 1;
 			}
 		}
@@ -811,6 +829,7 @@ export default {
 		.bread-container {
 			display: inline-flex;
 			width: 100%;
+			margin-top: 10px;
 		}
 
 		button {
@@ -856,6 +875,9 @@ export default {
 		min-height: 16px;
 		display: inline-block;
 	}
+	.icon-close {
+		background-image: url('./../../img/close.svg');
+	}
 	.icon-home {
 		background-image: url('./../../img/home.svg');
 	}
@@ -866,7 +888,7 @@ export default {
 		-webkit-mask: url('./../../img/folder.svg') no-repeat;
 		-webkit-mask-size: 30px auto;
 		-webkit-mask-position: center;
-		background-color: var(--main-color);
+		background-color: var(--main-color, grey);
 	}
 	.icon-file {
 		background-image: url('./../../img/file.svg');
@@ -967,15 +989,20 @@ export default {
 	}
 
 	.icon-loading {
-		background: url('./../../img/loading.png');
-		background-size: 20px;
-		width: 20px;
-		height: 20px;
+		margin-right: 10px;
+		background: no-repeat center/30px url('./../../img/loading.png');
+		width: 44px;
+		height: 44px;
 	}
 
 	.empty-content {
 		flex-grow: 1;
 		color: lightgrey;
+
+		.icon-folder {
+			mask-size: 65px auto;
+			-webkit-mask-size: 65px auto;
+		}
 	}
 }
 
