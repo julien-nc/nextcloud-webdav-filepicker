@@ -56,7 +56,7 @@ export default {
 			ncUrl: 'https://localhost/dev/server',
 			login: '',
 			password: '',
-			color: '#ff9b00',
+			color: '#0082c9',
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 			resultLines: [],
 		}

@@ -458,25 +458,29 @@ export default {
 	},
 
 	methods: {
-		updateUrl(newValue) {
+		resetFilePicker() {
 			this.client = null
 			this.connected = false
+			this.quota = null
+			this.namingNewDirectory = false
+			this.newDirectoryName = ''
+		},
+		updateUrl(newValue) {
+			this.resetFilePicker()
 			this.url = newValue
 			// set login/passwd to props values again
 			this.login = this.ncLogin
 			this.password = this.ncPassword
 		},
 		updateLogin(newValue) {
-			this.client = null
-			this.connected = false
+			this.resetFilePicker()
 			this.login = newValue
 
 			this.url = this.ncUrl
 			this.password = this.ncPassword
 		},
 		updatePassword(newValue) {
-			this.client = null
-			this.connected = false
+			this.resetFilePicker()
 			this.password = newValue
 
 			this.login = this.ncLogin
