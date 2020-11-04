@@ -116,7 +116,8 @@
 						</tr>
 					</tbody>
 				</v-table>
-				<EmptyContent v-else-if="connected" icon="icon-folder" class="empty-content">
+				<EmptyContent v-else-if="connected" icon="icon-folder" class="empty-content"
+					:style="cssVars">
 					This directory is empty
 				</EmptyContent>
 				<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
