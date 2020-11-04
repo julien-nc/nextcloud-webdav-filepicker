@@ -43,11 +43,11 @@ Here is a minimal example getting files paths and displaying them in the console
 <div id="mount_point"></div>
 <script src="filePickerWrapper.js"></script>
 <script>
-	document.addEventListener('DOMContentLoaded', function(event) {
+	document.addEventListener('DOMContentLoaded', (event) => {
         const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org', null, null, null, true)
 
 		// event coming from the file picker
-		document.addEventListener('get-files-path', function(e) {
+		document.addEventListener('get-files-path', (e) => {
 			console.debug('received "get-files-path" event')
 			console.debug(e.detail)
 			e.detail.forEach((path) => {
