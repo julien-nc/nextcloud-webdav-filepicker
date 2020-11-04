@@ -63,7 +63,9 @@
 						{{ modalTitle }}
 					</h2>
 					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading rotate" />
-					<button class="closeButton" @click="close" />
+					<button class="closeButton"
+						:style="cssVars"
+						@click="close" />
 				</div>
 				<div class="bread-container">
 					<Breadcrumbs>
@@ -811,10 +813,10 @@ export default {
 			-webkit-mask: url('./../../img/close.svg') no-repeat;
 			-webkit-mask-size: 22px auto;
 			-webkit-mask-position: center;
-			background-color: var(--main-color, grey);
+			background-color: grey;
 
 			&:hover {
-				background-color: black;
+				background-color: var(--main-color);
 			}
 		}
 
