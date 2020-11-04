@@ -297,7 +297,7 @@ export default {
 			login: this.ncLogin,
 			password: this.ncPassword,
 			url: this.ncUrl,
-			mainColor: this.themeColor,
+			mainColor: this.themeColor || '#0082c9',
 			// state data
 			client: null,
 			connected: false,

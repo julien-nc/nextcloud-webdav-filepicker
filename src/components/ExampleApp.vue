@@ -1,24 +1,36 @@
 <template>
 	<div id="example-app">
-		<h2>This is an example Vue application using the file picker component.</h2>
+		<h2>
+			This page is an example Vue application using the file picker component.
+			<br>
+			<img src="https://vuejs.org/images/logo.png" width="25px" style="margin-bottom: -2px;"> 🚀
+		</h2>
 		<p>
+			You can try the file picker with your Nextcloud instance from this page.
+			<br>
 			Make sure you installed the
 			<a href="https://apps.nextcloud.com/apps/webapppassword">WebAppPassword app</a>
 			and added <b>{{ domainToAuthorize }}</b> as allowed origin in WebAppPassword settings.
 		</p>
-		<p>
-			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password.
-		</p>
 		<br>
 		<p>
-			These fields are directly plugged to NcFilePicker component's props.
+			Following fields are directly plugged to NcFilePicker component's props.
+		</p>
+		<h3>Authentication</h3>
+		<p>
+			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password (web login flow).
 		</p>
 		<input v-model="ncUrl" type="text" placeholder="Nextcloud address">
 		<input v-model="login" type="text" placeholder="login">
 		<input v-model="password" type="password" placeholder="password">
-		<input v-model="color" type="color">
+		<h3>Theme color</h3>
+		<label for="color">Main file picker color</label>
+		<input id="color" v-model="color" type="color">
+		<h3>
+			File picker component
+		</h3>
 		<p>
-			NcFilePicker component is placed under this line.
+			NcFilePicker component is placed under the following line. It shows every button by default.
 		</p>
 		<hr>
 		<NcFilePicker

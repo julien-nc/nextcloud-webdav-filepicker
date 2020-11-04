@@ -9,40 +9,52 @@
 	</header>
 	<main>
 		<h1>Nextcloud file picker</h1>
-		<h2>This is an example page importing the file picker wrapper. Vue.js is awesome 😁 but the file picker can be used without it.</h2>
+		<h2>
+			This is an example page importing the file picker wrapper.
+			<br>
+			No need to use Vue.js to include this component in your web application 😁🎉
+		</h2>
 		<p>
+			You can try the file picker with your Nextcloud instance from this page.
+			<br>
 			Make sure you installed the
 			<a href="https://apps.nextcloud.com/apps/webapppassword">WebAppPassword app</a>
 			and added <b id="domainToAuthorize"></b> as allowed origin in WebAppPassword settings.
 		</p>
-		<p>
-			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password.
-		</p>
 		<br>
 		<p>
-			When these fields are changed, corresponding component update methods are called.
+			When following fields are changed, corresponding component update methods are called.
+		</p>
+		<h3>Authentication</h3>
+		<p>
+			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password (web login flow).
 		</p>
 		<input id="url" type="text" placeholder="Nextcloud address" value="https://localhost/dev/server">
 		<input id="login" type="text" placeholder="login" value="">
 		<input id="password" type="password" placeholder="password" value="">
+		<h3>Theme color</h3>
+		<label for="color">Main file picker color</label>
 		<input id="color" type="color" value="#0082c9">
-		<br><br>
-		<button id="selectButton">Custom button to select files</button>
+		<h3>Custom button which calls the "getFilesPath" method</h3>
+		<button id="selectButton">My custom button to select files</button>
+		<h3>
+			File picker component
+		</h3>
 		<p>
-			The file picker component is mounted under this line.
+			NcFilePicker component is mounted under the following line. It shows every button by default.
 		</p>
 		<hr>
 		<div id="mount_point"></div>
 		<hr>
 		<p id="results"></p>
 	</main>
-	<footer style="position: absolute; bottom: 0; right: 0;">
+	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
 		Dev version
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
 <script>
-	document.addEventListener('DOMContentLoaded', function(event) {
+	document.addEventListener('DOMContentLoaded', (event) => {
 		document.getElementById('domainToAuthorize').textContent = window.location.protocol + '//' + window.location.host
 
 		// get url values
@@ -73,29 +85,29 @@
 		const filepicker = window.createFilePicker('mount_point', initialUrl, initialLogin, initialPassword, initialColor, true)
 
 		// monitor form value change
-		document.getElementById('login').addEventListener('input', function(e) {
+		document.getElementById('login').addEventListener('input', (e) => {
 			filepicker.updateLogin(e.target.value)
 		})
 
-		document.getElementById('password').addEventListener('input', function(e) {
+		document.getElementById('password').addEventListener('input', (e) => {
 			filepicker.updatePassword(e.target.value)
 		})
 
-		document.getElementById('url').addEventListener('input', function(e) {
+		document.getElementById('url').addEventListener('input', (e) => {
 			filepicker.updateUrl(e.target.value)
 		})
 
-		document.getElementById('color').addEventListener('change', function(e) {
+		document.getElementById('color').addEventListener('change', (e) => {
 			filepicker.setMainColor(e.target.value)
 		})
 
-		document.getElementById('selectButton').addEventListener('click', function(e) {
+		document.getElementById('selectButton').addEventListener('click', (e) => {
 			filepicker.getFilesPath()
 		})
 
 		// events coming from the file picker
-		document.addEventListener('get-files-path', function(e) {
-			console.log('no vue, received "get-files-path" event')
+		document.addEventListener('get-files-path', (e) => {
+			console.debug('no vue, received "get-files-path" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = 'Path of selected files:'
 			e.detail.forEach((path) => {
@@ -105,14 +117,14 @@
 			})
 		})
 
-		document.addEventListener('get-save-file-path', function(e) {
-			console.log('no vue, received "get-save-file-path" event')
+		document.addEventListener('get-save-file-path', (e) => {
+			console.debug('no vue, received "get-save-file-path" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = `Selected target directory: ${e.detail}`
 		})
 
-		document.addEventListener('upload-path-link-generated', function(e) {
-			console.log('no vue, received "upload-path-link-generated" event')
+		document.addEventListener('upload-path-link-generated', (e) => {
+			console.debug('no vue, received "upload-path-link-generated" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = `File upload link in ${e.detail.targetDir}:`
 			const p = document.createElement('p')
@@ -120,8 +132,8 @@
 			document.getElementById('results').appendChild(p)
 		})
 
-		document.addEventListener('get-files-link', function(e) {
-			console.log('no vue, received "get-files-link" event')
+		document.addEventListener('get-files-link', (e) => {
+			console.debug('no vue, received "get-files-link" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = 'File links: <br>'
 			e.detail.forEach((l) => {
@@ -133,8 +145,8 @@
 			})
 		})
 
-		document.addEventListener('files-uploaded', function(e) {
-			console.log('no vue, received "files-uploaded" event')
+		document.addEventListener('files-uploaded', (e) => {
+			console.debug('no vue, received "files-uploaded" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = `These files were uploaded in ${e.detail.targetDir}: <br>`
 			e.detail.files.forEach((f) => {
@@ -144,7 +156,7 @@
 			})
 		})
 
-		document.addEventListener('files-downloaded', function(e) {
+		document.addEventListener('files-downloaded', (e) => {
 			const files = e.detail
 			console.debug('no vue, something was downloaded')
 			document.getElementById('results').innerHTML = 'Downloaded files: <br>'
@@ -153,13 +165,13 @@
 				console.debug(file)
 				const reader = new FileReader()
 				reader.readAsText(file)
-				reader.onload = function() {
+				reader.onload = () => {
 					console.debug(reader.result)
 					const p = document.createElement('P')
 					p.textContent = 'File ' + file.name + ': ' + reader.result.slice(0, 100) + '...'
 					document.getElementById('results').appendChild(p)
 				}
-				reader.onerror = function() {
+				reader.onerror = () => {
 					console.error('Impossible to read downloaded file')
 					console.debug(reader.error)
 				}
