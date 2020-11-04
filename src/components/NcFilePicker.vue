@@ -41,7 +41,7 @@
 					</button>
 				</slot>
 			</div>
-			<div v-if="enableOpenFileInput" @click="openFileInput">
+			<div v-if="enableUploadFiles" @click="openFileInput">
 				<slot name="open-file-input">
 					<button>
 						<span class="icon icon-upload" />
@@ -54,7 +54,7 @@
 			id="file-input"
 			ref="myFiles"
 			type="file"
-			multiple
+			:multiple="multipleUpload"
 			@change="onFileInputChange">
 		<Modal v-if="isOpen"
 			:can-close="false"
@@ -244,7 +244,11 @@ export default {
 			type: String,
 			default: '',
 		},
-		multiple: {
+		multipleDownload: {
+			type: Boolean,
+			default: true,
+		},
+		multipleUpload: {
 			type: Boolean,
 			default: true,
 		},
@@ -285,7 +289,7 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		enableOpenFileInput: {
+		enableUploadFiles: {
 			type: Boolean,
 			default: true,
 		},
@@ -353,7 +357,7 @@ export default {
 		},
 		modalTitle() {
 			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
-				if (this.multiple) {
+				if (this.multipleDownload) {
 					return this.getTitle || 'Select some files'
 				} else {
 					return this.getTitle || 'Select a file'
@@ -595,7 +599,7 @@ export default {
 			if (e.type === 'directory') {
 				this.getFolderContent(e.filename)
 			} else if (!['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
-				if (this.multiple) {
+				if (this.multipleDownload) {
 					if (this.selection.includes(e.filename)) {
 						this.selection.splice(this.selection.indexOf(e.filename), 1)
 					} else {

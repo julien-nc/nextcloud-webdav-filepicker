@@ -33,7 +33,14 @@ Parameters of `createFilePicker(mountPoint, url, login, password, color, enableG
 * login (string): the user name
 * password (string): the user password or an app password
 * color (hex color string): the main file picker color (default: Nextcloud blue)
+* multipleDownload (boolean): let the user select multiple files in the file picker (default: true)
+* multipleUpload (boolean): let the user select multiple local files to upload (default: true)
 * enableGetFilesPath (boolean): show the "Get files path" button (default: true)
+* enableGetFilesLink (boolean): show the "Get files link" button
+* enableDownloadFiles (boolean): show the "Get files link" button (default: true)
+* enableGetSaveFilePath (boolean): show the "Get files link" button (default: true)
+* enableGetUploadFileLink (boolean): show the "Get files link" button (default: true)
+* enableUploadFiles (boolean): show the "Upload files" button (default: true)
 
 Set login and password to `null` to let the file picker authenticate through the web login flow and get an app password by its own.
 
