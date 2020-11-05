@@ -199,19 +199,13 @@
 <script>
 import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
+import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import ProgressBar from 'vue-simple-progress'
-import {
-	dirname,
-	basename,
-	// encodePath,
-	// isSamePath,
-	// joinPaths,
-} from '@nextcloud/paths'
 import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
 import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
 import { addCustomEventListener, humanFileSize, colorOpacity, colorLuminance } from '../utils'
+import ProgressBar from 'vue-simple-progress'
 import '../../css/filepicker.scss'
 
 import Vue from 'vue'
@@ -232,6 +226,7 @@ export default {
 	},
 
 	props: {
+		// reactive props
 		ncUrl: {
 			type: String,
 			required: true,
@@ -244,6 +239,7 @@ export default {
 			type: String,
 			default: '',
 		},
+		// options
 		multipleDownload: {
 			type: Boolean,
 			default: true,
@@ -260,7 +256,7 @@ export default {
 			type: String,
 			default: null,
 		},
-		// theming
+		// theming (reactive too)
 		themeColor: {
 			type: String,
 			default: '#0082c9',
