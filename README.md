@@ -26,7 +26,7 @@ There are two ways to use this file picker:
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
 
-Parameters of `createFilePicker(mountPoint, url, login, password, color, enableGetFilesPath)` function:
+Parameters of `createFilePicker(mountPoint, url, login, password, color, enableGetFilesPath, enableGetFilesLink, enableDownloadFiles, enableGetSaveFilePath, enableGetUploadFileLink, enableUploadFiles)` function:
 
 * mountPoint (String): the id of the element in which the file picker is mounter
 * url (string): the Nextcloud base URL
@@ -36,7 +36,7 @@ Parameters of `createFilePicker(mountPoint, url, login, password, color, enableG
 * multipleDownload (boolean): let the user select multiple files in the file picker (default: true)
 * multipleUpload (boolean): let the user select multiple local files to upload (default: true)
 * enableGetFilesPath (boolean): show the "Get files path" button (default: true)
-* enableGetFilesLink (boolean): show the "Get files link" button
+* enableGetFilesLink (boolean): show the "Get files link" button (default: true)
 * enableDownloadFiles (boolean): show the "Get files link" button (default: true)
 * enableGetSaveFilePath (boolean): show the "Get files link" button (default: true)
 * enableGetUploadFileLink (boolean): show the "Get files link" button (default: true)
@@ -51,17 +51,17 @@ Here is a minimal example getting files paths and displaying them in the console
 <script src="filePickerWrapper.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', (event) => {
-        const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org', null, null, null, true)
+		const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org', null, null, null, true)
 
 		// event coming from the file picker
 		document.addEventListener('get-files-path', (e) => {
 			console.debug('received "get-files-path" event')
 			console.debug(e.detail)
 			e.detail.forEach((path) => {
-                console.debug(path)
+				console.debug(path)
 			})
 		})
-    })
+	})
 </script>
 ```
 
