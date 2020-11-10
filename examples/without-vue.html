@@ -13,6 +13,7 @@
 			This is an example page importing the file picker wrapper.
 			<br>
 			No need to use Vue.js to include this component in your web application 😁🎉
+			Checkout the <a href="https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/examples/without-vue.html">source file</a>
 		</h2>
 		<p>
 			You can try the file picker with your Nextcloud instance from this page.
@@ -53,7 +54,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Tue Nov 10 02:39:38 UTC 2020
+		Generated at Tue Nov 10 13:13:08 UTC 2020
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
@@ -152,13 +153,24 @@
 			console.debug('no vue, received "get-files-link" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = 'File links: <br>'
-			e.detail.forEach((l) => {
+			e.detail.webdavLinks.forEach((l) => {
 				const a = document.createElement('a')
 				a.textContent = l
 				a.setAttribute('href', l)
 				document.getElementById('results').appendChild(a)
 				document.getElementById('results').appendChild(document.createElement('br'))
 			})
+			const p = document.createElement('p')
+			p.textContent = 'List of paths:'
+			document.getElementById('results').appendChild(p)
+			e.detail.pathList.forEach((path) => {
+				const pp = document.createElement('p')
+				pp.textContent = path
+				document.getElementById('results').appendChild(pp)
+			})
+			const po = document.createElement('p')
+			po.textContent = 'OCS URL to create share link: ' + e.detail.ocsUrl
+			document.getElementById('results').appendChild(po)
 		})
 
 		document.addEventListener('files-uploaded', (e) => {
