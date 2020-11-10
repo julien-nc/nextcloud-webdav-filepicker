@@ -359,12 +359,12 @@ export default {
 		modalTitle() {
 			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
 				if (this.multipleDownload) {
-					return this.getTitle || 'Select some files'
+					return this.getTitle || 'Select one or multiple files'
 				} else {
 					return this.getTitle || 'Select a file'
 				}
 			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
-				return this.putTitle || 'Choose a target directory'
+				return this.putTitle || 'Save to'
 			}
 			return ''
 		},
@@ -654,14 +654,23 @@ export default {
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
 				console.debug('get files link in ' + this.currentPath)
-				const links = this.selection.map((path) => {
-					return this.client.getFileDownloadLink(path)
-				})
-				// for parent component
-				this.$emit('get-files-link', links)
-				// for potential global listener
-				const event = new CustomEvent('get-files-link', { detail: links })
-				document.dispatchEvent(event)
+				if (!this.password && this.accessToken) {
+					console.error('Download links can\'t be generated when using OAuth, you can provide the OAuth token as a normal password.')
+					this.close()
+					return
+				}
+				try {
+					const links = this.selection.map((path) => {
+						return this.client.getFileDownloadLink(path)
+					})
+					// for parent component
+					this.$emit('get-files-link', links)
+					// for potential global listener
+					const event = new CustomEvent('get-files-link', { detail: links })
+					document.dispatchEvent(event)
+				} catch (error) {
+					console.error('Impossible to generate download links')
+				}
 				this.close()
 			} else if (this.mode === 'getSaveFilePath') {
 				console.debug('user wants to save in ' + this.currentPath)
@@ -673,18 +682,27 @@ export default {
 				this.close()
 			} else if (this.mode === 'getUploadFileLink') {
 				console.debug('user wants to get an upload link in ' + this.currentPath)
+				if (!this.password && this.accessToken) {
+					console.error('Upload links can\'t be generated when using OAuth, you can provide the OAuth token as a normal password.')
+					this.close()
+					return
+				}
 				const uploadPath = this.currentPath + '/file.txt'
-				const uploadLink = this.client.getFileUploadLink(uploadPath)
-				// for parent component
-				this.$emit('upload-path-link-generated', this.currentPath, uploadLink)
-				// for potential global listener
-				const event = new CustomEvent('upload-path-link-generated', {
-					detail: {
-						link: uploadLink,
-						targetDir: this.currentPath,
-					},
-				})
-				document.dispatchEvent(event)
+				try {
+					const uploadLink = this.client.getFileUploadLink(uploadPath)
+					// for parent component
+					this.$emit('upload-path-link-generated', this.currentPath, uploadLink)
+					// for potential global listener
+					const event = new CustomEvent('upload-path-link-generated', {
+						detail: {
+							link: uploadLink,
+							targetDir: this.currentPath,
+						},
+					})
+					document.dispatchEvent(event)
+				} catch (error) {
+					console.error('Impossible to generate upload link')
+				}
 				this.close()
 			} else if (this.mode === 'downloadFiles') {
 				console.debug('user wants to download files')
