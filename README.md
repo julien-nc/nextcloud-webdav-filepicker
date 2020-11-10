@@ -13,10 +13,10 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
   * [Features](#s3-1)
   * [Authentication](#s3-2)
   * [How to include it](#s3-3)
-* [ 🪄 The wrapper](#s4)
+* [ ✨ The wrapper](#s4)
   * [Example](#s4-1)
   * [Events](#s4-2)
-* [  The Vue component](#s5)
+* [ v The Vue component](#s5)
   * [Example](#s5-1)
   * [Props](#s5-2)
   * [Slots](#s5-3)
@@ -68,7 +68,7 @@ There are two ways to include this file picker in your web application:
 
 The file picker can optionally show buttons to open it an perform actions. You can also use your own custom elements (anywhere in your application) to trigger the file picker actions.
 
-# <a id='s4' /> 🪄 The wrapper
+# <a id='s4' /> ✨ The wrapper
 
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
@@ -133,7 +133,7 @@ Here are the events emitted by the component and the data they provide:
 * `upload-path-link-generated`: a WebDav upload link
 * `files-uploaded`: `successFiles` and `errorFiles`, arrays of uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 
-# <a id='s5' />  The Vue component
+# <a id='s5' /> v The Vue component
 
 Get it from NPM (⚠ **not yet available**):
 ```
