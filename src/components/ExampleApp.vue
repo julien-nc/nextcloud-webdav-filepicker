@@ -27,6 +27,10 @@
 		<h3>Theme color</h3>
 		<label for="color">Main file picker color</label>
 		<input id="color" v-model="color" type="color">
+		<h3>Custom button to open the file picker in "getFilesPath" mode</h3>
+		<button @click="onCustomButtonClick">
+			My custom button to select files
+		</button>
 		<h3>
 			File picker component
 		</h3>
@@ -40,6 +44,9 @@
 			:nc-password="password"
 			:nc-access-token="accessToken"
 			:theme-color="color"
+			:picker-mode="pickerMode"
+			:picker-is-open="pickerIsOpen"
+			@closed="onPickerClosed"
 			@files-downloaded="onFilesDownloaded"
 			@files-uploaded="onFilesUploaded"
 			@get-save-file-path="onGetSaveFilePath"
@@ -75,6 +82,8 @@ export default {
 			password: '',
 			accessToken: '',
 			color: '#0082c9',
+			pickerMode: null,
+			pickerIsOpen: false,
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 			resultLines: [],
 		}
@@ -112,6 +121,14 @@ export default {
 	},
 
 	methods: {
+		onCustomButtonClick() {
+			this.pickerMode = 'getFilesPath'
+			this.pickerIsOpen = true
+		},
+		onPickerClosed() {
+			this.pickerIsOpen = false
+			this.pickerMode = null
+		},
 		onGetFilesPath(e) {
 			console.debug('something was selected')
 			console.debug(e)

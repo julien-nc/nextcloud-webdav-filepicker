@@ -243,6 +243,15 @@ export default {
 			type: String,
 			default: '',
 		},
+		// props to control the fp component from parent one
+		pickerMode: {
+			type: String,
+			default: '',
+		},
+		pickerIsOpen: {
+			type: Boolean,
+			default: false,
+		},
 		// options
 		multipleDownload: {
 			type: Boolean,
@@ -459,6 +468,16 @@ export default {
 		themeColor() {
 			this.setMainColor(this.themeColor)
 		},
+		// let parent component control the fp
+		pickerMode() {
+			this.mode = this.pickerMode
+		},
+		pickerIsOpen() {
+			if (this.pickerIsOpen) {
+				this.isOpen = true
+				this.getFolderContent(true)
+			}
+		},
 	},
 
 	mounted() {
@@ -605,6 +624,7 @@ export default {
 		},
 		close() {
 			this.isOpen = false
+			this.$emit('closed')
 		},
 		onElemClick(e) {
 			if (this.loadingDirectory || this.uploadingFiles || this.downloadingFiles) {
