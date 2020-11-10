@@ -199,6 +199,7 @@
 <script>
 import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
+import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -674,19 +675,28 @@ export default {
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
 				console.debug('get files link in ' + this.currentPath)
+				// this.getFilesShareLink()
+				// generate WebDav download links
 				if (!this.password && this.accessToken) {
 					console.error('Download links can\'t be generated when using OAuth, you can provide the OAuth token as a normal password.')
 					this.close()
 					return
 				}
 				try {
-					const links = this.selection.map((path) => {
+					const webdavLinks = this.selection.map((path) => {
 						return this.client.getFileDownloadLink(path)
 					})
+					const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
 					// for parent component
-					this.$emit('get-files-link', links)
+					this.$emit('get-files-link', webdavLinks, this.selection, ocsUrl)
 					// for potential global listener
-					const event = new CustomEvent('get-files-link', { detail: links })
+					const event = new CustomEvent('get-files-link', {
+						detail: {
+							webdavLinks,
+							pathList: this.selection,
+							ocsUrl,
+						},
+					})
 					document.dispatchEvent(event)
 				} catch (error) {
 					console.error('Impossible to generate download links')
@@ -729,6 +739,23 @@ export default {
 				console.debug(this.selection)
 				this.webdavDownload()
 			}
+		},
+		async getFilesShareLink() {
+			// create shared access with OCS API
+			// problem : CORS headers don't allow it for the moment,
+			// this could be done by adding a global origin whitelist in NC server
+			const url = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
+			const response = await axios.get(url, {
+				path: 'b1m.gpx',
+				shareType: 3,
+			}, {
+				auth: {
+					username: this.login,
+					password: this.password || this.accessToken,
+				},
+				headers: { 'OCS-APIRequest': 'true' },
+			})
+			console.debug(response)
 		},
 		async updateWebdavQuota() {
 			if (this.client) {

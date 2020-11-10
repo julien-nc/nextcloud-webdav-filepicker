@@ -4,6 +4,7 @@
 			This page is an example Vue application using the file picker component.
 			<br>
 			<img src="https://vuejs.org/images/logo.png" width="25px" style="margin-bottom: -2px;"> 🚀
+			Checkout the <a href="https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/src/exampleVue.js">source file</a>
 		</h2>
 		<p>
 			You can try the file picker with your Nextcloud instance from this page.
@@ -143,13 +144,19 @@ export default {
 				this.resultLines.push(l)
 			})
 		},
-		onGetFilesLink(e) {
-			console.debug('links were retreived')
-			console.debug(e)
+		onGetFilesLink(webdavLinks, pathList, ocsUrl) {
+			console.debug('links were generated')
+			console.debug(webdavLinks)
 			this.resultLines = ['File links:']
-			e.forEach((l) => {
+			webdavLinks.forEach((l) => {
 				this.resultLines.push(l)
 			})
+			this.resultLines.push('Path list:')
+			pathList.forEach((path) => {
+				this.resultLines.push(path)
+			})
+			this.resultLines.push('OCS URL:')
+			this.resultLines.push(ocsUrl)
 		},
 		onGetSaveFilePath(e) {
 			console.debug('This target directory was selected')
