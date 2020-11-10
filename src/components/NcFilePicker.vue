@@ -472,6 +472,7 @@ export default {
 			this.quota = null
 			this.namingNewDirectory = false
 			this.newDirectoryName = ''
+			this.uploadingFiles = false
 		},
 		updateUrl(newValue) {
 			this.resetFilePicker()
@@ -505,8 +506,7 @@ export default {
 						password: this.password,
 					}
 				)
-				this.updateWebdavQuota()
-				this.getFolderContent()
+				this.getFolderContent(true)
 			} else if (this.login && this.accessToken) {
 				// OAuth2 token
 				this.client = createClient(
@@ -517,8 +517,7 @@ export default {
 						},
 					}
 				)
-				this.updateWebdavQuota()
-				this.getFolderContent()
+				this.getFolderContent(true)
 			} else {
 				// web login flow
 				const authUrl = this.authUrl + '?target-origin=' + encodeURIComponent(window.location.href)
@@ -571,10 +570,9 @@ export default {
 		},
 		openFilePicker() {
 			this.isOpen = true
-			this.updateWebdavQuota()
-			this.getFolderContent()
+			this.getFolderContent(true)
 		},
-		async getFolderContent(path = null) {
+		async getFolderContent(updateQuota = false, path = null) {
 			if (path) {
 				this.currentPath = path
 			}
@@ -600,6 +598,9 @@ export default {
 					this.resetFilePicker()
 				}
 				this.loadingDirectory = false
+				if (updateQuota) {
+					this.updateWebdavQuota()
+				}
 			}
 		},
 		close() {
@@ -610,7 +611,7 @@ export default {
 				return
 			}
 			if (e.type === 'directory') {
-				this.getFolderContent(e.filename)
+				this.getFolderContent(false, e.filename)
 			} else if (!['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
 				if (this.multipleDownload) {
 					if (this.selection.includes(e.filename)) {
@@ -711,9 +712,11 @@ export default {
 				const file = this.filesToUpload[i]
 				totalSize += file.size
 			}
+
+			const successFiles = []
+			const errorFiles = []
 			for (let i = 0; i < this.filesToUpload.length; i++) {
 				const file = this.filesToUpload[i]
-				console.debug(file)
 				try {
 					await this.client
 						.putFileContents(this.currentPath + '/' + file.name, file, {
@@ -725,22 +728,30 @@ export default {
 							},
 						})
 				} catch (error) {
-					console.error(error)
-					this.resetFilePicker()
-					return
+					// already exists or no permission
+					if (error.response?.status === 412) {
+						console.error('the file ' + file.name + ' could not be uploaded')
+						errorFiles.push(file)
+						continue
+					} else {
+						this.resetFilePicker()
+						return
+					}
 				}
-				console.debug('UPLOAD success' + file.name)
+				successFiles.push(file)
+				console.debug('UPLOAD success ' + file.name)
 				totalUploaded += file.size
 				this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
 				this.getFolderContent()
 			}
 			// for parent component
-			this.$emit('files-uploaded', this.currentPath, this.filesToUpload)
+			this.$emit('files-uploaded', this.currentPath, successFiles, errorFiles)
 			// for potential global listener
 			const event = new CustomEvent('files-uploaded', {
 				detail: {
 					targetDir: this.currentPath,
-					files: this.filesToUpload,
+					successFiles,
+					errorFiles,
 				},
 			})
 			document.dispatchEvent(event)
@@ -797,7 +808,7 @@ export default {
 			await this.webdavCreateDirectory(newDirectoryPath)
 			this.namingNewDirectory = false
 			this.newDirectoryName = ''
-			this.getFolderContent(newDirectoryPath)
+			this.getFolderContent(false, newDirectoryPath)
 		},
 		async webdavCreateDirectory(path) {
 			try {
@@ -814,7 +825,7 @@ export default {
 				return
 			}
 			const path = elem.getAttribute('href').replace('#', '')
-			this.getFolderContent(path)
+			this.getFolderContent(false, path)
 		},
 		onFileInputChange(e) {
 			this.filesToUpload = [...this.$refs.myFiles.files]

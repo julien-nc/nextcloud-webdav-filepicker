@@ -138,13 +138,23 @@ export default {
 			console.debug(link)
 			this.resultLines = [`Upload link to ${targetDir}:`, link]
 		},
-		onFilesUploaded(targetDir, files) {
+		onFilesUploaded(targetDir, successFiles, errorFiles) {
 			console.debug('Files were uploaded')
-			console.debug(files)
-			this.resultLines = [`These files were uploaded in ${targetDir}:`]
-			files.forEach(file => {
-				this.resultLines.push(file.name)
-			})
+			console.debug(successFiles)
+			console.debug(errorFiles)
+			this.resultLines = []
+			if (successFiles.length > 0) {
+				this.resultLines.push(`These files were uploaded in ${targetDir}:`)
+				successFiles.forEach(file => {
+					this.resultLines.push(file.name)
+				})
+			}
+			if (errorFiles.length > 0) {
+				this.resultLines.push('!!! Those files could not be uploaded:')
+				errorFiles.forEach(file => {
+					this.resultLines.push(file.name)
+				})
+			}
 		},
 		onFilesDownloaded(files) {
 			console.debug('something was downloaded')
