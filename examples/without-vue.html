@@ -48,6 +48,7 @@
 		<hr>
 		<div id="mount_point"></div>
 		<hr>
+		<h3>Results</h3>
 		<p id="results"></p>
 		<div class="ribbon">
 			<a href="https://github.com/eneiluj/nextcloud-webdav-filepicker" target="_blank">Repository and documentation</a>
@@ -171,6 +172,9 @@
 			const po = document.createElement('p')
 			po.textContent = 'OCS URL to create share link: ' + e.detail.ocsUrl
 			document.getElementById('results').appendChild(po)
+			const pl = document.createElement('p')
+			pl.textContent = 'Generic share link: ' + e.detail.genericShareLink
+			document.getElementById('results').appendChild(pl)
 		})
 
 		document.addEventListener('files-uploaded', (e) => {

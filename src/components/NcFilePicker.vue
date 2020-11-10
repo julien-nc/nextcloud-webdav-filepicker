@@ -227,41 +227,50 @@ export default {
 	},
 
 	props: {
-		// reactive props
+		/* === reactive props === */
+		// Nextcloud base URL
 		ncUrl: {
 			type: String,
 			required: true,
 		},
+		// Nextcloud user name
 		ncLogin: {
 			type: String,
 			default: '',
 		},
+		// Nextcloud user password/app password/OAuth access token
 		ncPassword: {
 			type: String,
 			default: '',
 		},
+		// OAuth access token if you absolutely want to use Bearer Authorization header (if not, using a token as a password works fine)
 		ncAccessToken: {
 			type: String,
 			default: '',
 		},
-		// props to control the fp component from parent one
+		/* === props to control the fp component from the parent one === */
+		// file picker mode to determine what is done when the picker is opened
 		pickerMode: {
 			type: String,
 			default: '',
 		},
+		// prop to open the file picker if you don't want to use the buttons
 		pickerIsOpen: {
 			type: Boolean,
 			default: false,
 		},
-		// options
+		/* === options === */
+		// enable multiple selection in all download modes
 		multipleDownload: {
 			type: Boolean,
 			default: true,
 		},
+		// enable multiple local files selection when uploading
 		multipleUpload: {
 			type: Boolean,
 			default: true,
 		},
+		// file picker title
 		getTitle: {
 			type: String,
 			default: null,
@@ -278,27 +287,33 @@ export default {
 				return value.match(/^#[0-9a-fA-F]{6}$/)
 			},
 		},
-		// toggle buttons
+		/* === toggle buttons === */
+		// display the button to get files path
 		enableGetFilesPath: {
 			type: Boolean,
 			default: true,
 		},
+		// display the button to get files links
 		enableGetFilesLink: {
 			type: Boolean,
 			default: true,
 		},
+		// display the button to download files
 		enableDownloadFiles: {
 			type: Boolean,
 			default: true,
 		},
+		// display the button to get a save file path
 		enableGetSaveFilePath: {
 			type: Boolean,
 			default: true,
 		},
+		// display the button to get webdav upload link
 		enableGetUploadFileLink: {
 			type: Boolean,
 			default: true,
 		},
+		// display the button to upload local files
 		enableUploadFiles: {
 			type: Boolean,
 			default: true,
@@ -687,14 +702,16 @@ export default {
 						return this.client.getFileDownloadLink(path)
 					})
 					const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
+					const genericShareLink = this.url + '/index.php/s/TOKEN'
 					// for parent component
-					this.$emit('get-files-link', webdavLinks, this.selection, ocsUrl)
+					this.$emit('get-files-link', webdavLinks, this.selection, ocsUrl, genericShareLink)
 					// for potential global listener
 					const event = new CustomEvent('get-files-link', {
 						detail: {
 							webdavLinks,
 							pathList: this.selection,
 							ocsUrl,
+							genericShareLink,
 						},
 					})
 					document.dispatchEvent(event)
@@ -742,11 +759,11 @@ export default {
 		},
 		async getFilesShareLink() {
 			// create shared access with OCS API
-			// problem : CORS headers don't allow it for the moment,
+			// problem : CORS headers don't allow this for the moment,
 			// this could be done by adding a global origin whitelist in NC server
 			const url = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
-			const response = await axios.get(url, {
-				path: 'b1m.gpx',
+			const response = await axios.post(url, {
+				path: '...',
 				shareType: 3,
 			}, {
 				auth: {

@@ -61,6 +61,7 @@
 			</template>
 		</NcFilePicker>
 		<hr>
+		<h3>Results</h3>
 		<p v-for="(line, i) in resultLines" :key="i">
 			{{ line }}
 		</p>
@@ -144,7 +145,7 @@ export default {
 				this.resultLines.push(l)
 			})
 		},
-		onGetFilesLink(webdavLinks, pathList, ocsUrl) {
+		onGetFilesLink(webdavLinks, pathList, ocsUrl, genericShareLink) {
 			console.debug('links were generated')
 			console.debug(webdavLinks)
 			this.resultLines = ['File links:']
@@ -157,6 +158,8 @@ export default {
 			})
 			this.resultLines.push('OCS URL:')
 			this.resultLines.push(ocsUrl)
+			this.resultLines.push('Share link template:')
+			this.resultLines.push(genericShareLink)
 		},
 		onGetSaveFilePath(e) {
 			console.debug('This target directory was selected')
