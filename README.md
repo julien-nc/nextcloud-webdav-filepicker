@@ -16,10 +16,22 @@ This file picker is able to
 * select a target directory and generate a WebDav upload link
 * upload local files
 
-There are two ways to use this file picker:
+🔒 Supported authentication methods are:
 
-* include the component in a Vue.js application
-* import a wrapper script providing abstraction functions
+* Provide a login and
+	* a classic password
+	* an app password
+	* an OAuth bearer token
+* Let the file picker authenticate on its own with the web login flow
+
+⚠ A login is still required if you want to use an OAuth token.
+
+There are two ways to include this file picker in your web application:
+
+* The Vue.js component
+* The wrapper script
+
+The file picker can optionally show buttons to open it an perform actions. You can also use your own custom elements to trigger the file picker.
 
 ## The wrapper
 
@@ -29,9 +41,10 @@ to mount the file picker somewhere in your web page. This function returns the c
 Parameters of `createFilePicker(mountPoint, url, login, password, color, enableGetFilesPath, enableGetFilesLink, enableDownloadFiles, enableGetSaveFilePath, enableGetUploadFileLink, enableUploadFiles)` function:
 
 * mountPoint (String): the id of the element in which the file picker is mounter
-* url (string): the Nextcloud base URL
+* url (string, mandatory): the Nextcloud base URL
 * login (string): the user name
-* password (string): the user password or an app password
+* password (string): the user password, an app password or an OAuth access token
+* accessToken (string): an OAuth token (use this parameter if you absolutely want to use HTTP Authorization header to authenticate. Using the OAuth token as a password is recommended)
 * color (hex color string): the main file picker color (default: Nextcloud blue)
 * multipleDownload (boolean): let the user select multiple files in the file picker (default: true)
 * multipleUpload (boolean): let the user select multiple local files to upload (default: true)
@@ -42,7 +55,7 @@ Parameters of `createFilePicker(mountPoint, url, login, password, color, enableG
 * enableGetUploadFileLink (boolean): show the "Get files link" button (default: true)
 * enableUploadFiles (boolean): show the "Upload files" button (default: true)
 
-Set login and password to `null` to let the file picker authenticate through the web login flow and get an app password by its own.
+Set login and password/accessToken to `null` to let the file picker authenticate through the web login flow and get an app password by itself.
 
 Here is a minimal example getting files paths and displaying them in the console:
 
@@ -51,7 +64,7 @@ Here is a minimal example getting files paths and displaying them in the console
 <script src="filePickerWrapper.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', (event) => {
-		const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org', null, null, null, true)
+		const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org')
 
 		// event coming from the file picker
 		document.addEventListener('get-files-path', (e) => {
@@ -70,11 +83,11 @@ Here is a minimal example getting files paths and displaying them in the console
 Here is a list of events and the data they provide:
 
 * `get-files-path`: an array of file paths
-* `files-downloaded`: an array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+* `files-downloaded`: `successFiles` and `errorFiles`, arrays of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 * `get-files-link`: an array of Webdav download links
 * `get-save-file-path`: the path of the selected target directory
 * `upload-path-link-generated`: a WebDav upload link
-* `files-uploaded`: an array of uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+* `files-uploaded`: `successFiles` and `errorFiles`, arrays of uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 
 ## The Vue component
 
