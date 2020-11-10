@@ -16,7 +16,7 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
 * [ ✨ The wrapper](#s4)
   * [Example](#s4-1)
   * [Events](#s4-2)
-* [ v The Vue component](#s5)
+* [ 🇻 The Vue component](#s5)
   * [Example](#s5-1)
   * [Props](#s5-2)
   * [Slots](#s5-3)
@@ -133,7 +133,7 @@ Here are the events emitted by the component and the data they provide:
 * `upload-path-link-generated`: a WebDav upload link
 * `files-uploaded`: `successFiles` and `errorFiles`, arrays of uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 
-# <a id='s5' /> v The Vue component
+# <a id='s5' /> 🇻 The Vue component
 
 Get it from NPM (⚠ **not yet available**):
 ```
