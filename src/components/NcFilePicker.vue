@@ -239,6 +239,10 @@ export default {
 			type: String,
 			default: '',
 		},
+		ncAccessToken: {
+			type: String,
+			default: '',
+		},
 		// options
 		multipleDownload: {
 			type: Boolean,
@@ -296,6 +300,7 @@ export default {
 			// initialize values with props
 			login: this.ncLogin,
 			password: this.ncPassword,
+			accessToken: this.ncAccessToken,
 			url: this.ncUrl,
 			mainColor: this.themeColor || '#0082c9',
 			// state data
@@ -448,6 +453,9 @@ export default {
 		ncUrl() {
 			this.updateUrl(this.ncUrl)
 		},
+		ncAccessToken() {
+			this.updateAccessToken(this.ncAccessToken)
+		},
 		themeColor() {
 			this.setMainColor(this.themeColor)
 		},
@@ -468,23 +476,18 @@ export default {
 		updateUrl(newValue) {
 			this.resetFilePicker()
 			this.url = newValue
-			// set login/passwd to props values again
-			this.login = this.ncLogin
-			this.password = this.ncPassword
 		},
 		updateLogin(newValue) {
 			this.resetFilePicker()
 			this.login = newValue
-
-			this.url = this.ncUrl
-			this.password = this.ncPassword
 		},
 		updatePassword(newValue) {
 			this.resetFilePicker()
 			this.password = newValue
-
-			this.login = this.ncLogin
-			this.url = this.ncUrl
+		},
+		updateAccessToken(newValue) {
+			this.resetFilePicker()
+			this.accessToken = newValue
 		},
 		setMainColor(color) {
 			this.mainColor = color
@@ -494,6 +497,7 @@ export default {
 			this.currentElements = []
 			this.currentPath = '/'
 
+			// basic http auth (classic password, app password or even oauth token)
 			if (this.login && this.password) {
 				this.client = createClient(
 					this.davUrl + '/' + this.login, {
@@ -503,7 +507,20 @@ export default {
 				)
 				this.updateWebdavQuota()
 				this.getFolderContent()
+			} else if (this.login && this.accessToken) {
+				// OAuth2 token
+				this.client = createClient(
+					this.davUrl + '/' + this.login, {
+						token: {
+							access_token: this.accessToken,
+							token_type: 'Bearer',
+						},
+					}
+				)
+				this.updateWebdavQuota()
+				this.getFolderContent()
 			} else {
+				// web login flow
 				const authUrl = this.authUrl + '?target-origin=' + encodeURIComponent(window.location.href)
 				this.loginWindow = window.open(
 					authUrl,

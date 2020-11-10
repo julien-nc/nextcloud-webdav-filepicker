@@ -18,11 +18,12 @@
 		</p>
 		<h3>Authentication</h3>
 		<p>
-			Leave login and password fields empty to let the file picker open an authentication popup and get a temporary app password (web login flow).
+			Leave login, password and token fields empty to let the file picker open an authentication popup and get an app password (web login flow).
 		</p>
 		<input v-model="ncUrl" type="text" placeholder="Nextcloud address">
 		<input v-model="login" type="text" placeholder="login">
 		<input v-model="password" type="password" placeholder="password">
+		<input v-model="accessToken" type="password" placeholder="OAuth2 access token">
 		<h3>Theme color</h3>
 		<label for="color">Main file picker color</label>
 		<input id="color" v-model="color" type="color">
@@ -37,6 +38,7 @@
 			:nc-url="ncUrl"
 			:nc-login="login"
 			:nc-password="password"
+			:nc-access-token="accessToken"
 			:theme-color="color"
 			@files-downloaded="onFilesDownloaded"
 			@files-uploaded="onFilesUploaded"
@@ -71,6 +73,7 @@ export default {
 			ncUrl: 'https://localhost/dev/server',
 			login: '',
 			password: '',
+			accessToken: '',
 			color: '#0082c9',
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 			resultLines: [],
@@ -93,6 +96,10 @@ export default {
 		const password = params.get('password')
 		if (password) {
 			this.password = password
+		}
+		const accessToken = params.get('accessToken')
+		if (accessToken) {
+			this.accessToken = accessToken
 		}
 		const url = params.get('url')
 		if (url) {
