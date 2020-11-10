@@ -8,29 +8,32 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
 
 # Table of Contents
 * [📂 Nextcloud WebDav file picker](#s1)
-  * [Demo](#s1-1)
-  * [Intro](#s1-2)
-      * [Features](#s1-2-1)
-      * [Authentication](#s1-2-2)
-      * [How to include it](#s1-2-3)
-  * [The wrapper](#s1-3)
-      * [Example](#s1-3-1)
-      * [Events](#s1-3-2)
-  * [The Vue component](#s1-4)
-      * [Example](#s1-4-1)
-      * [Props](#s1-4-2)
-      * [Slots](#s1-4-3)
-  * [Extra](#s1-5)
-      * [Create Nextcloud share links](#s1-5-1)
+* [Demo](#s2)
+* [Intro](#s3)
+  * [Features](#s3-1)
+  * [Authentication](#s3-2)
+  * [How to include it](#s3-3)
+* [The wrapper](#s4)
+  * [Example](#s4-1)
+  * [Events](#s4-2)
+* [The Vue component](#s5)
+  * [Example](#s5-1)
+  * [Props](#s5-2)
+  * [Slots](#s5-3)
+  * [Events](#s5-4)
+* [Extra](#s6)
+  * [Restrictions with OAuth access tokens](#s6-1)
+  * [Create Nextcloud share links](#s6-2)
+  * [Save downloaded files](#s6-3)
 
-# <a id='s1-1' />Demo
+# <a id='s2' />Demo
 
 * [Example of Vue application using the component](https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html)
 * [Example of simple script using the file picker wrapper](https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/without-vue.html)
 
-# <a id='s1-2' />Intro
+# <a id='s3' />Intro
 
-## <a id='s1-2-1' />Features
+## <a id='s3-1' />Features
 
 This file picker is able to
 
@@ -44,7 +47,7 @@ This file picker is able to
 	* generate a WebDav upload link
 * upload local files
 
-## <a id='s1-2-2' />Authentication
+## <a id='s3-2' />Authentication
 
 🔒 Supported authentication methods are:
 
@@ -56,7 +59,7 @@ This file picker is able to
 
 ⚠ A login is still required if you want to use an OAuth token.
 
-## <a id='s1-2-3' />How to include it
+## <a id='s3-3' />How to include it
 
 There are two ways to include this file picker in your web application:
 
@@ -65,7 +68,7 @@ There are two ways to include this file picker in your web application:
 
 The file picker can optionally show buttons to open it an perform actions. You can also use your own custom elements (anywhere in your application) to trigger the file picker actions.
 
-# <a id='s1-3' />The wrapper
+# <a id='s4' />The wrapper
 
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
@@ -89,7 +92,7 @@ Parameters of `createFilePicker(mountPoint, url, login, password, accessToken, c
 
 Set login and password/accessToken to `null` to let the file picker authenticate through the web login flow and get an app password by itself.
 
-## <a id='s1-3-1' />Example
+## <a id='s4-1' />Example
 
 Here is a minimal example getting files paths and displaying them in the console:
 
@@ -116,7 +119,7 @@ Here is a minimal example getting files paths and displaying them in the console
 </script>
 ```
 
-## <a id='s1-3-2' />Events
+## <a id='s4-2' />Events
 
 Here are the events emitted by the component and the data they provide:
 
@@ -130,7 +133,7 @@ Here are the events emitted by the component and the data they provide:
 * `upload-path-link-generated`: a WebDav upload link
 * `files-uploaded`: `successFiles` and `errorFiles`, arrays of uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 
-# <a id='s1-4' />The Vue component
+# <a id='s5' />The Vue component
 
 Get it from NPM (⚠ **not yet available**):
 ```
@@ -142,7 +145,7 @@ And use it:
 import NcFilePicker from 'nextcloud-webdav-filepicker'
 ```
 
-## <a id='s1-4-1' />Example
+## <a id='s5-1' />Example
 
 Here is a minimal example of a Vue.js app using the file picker:
 ``` vue
@@ -185,7 +188,7 @@ export default {
 </script>
 ```
 
-## <a id='s1-4-2' />Props
+## <a id='s5-2' />Props
 
 ``` javascript
 /* === reactive props === */
@@ -281,7 +284,7 @@ enableUploadFiles: {
 },
 ```
 
-## <a id='s1-4-3' />Slots
+## <a id='s5-3' />Slots
 
 There is a slot for each button that triggers a file picker action:
 
@@ -294,7 +297,7 @@ There is a slot for each button that triggers a file picker action:
 
 The click event is catched by the file picker component, no need to listen to it. So you can put whatever you want in those slots, a click anywhere in the slot will open the file picker just like if the default button was clicked.
 
-## Events
+## <a id='s5-4' />Events
 
 Those events are emitted by the component:
 
@@ -307,14 +310,14 @@ Those events are emitted by the component:
 * get-files-link: webdav download links were generated, `webdavLinks`, `pathList`, `ocsUrl`, `genericShareLink` are provided
 * get-files-path: files were selected, the event provides the paths of selected files
 
-# <a id='s1-5' />Extra
+# <a id='s6' />Extra
 
-## Restrictions with OAuth access tokens
+## <a id='s6-1' />Restrictions with OAuth access tokens
 
 [WebDav client](https://www.npmjs.com/package/webdav) is not able to generate WebDav download/upload links if the authentication is done via Bearer Authorization (if you pass the OAuth token as the `ncAccessToken` prop).
 You can still use an OAuth token to authenticate, just use it like a normal password and pass it as the `ncPassword` prop. As Nextcloud basic auth supports OAuth tokens, everything will work fine.
 
-## <a id='s1-5-1' />Create Nextcloud share links
+## <a id='s6-2' />Create Nextcloud share links
 
 As long as CORS headers can't be changed to allow extra origins (like it's done with WebDav endpoints in WebAppPassword), the browser can't create new share links.
 You can still do it anywhere else, on the server side of your web application for example. The `get-files-link` event provides a share link template and the OCS URL to create such share links. The OCS API endpoint looks like `https://my.nextcloud.org/ocs/v2.php/apps/files_sharing/api/v1/shares`.
@@ -327,6 +330,6 @@ curl -H "OCS-APIRequest: true" -u login:token -X POST -d "path=/path/to/file&sha
 
 This will create and return a share link (shareType=3) with default permissions. The share token can be found in `ocs.data.token` of the JSON response. Then just place the token in the share link template. For example, if `get-files-link` gave you `https://my.nextcloud.org/index.php/s/TOKEN` as share link template and the token of the link you created is `wHx2BteGayciKiA`, then the share link is `https://my.nextcloud.org/index.php/s/wHx2BteGayciKiA`.
 
-## Save downloaded files
+## <a id='s6-3' />Save downloaded files
 
 You can allow users to save the files downloaded by the file picker. As the returned objects are Files (subclass of Blobs), you can use [file-saver](https://www.npmjs.com/package/file-saver) to open a save file dialog and let the browser write the files to local filesystem.
