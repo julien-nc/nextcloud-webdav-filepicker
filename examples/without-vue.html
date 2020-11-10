@@ -53,7 +53,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Tue Nov 10 00:28:40 UTC 2020
+		Generated at Tue Nov 10 01:16:17 UTC 2020
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
@@ -164,12 +164,30 @@
 		document.addEventListener('files-uploaded', (e) => {
 			console.debug('no vue, received "files-uploaded" event')
 			console.debug(e.detail)
-			document.getElementById('results').innerHTML = `These files were uploaded in ${e.detail.targetDir}: <br>`
-			e.detail.files.forEach((f) => {
+			document.getElementById('results').innerHTML = ''
+
+			if (e.detail.successFiles.length > 0) {
 				const p = document.createElement('p')
-				p.textContent = f.name
+				p.textContent = `These files were uploaded in ${e.detail.targetDir}:`
 				document.getElementById('results').appendChild(p)
-			})
+				e.detail.successFiles.forEach((f) => {
+					const p = document.createElement('p')
+					p.textContent = f.name
+					document.getElementById('results').appendChild(p)
+				})
+			}
+
+			if (e.detail.errorFiles.length > 0) {
+				const p = document.createElement('p')
+				p.textContent = '!!! Those files could not be uploaded:'
+				document.getElementById('results').appendChild(p)
+
+				e.detail.errorFiles.forEach((f) => {
+					const p = document.createElement('p')
+					p.textContent = f.name
+					document.getElementById('results').appendChild(p)
+				})
+			}
 		})
 
 		document.addEventListener('files-downloaded', (e) => {
