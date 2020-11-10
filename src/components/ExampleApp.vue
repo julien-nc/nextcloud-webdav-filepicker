@@ -52,7 +52,13 @@
 			@get-save-file-path="onGetSaveFilePath"
 			@upload-path-link-generated="onUploadPathLinkGenerated"
 			@get-files-link="onGetFilesLink"
-			@get-files-path="onGetFilesPath" />
+			@get-files-path="onGetFilesPath">
+			<template #get-files-link>
+				<button style="background-color: #eeffee;">
+					🔗 Custom button passed via a slot, get files links
+				</button>
+			</template>
+		</NcFilePicker>
 		<hr>
 		<p v-for="(line, i) in resultLines" :key="i">
 			{{ line }}
