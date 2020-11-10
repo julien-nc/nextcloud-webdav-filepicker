@@ -67,7 +67,7 @@
 					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading rotate" />
 					<button class="closeButton"
 						:style="cssVars"
-						@click="close" />
+						@click="close(true)" />
 				</div>
 				<div class="bread-container">
 					<Breadcrumbs>
@@ -638,9 +638,12 @@ export default {
 				}
 			}
 		},
-		close() {
+		close(manually = false) {
 			this.isOpen = false
 			this.$emit('closed')
+			if (manually) {
+				this.$emit('manually-closed')
+			}
 		},
 		onElemClick(e) {
 			if (this.loadingDirectory || this.uploadingFiles || this.downloadingFiles) {
