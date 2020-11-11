@@ -313,7 +313,7 @@ Those events are emitted by the component:
 
 # <a id='s6' /> 🔧 More information
 
-## <a id='s6-1' />WebAppPassword app
+## <a id='s6-1' />WebAppPassword app and CORS headers
 
 Nextcloud includes restrictive CORS headers preventing browsers to perform API requests. WebAppPassword app lets Nextcloud admins set a whitelist of allowed origins for WebDav requests. As the file picker will be included in your web application outside of Nextcloud, your website's domain needs to be whilelisted in order to make WebDav requests.
 

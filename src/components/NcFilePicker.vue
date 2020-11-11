@@ -607,6 +607,12 @@ export default {
 			this.isOpen = true
 			this.getFolderContent(true)
 		},
+		onUnauthorized(response) {
+			this.$emit('filepicker-unauthorized', response)
+			const event = new CustomEvent('filepicker-unauthorized', { detail: response })
+			document.dispatchEvent(event)
+			// this.close()
+		},
 		async getFolderContent(updateQuota = false, path = null) {
 			if (path) {
 				this.currentPath = path
@@ -630,6 +636,9 @@ export default {
 					this.connected = true
 				} catch (error) {
 					console.error(error)
+					if (error.response?.status === 401) {
+						this.onUnauthorized(error.response)
+					}
 					this.resetFilePicker()
 				}
 				this.loadingDirectory = false
@@ -783,6 +792,9 @@ export default {
 					this.quota = await this.client.getQuota()
 				} catch (error) {
 					console.error(error)
+					if (error.response?.status === 401) {
+						this.onUnauthorized(error.response)
+					}
 					this.resetFilePicker()
 				}
 			}
@@ -869,6 +881,9 @@ export default {
 					this.downloadProgress = parseInt(totalDownloaded / totalSize * 100)
 				} catch (error) {
 					console.error(error)
+					if (error.response?.status === 401) {
+						this.onUnauthorized(error.response)
+					}
 					this.resetFilePicker()
 					return
 				}
@@ -900,6 +915,9 @@ export default {
 				await this.client.createDirectory(path)
 			} catch (error) {
 				console.error(error)
+				if (error.response?.status === 401) {
+					this.onUnauthorized(error.response)
+				}
 				this.resetFilePicker()
 			}
 		},

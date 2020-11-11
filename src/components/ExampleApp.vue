@@ -48,6 +48,7 @@
 			:picker-mode="pickerMode"
 			:picker-is-open="pickerIsOpen"
 			@closed="onPickerClosed"
+			@filepicker-unauthorized="onUnauthorized"
 			@files-downloaded="onFilesDownloaded"
 			@files-uploaded="onFilesUploaded"
 			@get-save-file-path="onGetSaveFilePath"
@@ -136,6 +137,11 @@ export default {
 		onPickerClosed() {
 			this.pickerIsOpen = false
 			this.pickerMode = null
+		},
+		onUnauthorized(response) {
+			console.debug('File picker failure, received unauthorized response code, check your credentials')
+			console.debug('Response message: ')
+			console.debug(response)
 		},
 		onGetFilesPath(e) {
 			console.debug('something was selected')
