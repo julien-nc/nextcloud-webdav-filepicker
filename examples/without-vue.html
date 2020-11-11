@@ -55,7 +55,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Wed Nov 11 00:51:17 UTC 2020
+		Generated at Wed Nov 11 13:54:24 UTC 2020
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
@@ -124,6 +124,11 @@
 		})
 
 		// events coming from the file picker
+		document.addEventListener('filepicker-unauthorized', (e) => {
+			console.debug('file picker got an unauthorized response')
+			console.debug(e.detail)
+		})
+
 		document.addEventListener('get-files-path', (e) => {
 			console.debug('no vue, received "get-files-path" event')
 			console.debug(e.detail)
