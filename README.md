@@ -21,10 +21,11 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
   * [Props](#s5-2)
   * [Slots](#s5-3)
   * [Events](#s5-4)
-* [ 🔧 Extra](#s6)
-  * [Restrictions with OAuth access tokens](#s6-1)
-  * [Create Nextcloud share links](#s6-2)
-  * [Save downloaded files](#s6-3)
+* [ 🔧 More information](#s6)
+  * [WebAppPassword app](#s6-1)
+  * [Restrictions with OAuth access tokens](#s6-2)
+  * [Create Nextcloud share links](#s6-3)
+  * [Save downloaded files](#s6-4)
 
 # <a id='s2' /> 👀 Demo
 
@@ -310,14 +311,18 @@ Those events are emitted by the component:
 * get-files-link: webdav download links were generated, `webdavLinks`, `pathList`, `ocsUrl`, `genericShareLink` are provided
 * get-files-path: files were selected, the event provides the paths of selected files
 
-# <a id='s6' /> 🔧 Extra
+# <a id='s6' /> 🔧 More information
 
-## <a id='s6-1' />Restrictions with OAuth access tokens
+## <a id='s6-1' />WebAppPassword app
+
+Nextcloud includes restrictive CORS headers preventing browsers to perform API requests. WebAppPassword app lets Nextcloud admins set a whitelist of allowed origins for WebDav requests. As the file picker will be included in your web application outside of Nextcloud, your website's domain needs to be whilelisted in order to make WebDav requests.
+
+## <a id='s6-2' />Restrictions with OAuth access tokens
 
 [WebDav client](https://www.npmjs.com/package/webdav) is not able to generate WebDav download/upload links if the authentication is done via Bearer Authorization (if you pass the OAuth token as the `ncAccessToken` prop).
 You can still use an OAuth token to authenticate, just use it like a normal password and pass it as the `ncPassword` prop. As Nextcloud basic auth supports OAuth tokens, everything will work fine.
 
-## <a id='s6-2' />Create Nextcloud share links
+## <a id='s6-3' />Create Nextcloud share links
 
 As long as CORS headers can't be changed to allow extra origins (like it's done with WebDav endpoints in WebAppPassword), the browser can't create new share links.
 You can still do it anywhere else, on the server side of your web application for example. The `get-files-link` event provides a share link template and the OCS URL to create such share links. The OCS API endpoint looks like `https://my.nextcloud.org/ocs/v2.php/apps/files_sharing/api/v1/shares`.
@@ -330,6 +335,6 @@ curl -H "OCS-APIRequest: true" -u login:token -X POST -d "path=/path/to/file&sha
 
 This will create and return a share link (shareType=3) with default permissions. The share token can be found in `ocs.data.token` of the JSON response. Then just place the token in the share link template. For example, if `get-files-link` gave you `https://my.nextcloud.org/index.php/s/TOKEN` as share link template and the token of the link you created is `wHx2BteGayciKiA`, then the share link is `https://my.nextcloud.org/index.php/s/wHx2BteGayciKiA`.
 
-## <a id='s6-3' />Save downloaded files
+## <a id='s6-4' />Save downloaded files
 
 You can allow users to save the files downloaded by the file picker. As the returned objects are Files (subclass of Blobs), you can use [file-saver](https://www.npmjs.com/package/file-saver) to open a save file dialog and let the browser write the files to local filesystem.
