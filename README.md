@@ -111,8 +111,8 @@ Here is a minimal example getting files paths and displaying them in the console
 		// listen to events coming from the component
 		document.addEventListener('get-files-path', (e) => {
 			console.debug('received "get-files-path" event')
-			console.debug(e.detail)
-			e.detail.forEach((path) => {
+			console.debug(e.detail.selection)
+			e.detail.selection.forEach((path) => {
 				console.debug(path)
 			})
 		})
@@ -122,17 +122,29 @@ Here is a minimal example getting files paths and displaying them in the console
 
 ## <a id='s4-2' />Events
 
-Here are the events emitted by the component and the data they provide:
+Here are the events emitted by the component and the data they provide in the `detail` attribute:
 
-* `get-files-path`: an array of file paths
-* `files-downloaded`: `successFiles` and `errorFiles`, arrays of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
-* `get-files-link`:
+* `filepicker-unauthorized`: when a WebDav request faced a 401 response code
+	* `response`: the response object
+* `get-files-path`: files were selected
+	* `selection`: an array of file paths
+* `files-downloaded`: files were downloaded
+	* `successFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `errorFilePaths` array of path
+* `get-files-link`: links were generated
 	* `webdavLinks` an array of Webdav download links
 	* `pathList` list of selected paths
 	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
-* `get-save-file-path`: the path of the selected target directory
-* `upload-path-link-generated`: a WebDav upload link
-* `files-uploaded`: `successFiles` and `errorFiles`, arrays of uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `genericShareLink` an example of share link with "TOKEN" as the token value
+* `get-save-file-path`: a target directory was selected
+	* `path` the path of the selected target directory
+* `upload-path-link-generated`: WebDav upload link was generated
+	* `link` a WebDav upload link
+	* `targetDir` the target directory path
+* `files-uploaded`:
+	* `successFiles` array of successfully uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `errorFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `targetDir` the target directory path
 
 # <a id='s5' /> 🇻 The Vue component
 
@@ -180,9 +192,9 @@ export default {
 	},
 
 	methods: {
-		onGetFilesPath(pathList) {
+		onGetFilesPath(detail) {
 			console.debug('files were selected')
-			console.debug(pathList)
+			console.debug(detail.selection)
 		},
 	},
 }
@@ -300,16 +312,31 @@ The click event is catched by the file picker component, no need to listen to it
 
 ## <a id='s5-4' />Events
 
-Those events are emitted by the component:
+Those events are emitted by the component and the data included in the associated object:
 
-* closed: when the file picker is closed, whatever the reason
-* manually-closed: when the user closes the file picker with the top right close icon
-* files-downloaded: files were downloaded, provides a list of File objects
-* files-uploaded: files were uploaded, provides a list of successfully uploaded files and another one which contains the ones that couldn't be uploaded
-* get-save-file-path: a target directory was selected, its path is provided by the event
-* upload-path-link-generated: a webdav upload link was generated, `targetDir` and `link` are provided
-* get-files-link: webdav download links were generated, `webdavLinks`, `pathList`, `ocsUrl`, `genericShareLink` are provided
-* get-files-path: files were selected, the event provides the paths of selected files
+* `closed`: when the file picker is closed, whatever the reason (no associated data)
+* `manually-closed`: when the user closes the file picker with the top right close icon (no associated data)
+* `filepicker-unauthorized`: when a WebDav request faced a 401 response code
+	* `response`: the response object
+* `get-files-path`: files were selected
+	* `selection`: an array of file paths
+* `files-downloaded`: files were downloaded
+	* `successFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `errorFilePaths` array of path
+* `get-files-link`: links were generated
+	* `webdavLinks` an array of Webdav download links
+	* `pathList` list of selected paths
+	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
+	* `genericShareLink` an example of share link with "TOKEN" as the token value
+* `get-save-file-path`: a target directory was selected
+	* `path` the path of the selected target directory
+* `upload-path-link-generated`: WebDav upload link was generated
+	* `link` a WebDav upload link
+	* `targetDir` the target directory path
+* `files-uploaded`:
+	* `successFiles` array of successfully uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `errorFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* `targetDir` the target directory path
 
 # <a id='s6' /> 🔧 More information
 

@@ -133,7 +133,7 @@
 			console.debug('no vue, received "get-files-path" event')
 			console.debug(e.detail)
 			document.getElementById('results').innerHTML = 'Path of selected files:'
-			e.detail.forEach((path) => {
+			e.detail.selection.forEach((path) => {
 				const p = document.createElement('p')
 				p.textContent = path
 				document.getElementById('results').appendChild(p)
@@ -143,7 +143,7 @@
 		document.addEventListener('get-save-file-path', (e) => {
 			console.debug('no vue, received "get-save-file-path" event')
 			console.debug(e.detail)
-			document.getElementById('results').innerHTML = `Selected target directory: ${e.detail}`
+			document.getElementById('results').innerHTML = `Selected target directory: ${e.detail.path}`
 		})
 
 		document.addEventListener('upload-path-link-generated', (e) => {
@@ -212,7 +212,9 @@
 		})
 
 		document.addEventListener('files-downloaded', (e) => {
-			const files = e.detail
+			console.debug('download errors')
+			console.debug(e.detail.errorFilePaths)
+			const files = e.detail.successFiles
 			console.debug('no vue, something was downloaded')
 			document.getElementById('results').innerHTML = 'Downloaded files: <br>'
 			files.forEach(file => {

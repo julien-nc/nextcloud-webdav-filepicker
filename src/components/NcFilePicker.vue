@@ -608,8 +608,9 @@ export default {
 			this.getFolderContent(true)
 		},
 		onUnauthorized(response) {
-			this.$emit('filepicker-unauthorized', response)
-			const event = new CustomEvent('filepicker-unauthorized', { detail: response })
+			const detail = { response }
+			this.$emit('filepicker-unauthorized', detail)
+			const event = new CustomEvent('filepicker-unauthorized', { detail })
 			document.dispatchEvent(event)
 			// this.close()
 		},
@@ -694,10 +695,11 @@ export default {
 			} else if (this.mode === 'getFilesPath') {
 				console.debug('get file path in ' + this.currentPath)
 				// const downloadLink = this.client.getFileDownloadLink(element)
+				const detail = { selection: this.selection }
 				// for parent component
-				this.$emit('get-files-path', this.selection)
+				this.$emit('get-files-path', detail)
 				// for potential global listener
-				const event = new CustomEvent('get-files-path', { detail: this.selection })
+				const event = new CustomEvent('get-files-path', { detail })
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
@@ -715,17 +717,16 @@ export default {
 					})
 					const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
 					const genericShareLink = this.url + '/index.php/s/TOKEN'
+					const detail = {
+						webdavLinks,
+						pathList: this.selection,
+						ocsUrl,
+						genericShareLink,
+					}
 					// for parent component
-					this.$emit('get-files-link', webdavLinks, this.selection, ocsUrl, genericShareLink)
+					this.$emit('get-files-link', detail)
 					// for potential global listener
-					const event = new CustomEvent('get-files-link', {
-						detail: {
-							webdavLinks,
-							pathList: this.selection,
-							ocsUrl,
-							genericShareLink,
-						},
-					})
+					const event = new CustomEvent('get-files-link', { detail })
 					document.dispatchEvent(event)
 				} catch (error) {
 					console.error('Impossible to generate download links')
@@ -733,10 +734,11 @@ export default {
 				this.close()
 			} else if (this.mode === 'getSaveFilePath') {
 				console.debug('user wants to save in ' + this.currentPath)
+				const detail = { path: this.currentPath }
 				// for parent component
-				this.$emit('get-save-file-path', this.currentPath)
+				this.$emit('get-save-file-path', detail)
 				// for potential global listener
-				const event = new CustomEvent('get-save-file-path', { detail: this.currentPath })
+				const event = new CustomEvent('get-save-file-path', { detail })
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getUploadFileLink') {
@@ -749,15 +751,14 @@ export default {
 				const uploadPath = this.currentPath + '/file.txt'
 				try {
 					const uploadLink = this.client.getFileUploadLink(uploadPath)
+					const detail = {
+						link: uploadLink,
+						targetDir: this.currentPath,
+					}
 					// for parent component
-					this.$emit('upload-path-link-generated', this.currentPath, uploadLink)
+					this.$emit('upload-path-link-generated', detail)
 					// for potential global listener
-					const event = new CustomEvent('upload-path-link-generated', {
-						detail: {
-							link: uploadLink,
-							targetDir: this.currentPath,
-						},
-					})
+					const event = new CustomEvent('upload-path-link-generated', { detail })
 					document.dispatchEvent(event)
 				} catch (error) {
 					console.error('Impossible to generate upload link')
@@ -841,16 +842,15 @@ export default {
 				this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
 				this.getFolderContent()
 			}
+			const detail = {
+				targetDir: this.currentPath,
+				successFiles,
+				errorFiles,
+			}
 			// for parent component
-			this.$emit('files-uploaded', this.currentPath, successFiles, errorFiles)
+			this.$emit('files-uploaded', detail)
 			// for potential global listener
-			const event = new CustomEvent('files-uploaded', {
-				detail: {
-					targetDir: this.currentPath,
-					successFiles,
-					errorFiles,
-				},
-			})
+			const event = new CustomEvent('files-uploaded', { detail })
 			document.dispatchEvent(event)
 
 			this.uploadingFiles = false
@@ -862,6 +862,7 @@ export default {
 			this.downloadingFiles = true
 			this.downloadProgress = 0
 			const results = []
+			const errorFilePaths = []
 			let totalSize = 0
 			let totalDownloaded = 0
 			for (let i = 0; i < this.selection.length; i++) {
@@ -883,15 +884,21 @@ export default {
 					console.error(error)
 					if (error.response?.status === 401) {
 						this.onUnauthorized(error.response)
+						this.resetFilePicker()
+						return
 					}
-					this.resetFilePicker()
-					return
+					errorFilePaths.push(filepath)
+					continue
 				}
 			}
+			const detail = {
+				successFiles: results,
+				errorFilePaths,
+			}
 			// for parent component
-			this.$emit('files-downloaded', results)
+			this.$emit('files-downloaded', detail)
 			// for potential global listener
-			const event = new CustomEvent('files-downloaded', { detail: results })
+			const event = new CustomEvent('files-downloaded', { detail })
 			document.dispatchEvent(event)
 			this.close()
 			this.downloadingFiles = false

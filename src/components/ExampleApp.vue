@@ -138,67 +138,69 @@ export default {
 			this.pickerIsOpen = false
 			this.pickerMode = null
 		},
-		onUnauthorized(response) {
+		onUnauthorized(detail) {
 			console.debug('File picker failure, received unauthorized response code, check your credentials')
 			console.debug('Response message: ')
-			console.debug(response)
+			console.debug(detail.response)
 		},
-		onGetFilesPath(e) {
+		onGetFilesPath(detail) {
 			console.debug('something was selected')
-			console.debug(e)
+			console.debug(detail)
 			this.resultLines = ['File paths:']
-			e.forEach((l) => {
+			detail.selection.forEach((l) => {
 				this.resultLines.push(l)
 			})
 		},
-		onGetFilesLink(webdavLinks, pathList, ocsUrl, genericShareLink) {
+		onGetFilesLink(detail) {
 			console.debug('links were generated')
-			console.debug(webdavLinks)
+			console.debug(detail)
 			this.resultLines = ['File links:']
-			webdavLinks.forEach((l) => {
+			detail.webdavLinks.forEach((l) => {
 				this.resultLines.push(l)
 			})
 			this.resultLines.push('Path list:')
-			pathList.forEach((path) => {
+			detail.pathList.forEach((path) => {
 				this.resultLines.push(path)
 			})
 			this.resultLines.push('OCS URL:')
-			this.resultLines.push(ocsUrl)
+			this.resultLines.push(detail.ocsUrl)
 			this.resultLines.push('Share link template:')
-			this.resultLines.push(genericShareLink)
+			this.resultLines.push(detail.genericShareLink)
 		},
-		onGetSaveFilePath(e) {
+		onGetSaveFilePath(detail) {
 			console.debug('This target directory was selected')
-			console.debug(e)
-			this.resultLines = ['This target directory was selected:', e]
+			console.debug(detail)
+			this.resultLines = ['This target directory was selected:', detail.path]
 		},
-		onUploadPathLinkGenerated(targetDir, link) {
+		onUploadPathLinkGenerated(detail) {
 			console.debug('This upload link was generated')
-			console.debug(link)
-			this.resultLines = [`Upload link to ${targetDir}:`, link]
+			console.debug(detail.link)
+			this.resultLines = [`Upload link to ${detail.targetDir}:`, detail.link]
 		},
-		onFilesUploaded(targetDir, successFiles, errorFiles) {
+		onFilesUploaded(detail) {
 			console.debug('Files were uploaded')
-			console.debug(successFiles)
-			console.debug(errorFiles)
+			console.debug(detail.successFiles)
+			console.debug(detail.errorFiles)
 			this.resultLines = []
-			if (successFiles.length > 0) {
-				this.resultLines.push(`These files were uploaded in ${targetDir}:`)
-				successFiles.forEach(file => {
+			if (detail.successFiles.length > 0) {
+				this.resultLines.push(`These files were uploaded in ${detail.targetDir}:`)
+				detail.successFiles.forEach(file => {
 					this.resultLines.push(file.name)
 				})
 			}
-			if (errorFiles.length > 0) {
+			if (detail.errorFiles.length > 0) {
 				this.resultLines.push('!!! Those files could not be uploaded:')
-				errorFiles.forEach(file => {
+				detail.errorFiles.forEach(file => {
 					this.resultLines.push(file.name)
 				})
 			}
 		},
-		onFilesDownloaded(files) {
+		onFilesDownloaded(detail) {
 			console.debug('something was downloaded')
+			console.debug('failures')
+			console.debug(detail.errorFilePaths)
 			this.resultLines = ['Downloaded files:']
-			files.forEach(file => {
+			detail.successFiles.forEach(file => {
 				console.debug('File : ' + file.name)
 				console.debug(file)
 				const reader = new FileReader()
