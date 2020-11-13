@@ -75,48 +75,15 @@
 						:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
 						@hash-changed="onBreadcrumbChange" />
 				</div>
-				<v-table v-if="connected && currentElements.length > 0"
-					id="element-table"
+				<FileBrowser v-if="connected && currentElements.length > 0"
+					:elements="sortedCurrentElements"
+					:forced-selection="browserSelection"
+					:can-select-files="['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(mode)"
+					:multiple-select="multipleDownload"
+					:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
 					:style="cssVars"
-					:data="sortedCurrentElements">
-					<thead slot="head">
-						<th style="width: 10%;" />
-						<v-th sort-key="basename" style="width: 50%;">
-							{{ t('filepicker', 'Name') }}
-						</v-th>
-						<v-th sort-key="size" style="width: 15%;">
-							{{ t('filepicker', 'Size') }}
-						</v-th>
-						<v-th sort-key="lastmod_ts" style="width: 25%;">
-							{{ t('filepicker', 'Modified') }}
-						</v-th>
-					</thead>
-					<tbody slot="body" slot-scope="{displayData}">
-						<tr v-for="value in displayData"
-							:key="value.filename"
-							:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
-							@click="onElemClick(value)">
-							<td>
-								<span :class="{ icon: true, ...getElemTypeClass(value) }" />
-							</td>
-							<td :style="''">
-								<div>
-									{{ value.basename }}
-								</div>
-							</td>
-							<td :style="''">
-								<div>
-									{{ myHumanFileSize(value.size, true) }}
-								</div>
-							</td>
-							<td :style="''">
-								<div>
-									{{ lastModFormat(value.lastmod_ts) }}
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</v-table>
+					@folder-clicked="onFolderClicked"
+					@selection-changed="onSelectionChanged" />
 				<EmptyContent v-else-if="connected"
 					icon="icon-folder"
 					class="empty-content"
@@ -201,14 +168,13 @@ import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
+import FileBrowser from './FileBrowser'
 import { humanFileSize, colorOpacity, colorLuminance } from '../utils'
 import ProgressBar from 'vue-simple-progress'
 import '../../css/filepicker.scss'
 
 import Vue from 'vue'
-import SmartTable from 'vuejs-smart-table'
 import { VTooltip } from 'v-tooltip'
-Vue.use(SmartTable)
 Vue.directive('tooltip', VTooltip)
 
 export default {
@@ -219,6 +185,7 @@ export default {
 		ProgressBar,
 		EmptyContent,
 		PickerBreadcrumbs,
+		FileBrowser,
 	},
 
 	props: {
@@ -331,6 +298,7 @@ export default {
 			currentElementsByPath: {},
 			currentPath: '/',
 			selection: [],
+			browserSelection: [],
 			quota: null,
 			loadingDirectory: false,
 			uploadingFiles: false,
@@ -649,30 +617,15 @@ export default {
 				this.$emit('manually-closed')
 			}
 		},
-		onElemClick(e) {
-			if (this.loadingDirectory || this.uploadingFiles || this.downloadingFiles) {
-				return
-			}
-			if (e.type === 'directory') {
-				this.getFolderContent(false, e.filename)
-			} else if (!['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
-				if (this.multipleDownload) {
-					if (this.selection.includes(e.filename)) {
-						this.selection.splice(this.selection.indexOf(e.filename), 1)
-					} else {
-						this.selection.push(e.filename)
-					}
-				} else {
-					if (this.selection.includes(e.filename)) {
-						this.selection = []
-					} else {
-						this.selection = [e.filename]
-					}
-				}
-			}
+		onFolderClicked(path) {
+			this.getFolderContent(false, path)
+		},
+		onSelectionChanged(selection) {
+			this.selection = selection
 		},
 		selectNone() {
 			this.selection = []
+			this.browserSelection = []
 		},
 		selectAll() {
 			this.currentElements.forEach((e) => {
@@ -680,6 +633,7 @@ export default {
 					this.selection.push(e.filename)
 				}
 			})
+			this.browserSelection = this.selection
 		},
 		onBreadcrumbChange(path) {
 			this.getFolderContent(false, path)
@@ -932,41 +886,6 @@ export default {
 		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
 			return humanFileSize(bytes, approx, si, dp)
 		},
-		lastModFormat(ts) {
-			return moment.unix(ts).format('L HH:mm:ss')
-		},
-		isSelectable(elem) {
-			return elem.type === 'directory' || ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)
-		},
-		getElemTypeClass(elem) {
-			if (elem.type === 'directory') {
-				return { 'icon-folder': true }
-			} else {
-				const mime = elem.mime
-				if (mime.match(/^video\//)) {
-					return { 'icon-video': true }
-				} else if (mime === 'text/calendar') {
-					return { 'icon-calendar': true }
-				} else if (mime === 'text/csv' || mime.match(/^application\/.*opendocument\.spreadsheet$/) || mime.match(/^application\/.*office.*sheet$/)) {
-					return { 'icon-spreadsheet': true }
-				} else if (mime.match(/^text\//)) {
-					return { 'icon-text': true }
-				} else if (mime.match(/^application\/pdf$/)) {
-					return { 'icon-pdf': true }
-				} else if (mime.match(/^application\/gpx/)) {
-					return { 'icon-location': true }
-				} else if (mime.match(/^image\//)) {
-					return { 'icon-picture': true }
-				} else if (mime.match(/^audio\//)) {
-					return { 'icon-audio': true }
-				} else if (mime.match(/^application\/.*opendocument\.text$/) || mime.match(/^application\/.*word.*document$/)) {
-					return { 'icon-office-document': true }
-				} else if (mime.match(/^application\/.*opendocument\.presentation$/) || mime.match(/^application\/.*office.*presentation$/)) {
-					return { 'icon-office-presentation': true }
-				}
-				return { 'icon-file': true }
-			}
-		},
 	},
 }
 </script>
@@ -1107,94 +1026,9 @@ export default {
 		-webkit-mask-position: center;
 		background-color: var(--main-color, grey);
 	}
-	.icon-file {
-		background-image: url('./../../img/file.svg');
-	}
-	.icon-video {
-		background-image: url('./../../img/video.svg');
-	}
-	.icon-audio {
-		background-image: url('./../../img/audio.svg');
-	}
-	.icon-calendar {
-		background-image: url('./../../img/calendar.svg');
-		opacity: 0.4;
-	}
-	.icon-text {
-		background-image: url('./../../img/text.svg');
-	}
-	.icon-spreadsheet {
-		background-image: url('./../../img/spreadsheet.svg');
-	}
-	.icon-location {
-		background-image: url('./../../img/location.svg');
-	}
-	.icon-picture {
-		background-image: url('./../../img/picture.svg');
-		opacity: 0.4;
-	}
-	.icon-pdf {
-		background-image: url('./../../img/pdf.svg');
-	}
-	.icon-office-document {
-		background-image: url('./../../img/office-document.svg');
-	}
-	.icon-office-presentation {
-		background-image: url('./../../img/office-presentation.svg');
-	}
 	.icon-disabled-user {
 		background-image: url('./../../img/disabled-user.svg');
 		opacity: 0.4;
-	}
-
-	#element-table {
-		width: 100%;
-		height: 100%;
-		overflow: scroll;
-		scrollbar-color: var(--main-color-lighter) transparent;
-		scrollbar-width: thin;
-		display: block;
-		border-spacing: 0;
-		padding: 10px 0 10px 0;
-
-		.icon {
-			width: 100px;
-			height: 50px;
-			background-repeat: no-repeat;
-			background-size: 30px;
-			background-position: center;
-		}
-
-		th {
-			text-align: left;
-			height: 50px;
-		}
-
-		tr:not(:first-child) td {
-			border-top: 1px solid #e3e3e3;
-		}
-
-		tr:not(.selectable) {
-			opacity: 30%;
-		}
-
-		tr.selectable {
-			&.selected:hover {
-				background-color: var(--main-color-light);
-			}
-
-			&.selected {
-				background-color: var(--main-color-lighter);
-			}
-
-			&:hover {
-				background-color: #e3e3e3;
-			}
-		}
-
-		td {
-			border: 0;
-		}
 	}
 
 	#validate {
