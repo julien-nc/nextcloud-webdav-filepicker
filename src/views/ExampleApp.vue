@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import NcFilePicker from './NcFilePicker'
+import NcFilePicker from '../components/NcFilePicker'
 
 export default {
 	name: 'ExampleApp',

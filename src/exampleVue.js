@@ -13,7 +13,7 @@
 
 import Vue from 'vue'
 import './bootstrap'
-import ExampleApp from './components/ExampleApp'
+import ExampleApp from './views/ExampleApp'
 
 // eslint-disable-next-line
 'use strict'

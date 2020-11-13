@@ -70,13 +70,10 @@
 						@click="close(true)" />
 				</div>
 				<div class="bread-container">
-					<Breadcrumbs>
-						<Breadcrumb title="Home" href="#/" />
-						<Breadcrumb v-for="p in currentPathParts"
-							:key="p.path"
-							:title="p.name"
-							:href="'#' + p.path" />
-					</Breadcrumbs>
+					<PickerBreadcrumbs
+						:parts="currentPathParts"
+						:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
+						@hash-changed="onBreadcrumbChange" />
 				</div>
 				<v-table v-if="connected && currentElements.length > 0"
 					id="element-table"
@@ -203,9 +200,8 @@ import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
-import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
-import { addCustomEventListener, humanFileSize, colorOpacity, colorLuminance } from '../utils'
+import PickerBreadcrumbs from './PickerBreadcrumbs'
+import { humanFileSize, colorOpacity, colorLuminance } from '../utils'
 import ProgressBar from 'vue-simple-progress'
 import '../../css/filepicker.scss'
 
@@ -220,10 +216,9 @@ export default {
 
 	components: {
 		Modal,
-		Breadcrumb,
-		Breadcrumbs,
 		ProgressBar,
 		EmptyContent,
+		PickerBreadcrumbs,
 	},
 
 	props: {
@@ -497,7 +492,6 @@ export default {
 	},
 
 	mounted() {
-		addCustomEventListener('.crumb a', 'click', this.hashChange)
 	},
 
 	methods: {
@@ -686,6 +680,9 @@ export default {
 					this.selection.push(e.filename)
 				}
 			})
+		},
+		onBreadcrumbChange(path) {
+			this.getFolderContent(false, path)
 		},
 		onValidate() {
 			if (this.mode === 'uploadFiles') {
@@ -928,15 +925,6 @@ export default {
 				this.resetFilePicker()
 			}
 		},
-		hashChange(event, elem) {
-			event.preventDefault()
-			event.stopPropagation()
-			if (this.loadingDirectory || this.uploadingFiles || this.downloadingFiles) {
-				return
-			}
-			const path = elem.getAttribute('href').replace('#', '')
-			this.getFolderContent(false, path)
-		},
 		onFileInputChange(e) {
 			this.filesToUpload = [...this.$refs.myFiles.files]
 			this.uploadFiles()
@@ -1091,27 +1079,6 @@ export default {
 			position: relative;
 			bottom: -5px;
 		}
-
-		.breadcrumb {
-			.crumb {
-				>a {
-					padding: 12px;
-					text-decoration: none;
-					color: grey;
-				}
-
-				.icon {
-					margin-top: -6px;
-					top: 2px;
-					position: relative;
-					opacity: 0.4;
-				}
-
-				&::before {
-					color: #dbdbdb;
-				}
-			}
-		}
 	}
 
 	.icon {
@@ -1130,9 +1097,6 @@ export default {
 	}
 	.icon-checkmark {
 		background-image: url('./../../img/checkmark.svg');
-	}
-	.icon-home {
-		background-image: url('./../../img/home.svg');
 	}
 	.icon-folder {
 		mask: url('./../../img/folder.svg') no-repeat;
