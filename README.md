@@ -71,6 +71,16 @@ The file picker can optionally show buttons to open it an perform actions. You c
 
 # <a id='s4' /> ✨ The wrapper
 
+Get it from NPM (⚠ **not available yet**):
+```
+npm install @nextcloud/webdav-filepicker
+```
+
+And use it:
+```
+import '@nextcloud/webdav-filepicker/js/filePickerWrapper'
+```
+
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
 
@@ -148,14 +158,14 @@ Here are the events emitted by the component and the data they provide in the `d
 
 # <a id='s5' /> 🇻 The Vue component
 
-Get it from NPM (⚠ **not yet available**):
+Get it from NPM (⚠ **not available yet**):
 ```
-npm install nextcloud-webdav-filepicker
+npm install @nextcloud/webdav-filepicker
 ```
 
 And use it:
 ```
-import NcFilePicker from 'nextcloud-webdav-filepicker'
+import NcFilePicker from '@nextcloud/webdav-filepicker'
 ```
 
 ## <a id='s5-1' />Example

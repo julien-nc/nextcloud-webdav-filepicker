@@ -82,13 +82,13 @@
 					<thead slot="head">
 						<th style="width: 10%;" />
 						<v-th sort-key="basename" style="width: 50%;">
-							Name
+							{{ t('filepicker', 'Name') }}
 						</v-th>
 						<v-th sort-key="size" style="width: 15%;">
-							Size
+							{{ t('filepicker', 'Size') }}
 						</v-th>
 						<v-th sort-key="lastmod_ts" style="width: 25%;">
-							Modified
+							{{ t('filepicker', 'Modified') }}
 						</v-th>
 					</thead>
 					<tbody slot="body" slot-scope="{displayData}">
