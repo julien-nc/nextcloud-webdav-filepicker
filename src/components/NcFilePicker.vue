@@ -5,7 +5,7 @@
 				<slot name="get-files-path">
 					<button>
 						<span class="icon icon-download" />
-						Get files path
+						{{ gt.gettext('Get files path') }}
 					</button>
 				</slot>
 			</div>
@@ -13,7 +13,7 @@
 				<slot name="get-files-link">
 					<button>
 						<span class="icon icon-public" />
-						Get files link
+						{{ gt.gettext('Get files link') }}
 					</button>
 				</slot>
 			</div>
@@ -21,7 +21,7 @@
 				<slot name="download-files">
 					<button>
 						<span class="icon icon-download" />
-						Download files
+						{{ gt.gettext('Download files') }}
 					</button>
 				</slot>
 			</div>
@@ -29,7 +29,7 @@
 				<slot name="get-save-file-path">
 					<button>
 						<span class="icon icon-upload" />
-						Get save file path
+						{{ gt.gettext('Get save file path') }}
 					</button>
 				</slot>
 			</div>
@@ -37,7 +37,7 @@
 				<slot name="get-upload-fileLink">
 					<button>
 						<span class="icon icon-upload" />
-						Get file upload link
+						{{ gt.gettext('Get file upload link') }}
 					</button>
 				</slot>
 			</div>
@@ -45,7 +45,7 @@
 				<slot name="open-file-input">
 					<button>
 						<span class="icon icon-upload" />
-						Upload files
+						{{ gt.gettext('Upload files') }}
 					</button>
 				</slot>
 			</div>
@@ -88,10 +88,10 @@
 					icon="icon-folder"
 					class="empty-content"
 					:style="cssVars">
-					This directory is empty
+					{{ gt.gettext('This directory is empty') }}
 				</EmptyContent>
 				<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
-					File picker is not connected
+					{{ gt.gettext('File picker is not connected') }}
 				</EmptyContent>
 
 				<ProgressBar v-if="uploadingFiles"
@@ -114,7 +114,7 @@
 					<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 						class="newDirectory">
 						<button v-if="!namingNewDirectory"
-							v-tooltip.top="{ content: t('filepicker', 'Create new directory') }"
+							v-tooltip.top="{ content: gt.gettext('Create new directory') }"
 							class="newDirectoryButton"
 							@click="onCreateDirectory">
 							<span class="icon icon-add" />
@@ -123,17 +123,17 @@
 							class="newDirectoryForm">
 							<input v-model="newDirectoryName"
 								type="text"
-								placeholder="New directory name"
+								:placeholder="gt.gettext('New directory name')"
 								@keyup.escape="onCancelNewDirectory"
 								@keyup.enter="createDirectory">
 							<button
-								v-tooltip.top="{ content: t('filepicker', 'Cancel') }"
+								v-tooltip.top="{ content: gt.gettext('Cancel') }"
 								class="newDirectoryButton"
 								@click="onCancelNewDirectory">
 								<span class="icon icon-history" />
 							</button>
 							<button
-								v-tooltip.top="{ content: t('filepicker', 'Ok') }"
+								v-tooltip.top="{ content: gt.gettext('Ok') }"
 								class="newDirectoryButton"
 								@click="createDirectory">
 								<span class="icon icon-checkmark" />
@@ -142,11 +142,11 @@
 					</div>
 					<button v-if="showSelectNone"
 						@click="selectNone">
-						Select none
+						{{ gt.gettext('Select none') }}
 					</button>
 					<button v-if="showSelectAll"
 						@click="selectAll">
-						Select all
+						{{ gt.gettext('Select all') }}
 					</button>
 
 					<button v-if="connected && canValidate"
@@ -165,6 +165,7 @@ import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
 import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
+import { getGettextBuilder } from '@nextcloud/l10n/dist/gettext'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
@@ -313,6 +314,8 @@ export default {
 			mode: '',
 			loginWindow: null,
 			filesToUpload: [],
+			// translations
+			gt: null,
 		}
 	},
 
@@ -347,9 +350,9 @@ export default {
 		modalTitle() {
 			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
 				if (this.multipleDownload) {
-					return this.getTitle || 'Select one or multiple files'
+					return this.getTitle || this.gt.gettext('Select one or multiple files')
 				} else {
-					return this.getTitle || 'Select a file'
+					return this.getTitle || this.gt.gettext('Select a file')
 				}
 			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
 				return this.putTitle || 'Save to'
@@ -395,22 +398,22 @@ export default {
 				const used = parseInt(this.quota.used)
 				return !isNaN(used)
 					? (!isNaN(available) && available !== 0)
-						? this.myHumanFileSize(used, true) + ' used (' + this.quotaPercent + ' % of ' + this.myHumanFileSize(available, true) + ')'
-						: this.myHumanFileSize(used, true) + ' used (' + this.quotaPercent + ' %)'
-					: t('filepicker', 'invalid quota used')
+						? this.gt.gettext('{size} used ({percent} % of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
+						: this.gt.gettext('{size} used', { size: this.myHumanFileSize(used, true) })
+					: this.gt.gettext('invalid quota used')
 			} else {
-				return t('filepicker', 'invalid quota')
+				return this.gt.gettext('invalid quota')
 			}
 		},
 		validateButtonText() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
 				const nbSelected = this.selection.length
-				return `Get ${nbSelected} selected files`
+				return this.gt.ngettext('Get {nbSelected} selected file', 'Get {nbSelected} selected files', nbSelected, { nbSelected })
 			} else if (['getSaveFilePath', 'getUploadFileLink'].includes(this.mode)) {
-				return `Save to ${basename(this.currentPath) || '/'}`
+				return this.gt.gettext('Save to {path}', { path: basename(this.currentPath) || '/' })
 			} else if (['uploadFiles'].includes(this.mode)) {
 				const nbToUpload = this.filesToUpload.length
-				return `Upload ${nbToUpload} files to ${basename(this.currentPath) || '/'}`
+				return this.gt.ngettext('Upload {nbToUpload} file to {path}', 'Upload {nbToUpload} files to {path}', nbToUpload, { nbToUpload, path: basename(this.currentPath) || '/' })
 			}
 			return ''
 		},
@@ -460,6 +463,13 @@ export default {
 	},
 
 	mounted() {
+		const lang = 'fr'
+		const po = '../../translationfiles/fr_FR/filepicker.po'
+
+		this.gt = getGettextBuilder()
+			.detectLocale()
+			.addTranslation(lang, po)
+			.build()
 	},
 
 	methods: {

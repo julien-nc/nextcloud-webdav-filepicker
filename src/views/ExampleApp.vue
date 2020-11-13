@@ -44,6 +44,8 @@
 			:nc-login="login"
 			:nc-password="password"
 			:nc-access-token="accessToken"
+			:multipleUpload="true"
+			:multipleDownload="true"
 			:theme-color="color"
 			:picker-mode="pickerMode"
 			:picker-is-open="pickerIsOpen"
