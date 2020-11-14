@@ -41,15 +41,15 @@ See how to [pass GET parameters](#demo-pages-get-parameters)
 
 This file picker is able to
 
-* select multiple files and:
-	* get their path
-	* download them as [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
-	* generate WebDav download links
-	* help you to easily generate Nextcloud share links
-* select a target directory and:
-	* get its path
-	* generate a WebDav upload link
-* upload local files
+* Select multiple files and:
+	* Get their path
+	* Download them as [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
+	* Generate WebDav download links
+	* Help you to easily generate Nextcloud share links
+* Select a target directory and:
+	* Get its path
+	* Generate a WebDav upload link
+* Upload local files
 
 ## <a id='s3-2' />Authentication
 
