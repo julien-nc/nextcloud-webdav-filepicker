@@ -37,6 +37,9 @@
 		<h3>Theme color</h3>
 		<label for="color">Main file picker color</label>
 		<input id="color" type="color" value="#0082c9">
+		<br>
+		<label for="darkmode">Dark mode</label>
+		<input id="darkmode" type="checkbox">
 		<h3>Custom button which calls the "getFilesPath" method</h3>
 		<button id="selectButton">My custom button to select files</button>
 		<h3>
@@ -55,7 +58,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Sat Nov 14 02:28:14 UTC 2020
+		Generated at Sat Nov 14 15:13:09 UTC 2020
 	</footer>
 </body>
 <script src="../js/filePickerWrapper.js"></script>
@@ -86,16 +89,21 @@
 		if (color) {
 			document.getElementById('color').value = '#' + color
 		}
+		const darkmode = params.get('darkmode')
+		if (darkmode) {
+			document.getElementById('darkmode').checked = darkmode === '1'
+		}
 
 		const initialUrl = document.getElementById('url').value
 		const initialLogin = document.getElementById('login').value
 		const initialPassword = document.getElementById('password').value
 		const initialAccessToken = document.getElementById('accessToken').value
 		const initialColor = document.getElementById('color').value
+		const initialDarkMode = document.getElementById('darkmode').checked
 
 		const filepicker = window.createFilePicker(
 			'mount_point', initialUrl, initialLogin, initialPassword, initialAccessToken,
-			initialColor, true, true, true, true, true, true, true, true
+			initialColor, initialDarkMode, true, true, true, true, true, true, true, true
 		)
 
 		// monitor form value change
@@ -117,6 +125,10 @@
 
 		document.getElementById('color').addEventListener('change', (e) => {
 			filepicker.setMainColor(e.target.value)
+		})
+
+		document.getElementById('darkmode').addEventListener('change', (e) => {
+			filepicker.setDarkMode(e.target.checked)
 		})
 
 		document.getElementById('selectButton').addEventListener('click', (e) => {
