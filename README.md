@@ -22,15 +22,18 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
   * [Slots](#s5-3)
   * [Events](#s5-4)
 * [ 🔧 More information](#s6)
-  * [WebAppPassword app](#s6-1)
+  * [WebAppPassword app and CORS headers](#s6-1)
   * [Restrictions with OAuth access tokens](#s6-2)
   * [Create Nextcloud share links](#s6-3)
   * [Save downloaded files](#s6-4)
+  * [Demo pages GET parameters](#s6-5)
 
 # <a id='s2' /> 👀 Demo
 
 * [Example of Vue application using the component](https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html)
 * [Example of simple script using the file picker wrapper](https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/without-vue.html)
+
+See how to [pass GET parameters](#demo-pages-get-parameters)
 
 # <a id='s3' /> ▶ Introduction
 
@@ -84,7 +87,7 @@ import '@nextcloud/webdav-filepicker/js/filePickerWrapper'
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
 
-Parameters of `createFilePicker(mountPoint, url, login, password, accessToken, color, multipleDownload, multipleUpload, enableGetFilesPath, enableGetFilesLink, enableDownloadFiles, enableGetSaveFilePath, enableGetUploadFileLink, enableUploadFiles)` function:
+Parameters of `createFilePicker(mountPoint, url, login, password, accessToken, color, darkModeEnabled, multipleDownload, multipleUpload, enableGetFilesPath, enableGetFilesLink, enableDownloadFiles, enableGetSaveFilePath, enableGetUploadFileLink, enableUploadFiles)` function:
 
 * mountPoint (String): the ID of the element in which the file picker is mounted
 * url (string, mandatory): the Nextcloud base URL
@@ -92,6 +95,7 @@ Parameters of `createFilePicker(mountPoint, url, login, password, accessToken, c
 * password (string): the user password, an app password or an OAuth access token
 * accessToken (string): an OAuth token (use this parameter if you absolutely want to use HTTP Authorization header to authenticate. Using the OAuth token as a password is recommended, see [OAuth token](#restrictions-with-oauth-access-tokens))
 * color (hex color string): the main file picker color (default: Nextcloud blue, `#0082c9`)
+* darkModeEnabled (boolean): toggle the dark theme (default: false)
 * multipleDownload (boolean): let the user select multiple files in the file picker (default: `true`)
 * multipleUpload (boolean): let the user select multiple local files to upload (default: `true`)
 * enableGetFilesPath (boolean): show the "Get files path" button (default: `true`)
@@ -274,6 +278,10 @@ themeColor: {
 		return value.match(/^#[0-9a-fA-F]{6}$/)
 	},
 },
+darkMode: {
+	type: Boolean,
+	default: false,
+},
 /* === toggle buttons === */
 // display the button to get files path
 enableGetFilesPath: {
@@ -375,3 +383,17 @@ This will create and return a share link (shareType=3) with default permissions.
 ## <a id='s6-4' />Save downloaded files
 
 You can allow users to save the files downloaded by the file picker. As the returned objects are Files (subclass of Blobs), you can use [file-saver](https://www.npmjs.com/package/file-saver) to open a save file dialog and let the browser write the files to local filesystem.
+
+## <a id='s6-5' />Demo pages GET parameters
+
+You can pass GET parameters to demo pages in order to initialize field values.
+
+https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkmode=1
+
+Accepted parameters are:
+* url
+* login
+* password
+* accessToken
+* color (hex color without hash prefix, example: 'aa82c9')
+* darkMode ('1' is true, anything else is false)

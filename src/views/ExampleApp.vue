@@ -28,6 +28,9 @@
 		<h3>Theme color</h3>
 		<label for="color">Main file picker color</label>
 		<input id="color" v-model="color" type="color">
+		<br>
+		<label for="darkmode">Dark mode</label>
+		<input id="darkmode" v-model="darkMode" type="checkbox">
 		<h3>Custom button to open the file picker in "getFilesPath" mode</h3>
 		<button @click="onCustomButtonClick">
 			My custom button to select files
@@ -47,7 +50,7 @@
 			:multiple-upload="true"
 			:multiple-download="true"
 			:theme-color="color"
-			:dark-mode="false"
+			:dark-mode="darkMode"
 			:picker-mode="pickerMode"
 			:picker-is-open="pickerIsOpen"
 			@closed="onPickerClosed"
@@ -94,6 +97,7 @@ export default {
 			password: '',
 			accessToken: '',
 			color: '#0082c9',
+			darkMode: false,
 			pickerMode: null,
 			pickerIsOpen: false,
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,

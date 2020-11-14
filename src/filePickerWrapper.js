@@ -18,7 +18,7 @@ import NcFilePicker from './components/NcFilePicker'
 // eslint-disable-next-line
 'use strict'
 
-window.createFilePicker = (mp, url, login, password, accessToken, themeColor = null,
+window.createFilePicker = (mp, url, login, password, accessToken, themeColor = null, darkMode = false,
 	multipleDownload = true, multipleUpload = true,
 	enableGetFilesPath = true, enableGetFilesLink = true, enableDownloadFiles = true,
 	enableGetSaveFilePath = true, enableGetUploadFileLink = true, enableUploadFiles = true) => {
@@ -31,6 +31,7 @@ window.createFilePicker = (mp, url, login, password, accessToken, themeColor = n
 				ncPassword: password,
 				ncAccessToken: accessToken,
 				themeColor,
+				darkMode,
 				multipleDownload,
 				multipleUpload,
 				enableGetFilesPath,

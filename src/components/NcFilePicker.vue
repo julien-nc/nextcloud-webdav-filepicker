@@ -66,7 +66,7 @@
 						{{ modalTitle }}
 					</h2>
 					<span v-show="loadingDirectory || uploadingFiles"
-						:class="{ icon: true, 'icon-loading': true, rotate: true, dark: darkMode }" />
+						:class="{ icon: true, 'icon-loading': true, rotate: true, dark: myDarkMode }" />
 					<button class="closeButton"
 						@click="close(true)" />
 				</div>
@@ -116,7 +116,7 @@
 					<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 						class="newDirectory">
 						<button v-if="!namingNewDirectory"
-							v-tooltip.top="{ content: gt.gettext('Create new directory'), classes: this.darkMode ? 'dark' : '' }"
+							v-tooltip.top="{ content: gt.gettext('Create new directory'), classes: myDarkMode ? 'dark' : '' }"
 							class="newDirectoryButton"
 							@click="onCreateDirectory">
 							<span class="icon icon-add" />
@@ -129,13 +129,13 @@
 								@keyup.escape="onCancelNewDirectory"
 								@keyup.enter="createDirectory">
 							<button
-								v-tooltip.top="{ content: gt.gettext('Cancel'), classes: this.darkMode ? 'dark' : '' }"
+								v-tooltip.top="{ content: gt.gettext('Cancel'), classes: myDarkMode ? 'dark' : '' }"
 								class="newDirectoryButton"
 								@click="onCancelNewDirectory">
 								<span class="icon icon-history" />
 							</button>
 							<button
-								v-tooltip.top="{ content: gt.gettext('Ok'), classes: this.darkMode ? 'dark' : '' }"
+								v-tooltip.top="{ content: gt.gettext('Ok'), classes: myDarkMode ? 'dark' : '' }"
 								class="newDirectoryButton"
 								@click="createDirectory">
 								<span class="icon icon-checkmark" />
@@ -297,6 +297,7 @@ export default {
 			accessToken: this.ncAccessToken,
 			url: this.ncUrl,
 			mainColor: this.themeColor || '#0082c9',
+			myDarkMode: this.darkMode,
 			// state data
 			client: null,
 			connected: false,
@@ -341,37 +342,37 @@ export default {
 			}
 		},
 		mainTextColor() {
-			return this.darkMode
+			return this.myDarkMode
 				? '#d8d8d8'
 				: '#222'
 		},
 		mainBackgroundColor() {
-			return this.darkMode
+			return this.myDarkMode
 				? '#131313'
 				: 'white'
 		},
 		colorTextLighter() {
-			return this.darkMode
+			return this.myDarkMode
 				? '#b4b4b4'
 				: '#767676'
 		},
 		colorBackgroundDark() {
-			return this.darkMode
+			return this.myDarkMode
 				? '#222222'
 				: '#ededed'
 		},
 		colorBackgroundHover() {
-			return this.darkMode
+			return this.myDarkMode
 				? '#0a0a0a'
 				: '#f5f5f5'
 		},
 		mainColorLight() {
-			return this.darkMode
+			return this.myDarkMode
 				? colorOpacity(this.mainColor, 0.6)
 				: colorOpacity(this.mainColor, 0.4)
 		},
 		mainColorLighter() {
-			return this.darkMode
+			return this.myDarkMode
 				? colorOpacity(this.mainColor, 0.8)
 				: colorOpacity(this.mainColor, 0.2)
 		},
@@ -490,6 +491,9 @@ export default {
 		themeColor() {
 			this.setMainColor(this.themeColor)
 		},
+		darkMode() {
+			this.setDarkMode(this.darkMode)
+		},
 		// let parent component control the fp
 		pickerMode() {
 			this.mode = this.pickerMode
@@ -539,6 +543,9 @@ export default {
 		},
 		setMainColor(color) {
 			this.mainColor = color
+		},
+		setDarkMode(isEnabled) {
+			this.myDarkMode = isEnabled
 		},
 		createClient() {
 			// reset
