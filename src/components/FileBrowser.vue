@@ -197,6 +197,8 @@ export default {
 	}
 
 	tr.selectable {
+		cursor: pointer;
+
 		&.selected:hover {
 			background-color: var(--main-color-light);
 		}
@@ -206,48 +208,68 @@ export default {
 		}
 
 		&:hover {
-			background-color: #e3e3e3;
+			background-color: var(--color-background-hover);
 		}
 	}
 
 	td {
 		border: 0;
+
+		.icon {
+			mask-size: 30px auto;
+			mask-position: center;
+			-webkit-mask-size: 30px auto;
+			-webkit-mask-position: center;
+			background-color: var(--color-text-lighter);
+		}
 	}
 
+	.icon-folder {
+		background-color: var(--main-color, grey) !important;
+	}
 	.icon-file {
-		background-image: url('./../../img/file.svg');
+		mask: url('./../../img/file.svg') no-repeat;
+		-webkit-mask: url('./../../img/file.svg') no-repeat;
 	}
 	.icon-video {
-		background-image: url('./../../img/video.svg');
+		mask: url('./../../img/video.svg') no-repeat;
+		-webkit-mask: url('./../../img/video.svg') no-repeat;
 	}
 	.icon-audio {
-		background-image: url('./../../img/audio.svg');
+		mask: url('./../../img/audio.svg') no-repeat;
+		-webkit-mask: url('./../../img/audio.svg') no-repeat;
 	}
 	.icon-calendar {
-		background-image: url('./../../img/calendar.svg');
-		opacity: 0.4;
+		mask: url('./../../img/calendar.svg') no-repeat;
+		-webkit-mask: url('./../../img/calendar.svg') no-repeat;
 	}
 	.icon-text {
-		background-image: url('./../../img/text.svg');
-	}
-	.icon-spreadsheet {
-		background-image: url('./../../img/spreadsheet.svg');
+		mask: url('./../../img/text.svg') no-repeat;
+		-webkit-mask: url('./../../img/text.svg') no-repeat;
 	}
 	.icon-location {
-		background-image: url('./../../img/location.svg');
+		mask: url('./../../img/location.svg') no-repeat;
+		-webkit-mask: url('./../../img/location.svg') no-repeat;
 	}
 	.icon-picture {
-		background-image: url('./../../img/picture.svg');
-		opacity: 0.4;
+		mask: url('./../../img/picture.svg') no-repeat;
+		-webkit-mask: url('./../../img/picture.svg') no-repeat;
 	}
 	.icon-pdf {
 		background-image: url('./../../img/pdf.svg');
+		background-color: unset !important;
 	}
 	.icon-office-document {
 		background-image: url('./../../img/office-document.svg');
+		background-color: unset !important;
 	}
 	.icon-office-presentation {
 		background-image: url('./../../img/office-presentation.svg');
+		background-color: unset !important;
+	}
+	.icon-spreadsheet {
+		background-image: url('./../../img/spreadsheet.svg');
+		background-color: unset !important;
 	}
 }
 </style>

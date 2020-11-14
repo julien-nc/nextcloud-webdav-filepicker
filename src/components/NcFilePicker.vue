@@ -58,15 +58,16 @@
 			@change="onFileInputChange">
 		<Modal v-if="isOpen"
 			:can-close="false"
+			:style="cssVars"
 			@close="close">
 			<div class="modal__content">
 				<div class="modal__header">
 					<h2>
 						{{ modalTitle }}
 					</h2>
-					<span v-show="loadingDirectory || uploadingFiles" class="icon icon-loading rotate" />
+					<span v-show="loadingDirectory || uploadingFiles"
+						:class="{ icon: true, 'icon-loading': true, rotate: true, dark: darkMode }" />
 					<button class="closeButton"
-						:style="cssVars"
 						@click="close(true)" />
 				</div>
 				<div class="bread-container">
@@ -109,12 +110,13 @@
 						size="small"
 						class="quota"
 						:bar-color="mainColorLight"
+						:text-fg-color="mainTextColor"
 						:val="quotaPercent"
 						:text="quotaText" />
 					<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 						class="newDirectory">
 						<button v-if="!namingNewDirectory"
-							v-tooltip.top="{ content: gt.gettext('Create new directory') }"
+							v-tooltip.top="{ content: gt.gettext('Create new directory'), classes: this.darkMode ? 'dark' : '' }"
 							class="newDirectoryButton"
 							@click="onCreateDirectory">
 							<span class="icon icon-add" />
@@ -127,13 +129,13 @@
 								@keyup.escape="onCancelNewDirectory"
 								@keyup.enter="createDirectory">
 							<button
-								v-tooltip.top="{ content: gt.gettext('Cancel') }"
+								v-tooltip.top="{ content: gt.gettext('Cancel'), classes: this.darkMode ? 'dark' : '' }"
 								class="newDirectoryButton"
 								@click="onCancelNewDirectory">
 								<span class="icon icon-history" />
 							</button>
 							<button
-								v-tooltip.top="{ content: gt.gettext('Ok') }"
+								v-tooltip.top="{ content: gt.gettext('Ok'), classes: this.darkMode ? 'dark' : '' }"
 								class="newDirectoryButton"
 								@click="createDirectory">
 								<span class="icon icon-checkmark" />
@@ -250,6 +252,10 @@ export default {
 				return value.match(/^#[0-9a-fA-F]{6}$/)
 			},
 		},
+		darkMode: {
+			type: Boolean,
+			default: false,
+		},
 		/* === toggle buttons === */
 		// display the button to get files path
 		enableGetFilesPath: {
@@ -327,13 +333,47 @@ export default {
 				'--main-color-lighter': this.mainColorLighter,
 				'--main-color-dark': this.mainColorDark,
 				'--main-color-darker': this.mainColorDarker,
+				'--main-background-color': this.mainBackgroundColor,
+				'--main-text-color': this.mainTextColor,
+				'--color-text-lighter': this.colorTextLighter,
+				'--color-background-hover': this.colorBackgroundHover,
+				'--color-background-dark': this.colorBackgroundDark,
 			}
 		},
+		mainTextColor() {
+			return this.darkMode
+				? '#d8d8d8'
+				: '#222'
+		},
+		mainBackgroundColor() {
+			return this.darkMode
+				? '#131313'
+				: 'white'
+		},
+		colorTextLighter() {
+			return this.darkMode
+				? '#b4b4b4'
+				: '#767676'
+		},
+		colorBackgroundDark() {
+			return this.darkMode
+				? '#222222'
+				: '#ededed'
+		},
+		colorBackgroundHover() {
+			return this.darkMode
+				? '#0a0a0a'
+				: '#f5f5f5'
+		},
 		mainColorLight() {
-			return colorOpacity(this.mainColor, 0.4)
+			return this.darkMode
+				? colorOpacity(this.mainColor, 0.6)
+				: colorOpacity(this.mainColor, 0.4)
 		},
 		mainColorLighter() {
-			return colorOpacity(this.mainColor, 0.2)
+			return this.darkMode
+				? colorOpacity(this.mainColor, 0.8)
+				: colorOpacity(this.mainColor, 0.2)
 		},
 		mainColorDark() {
 			return colorLuminance(this.mainColor, -0.2)
@@ -462,7 +502,7 @@ export default {
 		},
 	},
 
-	mounted() {
+	created() {
 		const lang = 'fr'
 		const po = '../../translationfiles/fr_FR/filepicker.po'
 
@@ -937,7 +977,8 @@ export default {
 	.modal__content {
 		width: 900px;
 		// height: 800px;
-		background: white;
+		background: var(--main-background-color);
+		color: var(--main-text-color);
 		display: flex;
 		flex-direction: column;
 		padding: 20px;
@@ -950,6 +991,15 @@ export default {
 			animation: rotation 2s infinite linear;
 		}
 
+		button {
+			padding: 10px;
+			font-weight: bold;
+			border-radius: 100px;
+			border: 1px solid lightgrey;
+			background-color: var(--color-background-dark);
+			color: var(--main-text-color);
+		}
+
 		.closeButton {
 			width: 44px;
 			height: 44px;
@@ -960,7 +1010,7 @@ export default {
 			-webkit-mask: url('./../../img/close.svg') no-repeat;
 			-webkit-mask-size: 22px auto;
 			-webkit-mask-position: center;
-			background-color: grey;
+			background-color: var(--main-text-color);
 
 			&:hover {
 				background-color: var(--main-color);
@@ -991,13 +1041,6 @@ export default {
 			margin-top: 10px;
 		}
 
-		button {
-			padding: 10px;
-			font-weight: bold;
-			border-radius: 100px;
-			border: 1px solid lightgrey;
-		}
-
 		.footer {
 			display: flex;
 		}
@@ -1015,17 +1058,27 @@ export default {
 		min-height: 16px;
 		display: inline-block;
 	}
+	button .icon {
+		mask-size: 18px auto;
+		mask-position: center;
+		-webkit-mask-size: 18px auto;
+		-webkit-mask-position: center;
+		background-color: var(--main-text-color);
+	}
 	.icon-close {
 		background-image: url('./../../img/close.svg');
 	}
 	.icon-add {
-		background-image: url('./../../img/add.svg');
+		mask: url('./../../img/add.svg') no-repeat;
+		-webkit-mask: url('./../../img/add.svg') no-repeat;
 	}
 	.icon-history {
-		background-image: url('./../../img/history.svg');
+		mask: url('./../../img/history.svg') no-repeat;
+		-webkit-mask: url('./../../img/history.svg') no-repeat;
 	}
 	.icon-checkmark {
-		background-image: url('./../../img/checkmark.svg');
+		mask: url('./../../img/checkmark.svg') no-repeat;
+		-webkit-mask: url('./../../img/checkmark.svg') no-repeat;
 	}
 	.icon-folder {
 		mask: url('./../../img/folder.svg') no-repeat;
@@ -1037,8 +1090,13 @@ export default {
 		background-color: var(--main-color, grey);
 	}
 	.icon-disabled-user {
-		background-image: url('./../../img/disabled-user.svg');
-		opacity: 0.4;
+		mask: url('./../../img/disabled-user.svg') no-repeat;
+		mask-size: 30px auto;
+		mask-position: center;
+		-webkit-mask: url('./../../img/disabled-user.svg') no-repeat;
+		-webkit-mask-size: 30px auto;
+		-webkit-mask-position: center;
+		background-color: grey;
 	}
 
 	#validate {
@@ -1056,16 +1114,33 @@ export default {
 		background: no-repeat center/30px url('./../../img/loading.png');
 		width: 44px;
 		height: 44px;
+
+		&.dark {
+			filter: invert(100%);
+			-webkit-filter: invert(100%);
+		}
 	}
 
 	.empty-content {
 		flex-grow: 1;
 		color: lightgrey;
 
+		.icon-disabled-user,
 		.icon-folder {
 			mask-size: 65px auto;
 			-webkit-mask-size: 65px auto;
 		}
+	}
+
+	input[type=text] {
+		-moz-appearance: textfield;
+		-webkit-appearance: textfield;
+		background-color: var(--main-background-color);
+		color: var(--main-text-color);
+		border: 1px solid lightgrey;
+		border-radius: 3px;
+		padding: 0px 6px;
+		height: 34px;
 	}
 }
 
