@@ -144,16 +144,19 @@
 					</div>
 					<button v-if="showSelectNone"
 						@click="selectNone">
+						<span class="icon icon-unchecked" />
 						{{ gt.gettext('Select none') }}
 					</button>
 					<button v-if="showSelectAll"
 						@click="selectAll">
+						<span class="icon icon-checked" />
 						{{ gt.gettext('Select all') }}
 					</button>
 
 					<button v-if="connected && canValidate"
 						id="validate"
 						@click="onValidate">
+						<span class="icon icon-checkmark" />
 						{{ validateButtonText }}
 					</button>
 				</div>
@@ -1065,12 +1068,17 @@ export default {
 		min-height: 16px;
 		display: inline-block;
 	}
+	button {
+		height: 44px;
+	}
 	button .icon {
-		mask-size: 18px auto;
+		mask-size: 16px auto;
 		mask-position: center;
-		-webkit-mask-size: 18px auto;
+		-webkit-mask-size: 16px auto;
 		-webkit-mask-position: center;
 		background-color: var(--main-text-color);
+		margin-bottom: -2px;
+		width: 20px;
 	}
 	.icon-close {
 		background-image: url('./../../img/close.svg');
@@ -1086,6 +1094,14 @@ export default {
 	.icon-checkmark {
 		mask: url('./../../img/checkmark.svg') no-repeat;
 		-webkit-mask: url('./../../img/checkmark.svg') no-repeat;
+	}
+	.icon-checked {
+		mask: url('./../../img/checked.svg') no-repeat;
+		-webkit-mask: url('./../../img/checked.svg') no-repeat;
+	}
+	.icon-unchecked {
+		mask: url('./../../img/unchecked.svg') no-repeat;
+		-webkit-mask: url('./../../img/unchecked.svg') no-repeat;
 	}
 	.icon-folder {
 		mask: url('./../../img/folder.svg') no-repeat;
