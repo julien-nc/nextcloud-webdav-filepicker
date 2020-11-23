@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const webpackConfig = require('@nextcloud/webpack-vue-config')
 
@@ -16,6 +17,18 @@ webpackConfig.entry = {
 	component: { import: path.join(__dirname, 'src', 'ncFilePicker.js'), filename: 'Components/ncFilePicker.js' },
 }
 
-webpackConfig.resolve.fallback = { 'path': require.resolve('path-browserify') }
+webpackConfig.resolve.fallback = {
+	'path': require.resolve('path-browserify'),
+	'buffer': require.resolve('buffer'),
+	'util': require.resolve('util'),
+}
+
+webpackConfig.plugins.push(
+	// fix "process is not defined" error:
+	// (do "npm install process" before running the build)
+	new webpack.ProvidePlugin({
+		process: 'process/browser',
+	}),
+)
 
 module.exports = webpackConfig

@@ -40,6 +40,9 @@
     "@nextcloud/dialogs": "^3.1.1",
     "@nextcloud/moment": "^1.1.1",
     "@nextcloud/l10n": "^1.4.0",
+    "gettext-parser": "^4.0.4",
+    "buffer": "^6.0.3",
+    "util": "^0.12.3",
     "@nextcloud/paths": "^1.1.2",
     "vue": "^2.6.11",
     "vue-types": "^2.0.2",
@@ -55,6 +58,7 @@
     "node": ">=10.0.0"
   },
   "devDependencies": {
+    "process": "^0.11.10",
     "@babel/core": "^7.12.7",
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",

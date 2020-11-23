@@ -5,7 +5,7 @@
 				<slot name="get-files-path">
 					<button>
 						<span class="icon icon-download" />
-						{{ gt.gettext('Get files path') }}
+						{{ t('filepicker', 'Get files path') }}
 					</button>
 				</slot>
 			</div>
@@ -13,7 +13,7 @@
 				<slot name="get-files-link">
 					<button>
 						<span class="icon icon-public" />
-						{{ gt.gettext('Get files link') }}
+						{{ t('filepicker', 'Get files link') }}
 					</button>
 				</slot>
 			</div>
@@ -21,7 +21,7 @@
 				<slot name="download-files">
 					<button>
 						<span class="icon icon-download" />
-						{{ gt.gettext('Download files') }}
+						{{ t('filepicker', 'Download files') }}
 					</button>
 				</slot>
 			</div>
@@ -29,7 +29,7 @@
 				<slot name="get-save-file-path">
 					<button>
 						<span class="icon icon-upload" />
-						{{ gt.gettext('Get save file path') }}
+						{{ t('filepicker', 'Get save file path') }}
 					</button>
 				</slot>
 			</div>
@@ -37,7 +37,7 @@
 				<slot name="get-upload-fileLink">
 					<button>
 						<span class="icon icon-upload" />
-						{{ gt.gettext('Get file upload link') }}
+						{{ t('filepicker', 'Get file upload link') }}
 					</button>
 				</slot>
 			</div>
@@ -45,7 +45,7 @@
 				<slot name="open-file-input">
 					<button>
 						<span class="icon icon-upload" />
-						{{ gt.gettext('Upload files') }}
+						{{ t('filepicker', 'Upload files') }}
 					</button>
 				</slot>
 			</div>
@@ -89,10 +89,10 @@
 					icon="icon-folder"
 					class="empty-content"
 					:style="cssVars">
-					{{ gt.gettext('This directory is empty') }}
+					{{ t('filepicker', 'This directory is empty') }}
 				</EmptyContent>
 				<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
-					{{ gt.gettext('File picker is not connected') }}
+					{{ t('filepicker', 'File picker is not connected') }}
 				</EmptyContent>
 
 				<ProgressBar v-if="uploadingFiles"
@@ -116,7 +116,7 @@
 					<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 						class="newDirectory">
 						<button v-if="!namingNewDirectory"
-							v-tooltip.top="{ content: gt.gettext('Create new directory'), classes: myDarkMode ? 'dark' : '' }"
+							v-tooltip.top="{ content: t('filepicker', 'Create new directory'), classes: myDarkMode ? 'dark' : '' }"
 							class="newDirectoryButton"
 							@click="onCreateDirectory">
 							<span class="icon icon-add" />
@@ -125,17 +125,17 @@
 							class="newDirectoryForm">
 							<input v-model="newDirectoryName"
 								type="text"
-								:placeholder="gt.gettext('New directory name')"
+								:placeholder="t('filepicker', 'New directory name')"
 								@keyup.escape="onCancelNewDirectory"
 								@keyup.enter="createDirectory">
 							<button
-								v-tooltip.top="{ content: gt.gettext('Cancel'), classes: myDarkMode ? 'dark' : '' }"
+								v-tooltip.top="{ content: t('filepicker', 'Cancel'), classes: myDarkMode ? 'dark' : '' }"
 								class="newDirectoryButton"
 								@click="onCancelNewDirectory">
 								<span class="icon icon-history" />
 							</button>
 							<button
-								v-tooltip.top="{ content: gt.gettext('Ok'), classes: myDarkMode ? 'dark' : '' }"
+								v-tooltip.top="{ content: t('filepicker', 'Ok'), classes: myDarkMode ? 'dark' : '' }"
 								class="newDirectoryButton"
 								@click="createDirectory">
 								<span class="icon icon-checkmark" />
@@ -145,12 +145,12 @@
 					<button v-if="showSelectNone"
 						@click="selectNone">
 						<span class="icon icon-unchecked" />
-						{{ gt.gettext('Select none') }}
+						{{ t('filepicker', 'Select none') }}
 					</button>
 					<button v-if="showSelectAll"
 						@click="selectAll">
 						<span class="icon icon-checked" />
-						{{ gt.gettext('Select all') }}
+						{{ t('filepicker', 'Select all') }}
 					</button>
 
 					<button v-if="connected && canValidate"
@@ -170,7 +170,6 @@ import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
 import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
-import { getGettextBuilder } from '@nextcloud/l10n/dist/gettext'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
@@ -394,9 +393,9 @@ export default {
 		modalTitle() {
 			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
 				if (this.multipleDownload) {
-					return this.getTitle || this.gt.gettext('Select one or multiple files')
+					return this.getTitle || this.t('filepicker', 'Select one or multiple files')
 				} else {
-					return this.getTitle || this.gt.gettext('Select a file')
+					return this.getTitle || this.t('filepicker', 'Select a file')
 				}
 			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
 				return this.putTitle || 'Save to'
@@ -442,22 +441,22 @@ export default {
 				const used = parseInt(this.quota.used)
 				return !isNaN(used)
 					? (!isNaN(available) && available !== 0)
-						? this.gt.gettext('{size} used ({percent} % of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
-						: this.gt.gettext('{size} used', { size: this.myHumanFileSize(used, true) })
-					: this.gt.gettext('invalid quota used')
+						? this.t('filepicker', '{size} used ({percent} % of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
+						: this.t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
+					: this.t('filepicker', 'invalid quota used')
 			} else {
-				return this.gt.gettext('invalid quota')
+				return this.t('filepicker', 'invalid quota')
 			}
 		},
 		validateButtonText() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
 				const nbSelected = this.selection.length
-				return this.gt.ngettext('Get {nbSelected} selected file', 'Get {nbSelected} selected files', nbSelected, { nbSelected })
+				return this.n('filepicker', 'Get {nbSelected} selected file', 'Get {nbSelected} selected files', nbSelected, { nbSelected })
 			} else if (['getSaveFilePath', 'getUploadFileLink'].includes(this.mode)) {
-				return this.gt.gettext('Save to {path}', { path: basename(this.currentPath) || '/' })
+				return this.t('filepicker', 'Save to {path}', { path: basename(this.currentPath) || '/' })
 			} else if (['uploadFiles'].includes(this.mode)) {
 				const nbToUpload = this.filesToUpload.length
-				return this.gt.ngettext('Upload {nbToUpload} file to {path}', 'Upload {nbToUpload} files to {path}', nbToUpload, { nbToUpload, path: basename(this.currentPath) || '/' })
+				return this.n('filepicker', 'Upload {nbToUpload} file to {path}', 'Upload {nbToUpload} files to {path}', nbToUpload, { nbToUpload, path: basename(this.currentPath) || '/' })
 			}
 			return ''
 		},
@@ -510,13 +509,6 @@ export default {
 	},
 
 	created() {
-		const lang = 'fr'
-		const po = '../../translationfiles/fr_FR/filepicker.po'
-
-		this.gt = getGettextBuilder()
-			.detectLocale()
-			.addTranslation(lang, po)
-			.build()
 	},
 
 	methods: {

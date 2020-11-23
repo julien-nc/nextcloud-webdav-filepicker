@@ -386,9 +386,9 @@ You can allow users to save the files downloaded by the file picker. As the retu
 
 ## <a id='s6-5' />Demo pages GET parameters
 
-You can pass GET parameters to demo pages in order to initialize field values.
+You can pass GET parameters to demo pages in order to initialize field values. It makes it easier to provide demo links directly working. For example:
 
-https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkmode=1
+https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkmode=1 (url, login and password are examples)
 
 Accepted parameters are:
 * url
