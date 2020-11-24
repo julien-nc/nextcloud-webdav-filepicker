@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: 923f62d8204447f17018e80cc08dc837\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-11-23 17:57+0100\n"
-"PO-Revision-Date: 2020-11-24 13:13\n"
+"PO-Revision-Date: 2020-11-24 14:10\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:1
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:2
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:3
 msgid "Modified"
-msgstr ""
+msgstr "Modifié"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
 msgid "Get files path"
-msgstr ""
+msgstr "Obtenir des chemins vers des fichiers"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
 msgid "Get files link"
