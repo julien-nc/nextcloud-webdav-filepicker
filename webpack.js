@@ -14,7 +14,7 @@ webpackConfig.stats = {
 webpackConfig.entry = {
 	exampleVue: { import: path.join(__dirname, 'src', 'exampleVue.js'), filename: 'exampleVue.js' },
 	wrapper: { import: path.join(__dirname, 'src', 'filePickerWrapper.js'), filename: 'filePickerWrapper.js' },
-	component: { import: path.join(__dirname, 'src', 'ncFilePicker.js'), filename: 'Components/ncFilePicker.js' },
+	component: { import: path.join(__dirname, 'src', 'NcFilePicker.js'), filename: 'Components/NcFilePicker.js' },
 }
 
 webpackConfig.resolve.fallback = {
