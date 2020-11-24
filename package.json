@@ -1,8 +1,8 @@
 {
-  "name": "@nextcloud/webdav-filepicker",
+  "name": "nextcloud-webdav-filepicker",
   "version": "0.0.1",
   "description": "Nextcloud WebDav file picker",
-  "main": "js/ncFilePicker.js",
+  "main": "js/Components/ncFilePicker.js",
   "directories": {
     "test": "tests"
   },
