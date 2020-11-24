@@ -1,0 +1,3 @@
+files:
+  - source: /translationfiles/templates/nextcloud-webdav-filepicker.pot
+    translation: /translationfiles/%locale_with_underscore%/nextcloud-webdav-filepicker.po
