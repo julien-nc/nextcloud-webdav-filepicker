@@ -17,6 +17,9 @@ webpackConfig.entry = {
 	component: { import: path.join(__dirname, 'src', 'NcFilePicker.js'), filename: 'Components/NcFilePicker.js' },
 }
 
+webpackConfig.output.library = 'NcFilePicker'
+webpackConfig.output.libraryTarget = 'umd'
+
 webpackConfig.resolve.fallback = {
 	'path': require.resolve('path-browserify'),
 	'buffer': require.resolve('buffer'),

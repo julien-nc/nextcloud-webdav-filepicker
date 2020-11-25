@@ -12,7 +12,6 @@
  */
 
 import Vue from 'vue'
-import './bootstrap'
 import ExampleApp from './views/ExampleApp'
 
 // eslint-disable-next-line

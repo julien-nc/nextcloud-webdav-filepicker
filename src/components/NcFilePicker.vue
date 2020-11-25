@@ -166,6 +166,7 @@
 </template>
 
 <script>
+import { t, n } from '../translation'
 import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
 import axios from 'axios'
@@ -293,6 +294,8 @@ export default {
 
 	data() {
 		return {
+			t,
+			n,
 			// initialize values with props
 			login: this.ncLogin,
 			password: this.ncPassword,

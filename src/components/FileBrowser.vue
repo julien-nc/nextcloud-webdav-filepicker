@@ -1,18 +1,18 @@
 <template>
-	<v-table
+	<VTable
 		id="element-table"
 		:data="elements">
 		<thead slot="head">
 			<th style="width: 10%;" />
-			<v-th sort-key="basename" style="width: 50%;">
+			<VTh sort-key="basename" style="width: 50%;">
 				{{ t('filepicker', 'Name') }}
-			</v-th>
-			<v-th sort-key="size" style="width: 15%;">
+			</VTh>
+			<VTh sort-key="size" style="width: 15%;">
 				{{ t('filepicker', 'Size') }}
-			</v-th>
-			<v-th sort-key="lastmod_ts" style="width: 25%;">
+			</VTh>
+			<VTh sort-key="lastmod_ts" style="width: 25%;">
 				{{ t('filepicker', 'Modified') }}
-			</v-th>
+			</VTh>
 		</thead>
 		<tbody slot="body" slot-scope="{displayData}">
 			<tr v-for="value in displayData"
@@ -39,21 +39,22 @@
 				</td>
 			</tr>
 		</tbody>
-	</v-table>
+	</VTable>
 </template>
 
 <script>
+import { t, n } from '../translation'
 import moment from '@nextcloud/moment'
 import { humanFileSize } from '../utils'
 
-import Vue from 'vue'
-import SmartTable from 'vuejs-smart-table'
-Vue.use(SmartTable)
+import { VTable, VTh } from 'vuejs-smart-table'
 
 export default {
 	name: 'FileBrowser',
 
 	components: {
+		VTable,
+		VTh,
 	},
 
 	props: {
@@ -81,6 +82,8 @@ export default {
 
 	data() {
 		return {
+			t,
+			n,
 			selection: [],
 		}
 	},

@@ -12,7 +12,6 @@
  */
 
 import Vue from 'vue'
-import './bootstrap'
 import NcFilePicker from './components/NcFilePicker'
 
 // eslint-disable-next-line
