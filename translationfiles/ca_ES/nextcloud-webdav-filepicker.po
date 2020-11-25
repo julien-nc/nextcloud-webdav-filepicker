@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 923f62d8204447f17018e80cc08dc837\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-11-23 17:57+0100\n"
-"PO-Revision-Date: 2020-11-24 13:14\n"
+"POT-Creation-Date: 2020-11-25 18:03+0100\n"
+"PO-Revision-Date: 2020-11-25 17:04\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -78,11 +78,11 @@ msgid "Ok"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
-msgid "Select none"
+msgid "None"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:17
-msgid "Select all"
+msgid "All"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
@@ -103,26 +103,27 @@ msgid "{size} used"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
-msgid "invalid quota used"
-msgstr ""
-
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
 msgid "invalid quota"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
-msgid "Save to {path}"
+msgid "OK"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
-msgid "Get {nbSelected} selected file"
-msgid_plural "Get {nbSelected} selected files"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Save to {path}"
+msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
 msgid "Upload {nbToUpload} file to {path}"
 msgid_plural "Upload {nbToUpload} files to {path}"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
+msgid "{nbSelected} selected"
+msgid_plural "{nbSelected} selected"
 msgstr[0] ""
 msgstr[1] ""
 
