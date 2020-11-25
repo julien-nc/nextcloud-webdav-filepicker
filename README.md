@@ -79,10 +79,16 @@ Get it from NPM:
 npm install --save nextcloud-webdav-filepicker
 ```
 
-And use it:
+And import it:
 ```
-<script src="node_modules/nextcloud-webdav-filepicker/js/filePickerWrapper.js"></script>
+<script src="[...]/node_modules/nextcloud-webdav-filepicker/js/filePickerWrapper.js"></script>
 ```
+or
+``` javascript
+import('[...]/node_modules/nextcloud-webdav-filepicker/js/filePickerWrapper.js').then(() => { main() })
+```
+
+[Complete single file example](https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/examples/without-vue.html)
 
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
@@ -171,6 +177,8 @@ And use it:
 ```
 import NcFilePicker from 'nextcloud-webdav-filepicker'
 ```
+
+[Complete Vue app example](https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/src/views/ExampleApp.vue) (top component using the file picker)
 
 ## <a id='s5-1' />Example
 

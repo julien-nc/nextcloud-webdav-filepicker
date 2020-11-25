@@ -61,11 +61,9 @@
 		Dev version
 	</footer>
 </body>
-<script src="../js/filePickerWrapper.js"></script>
+<!--script src="../js/filePickerWrapper.js"></script-->
 <script>
-	document.addEventListener('DOMContentLoaded', (event) => {
-		document.getElementById('domainToAuthorize').textContent = window.location.protocol + '//' + window.location.host
-
+	function main() {
 		// get url values
 		const uri = window.location.search.substring(1)
 		const params = new URLSearchParams(uri)
@@ -246,6 +244,12 @@
 				}
 			})
 		})
+	}
+
+	document.addEventListener('DOMContentLoaded', (event) => {
+		document.getElementById('domainToAuthorize').textContent = window.location.protocol + '//' + window.location.host
+
+		import('../js/filePickerWrapper.js').then(() => { main() })
 	})
 </script>
 
