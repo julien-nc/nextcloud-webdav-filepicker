@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 923f62d8204447f17018e80cc08dc837\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-11-25 18:03+0100\n"
-"PO-Revision-Date: 2020-11-25 17:04\n"
+"POT-Creation-Date: 2020-11-25 18:16+0100\n"
+"PO-Revision-Date: 2020-11-25 17:54\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -94,34 +94,38 @@ msgid "Select a file"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
+msgid "Save to"
+msgstr ""
+
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
 #, javascript-format
 msgid "{size} used ({percent} % of {total})"
 msgstr ""
 
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
 msgid "{size} used"
 msgstr ""
 
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
 msgid "invalid quota"
 msgstr ""
 
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
 msgid "OK"
 msgstr ""
 
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
 msgid "Save to {path}"
 msgstr ""
 
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
 msgid "Upload {nbToUpload} file to {path}"
 msgid_plural "Upload {nbToUpload} files to {path}"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:28
 msgid "{nbSelected} selected"
 msgid_plural "{nbSelected} selected"
 msgstr[0] ""
