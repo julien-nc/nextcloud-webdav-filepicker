@@ -173,15 +173,12 @@ import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { Tooltip } from '@nextcloud/vue/dist/Directives/Tooltip'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
 import FileBrowser from './FileBrowser'
 import { humanFileSize, colorOpacity, colorLuminance } from '../utils'
 import ProgressBar from 'vue-simple-progress'
 import '../../css/filepicker.scss'
-
-import Vue from 'vue'
-import { VTooltip } from 'v-tooltip'
-Vue.directive('tooltip', VTooltip)
 
 export default {
 	name: 'NcFilePicker',
@@ -192,6 +189,10 @@ export default {
 		EmptyContent,
 		PickerBreadcrumbs,
 		FileBrowser,
+	},
+
+	directives: {
+		tooltip: Tooltip,
 	},
 
 	props: {
