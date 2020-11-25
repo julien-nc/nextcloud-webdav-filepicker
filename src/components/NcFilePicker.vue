@@ -173,7 +173,7 @@ import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import { Tooltip } from '@nextcloud/vue/dist/Directives/Tooltip'
+import { VTooltip } from 'v-tooltip'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
 import FileBrowser from './FileBrowser'
 import { humanFileSize, colorOpacity, colorLuminance } from '../utils'
@@ -192,7 +192,7 @@ export default {
 	},
 
 	directives: {
-		tooltip: Tooltip,
+		tooltip: VTooltip,
 	},
 
 	props: {
