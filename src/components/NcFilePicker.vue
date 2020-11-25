@@ -405,7 +405,7 @@ export default {
 					? this.getTitle || this.t('filepicker', 'Select one or multiple files')
 					: this.getTitle || this.t('filepicker', 'Select a file')
 			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
-				return this.putTitle || 'Save to'
+				return this.putTitle || t('filepicker', 'Save to')
 			}
 			return ''
 		},
