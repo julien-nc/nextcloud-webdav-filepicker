@@ -145,20 +145,25 @@
 					<button v-if="showSelectNone"
 						@click="selectNone">
 						<span class="icon icon-unchecked" />
-						{{ t('filepicker', 'Select none') }}
+						{{ t('filepicker', 'None') }}
 					</button>
 					<button v-if="showSelectAll"
 						@click="selectAll">
 						<span class="icon icon-checked" />
-						{{ t('filepicker', 'Select all') }}
+						{{ t('filepicker', 'All') }}
 					</button>
 
-					<button v-if="connected && canValidate"
-						id="validate"
-						@click="onValidate">
-						<span class="icon icon-checkmark" />
-						{{ validateButtonText }}
-					</button>
+					<div id="validate">
+						<span v-if="selection.length > 0"
+							class="nb-selected">
+							{{ nbSelectedText }}
+						</span>
+						<button v-if="connected && canValidate"
+							@click="onValidate">
+							<span class="icon icon-checkmark" />
+							{{ validateButtonText }}
+						</button>
+					</div>
 				</div>
 			</div>
 		</Modal>
@@ -396,11 +401,9 @@ export default {
 		},
 		modalTitle() {
 			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
-				if (this.multipleDownload) {
-					return this.getTitle || this.t('filepicker', 'Select one or multiple files')
-				} else {
-					return this.getTitle || this.t('filepicker', 'Select a file')
-				}
+				return this.multipleDownload
+					? this.getTitle || this.t('filepicker', 'Select one or multiple files')
+					: this.getTitle || this.t('filepicker', 'Select a file')
 			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
 				return this.putTitle || 'Save to'
 			}
@@ -447,15 +450,14 @@ export default {
 					? (!isNaN(available) && available !== 0)
 						? this.t('filepicker', '{size} used ({percent} % of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
 						: this.t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
-					: this.t('filepicker', 'invalid quota used')
+					: this.t('filepicker', 'invalid quota')
 			} else {
 				return this.t('filepicker', 'invalid quota')
 			}
 		},
 		validateButtonText() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
-				const nbSelected = this.selection.length
-				return this.n('filepicker', 'Get {nbSelected} selected file', 'Get {nbSelected} selected files', nbSelected, { nbSelected })
+				return t('filepicker', 'OK')
 			} else if (['getSaveFilePath', 'getUploadFileLink'].includes(this.mode)) {
 				return this.t('filepicker', 'Save to {path}', { path: basename(this.currentPath) || '/' })
 			} else if (['uploadFiles'].includes(this.mode)) {
@@ -463,6 +465,10 @@ export default {
 				return this.n('filepicker', 'Upload {nbToUpload} file to {path}', 'Upload {nbToUpload} files to {path}', nbToUpload, { nbToUpload, path: basename(this.currentPath) || '/' })
 			}
 			return ''
+		},
+		nbSelectedText() {
+			const nbSelected = this.selection.length
+			return this.n('filepicker', '{nbSelected} selected', '{nbSelected} selected', nbSelected, { nbSelected })
 		},
 		canValidate() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
@@ -1004,6 +1010,10 @@ export default {
 			border: 1px solid lightgrey;
 			background-color: var(--color-background-dark);
 			color: var(--main-text-color);
+
+			&:hover {
+				border-color: var(--main-color);
+			}
 		}
 
 		.closeButton {
@@ -1120,6 +1130,10 @@ export default {
 
 	#validate {
 		margin-left: auto;
+
+		.nb-selected {
+			margin: auto 10px auto 0;
+		}
 	}
 
 	.loading {

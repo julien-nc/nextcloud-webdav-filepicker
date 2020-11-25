@@ -43,6 +43,7 @@
 		</p>
 		<hr>
 		<NcFilePicker
+			ref="filepicker"
 			:nc-url="ncUrl"
 			:nc-login="login"
 			:nc-password="password"
@@ -51,9 +52,7 @@
 			:multiple-download="true"
 			:theme-color="color"
 			:dark-mode="darkMode"
-			:picker-mode="pickerMode"
-			:picker-is-open="pickerIsOpen"
-			@closed="onPickerClosed"
+			:picker-is-open="false"
 			@filepicker-unauthorized="onUnauthorized"
 			@files-downloaded="onFilesDownloaded"
 			@files-uploaded="onFilesUploaded"
@@ -98,8 +97,6 @@ export default {
 			accessToken: '',
 			color: '#0082c9',
 			darkMode: false,
-			pickerMode: null,
-			pickerIsOpen: false,
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 			resultLines: [],
 		}
@@ -138,12 +135,7 @@ export default {
 
 	methods: {
 		onCustomButtonClick() {
-			this.pickerMode = 'getFilesPath'
-			this.pickerIsOpen = true
-		},
-		onPickerClosed() {
-			this.pickerIsOpen = false
-			this.pickerMode = null
+			this.$refs.filepicker.getFilesPath()
 		},
 		onUnauthorized(detail) {
 			console.debug('File picker failure, received unauthorized response code, check your credentials')

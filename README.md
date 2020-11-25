@@ -323,6 +323,22 @@ enableUploadFiles: {
 },
 ```
 
+## Methods
+
+You can also open the file picker by calling opening methods:
+
+* getFilesPath: open it to get files paths
+* getFilesLink: open it to get WebDav links
+* downloadFiles: open it to get files content
+* uploadFiles: open the browser file dialog to select local files and then open the filepicker to choose a target directory to upload them
+* getSaveFilePath: open it to get a target directory path
+* getUploadFileLink: open it to select a target directory and get a WebDav upload link
+
+To access these methods, put a `ref` to the `NcFilePicker` component and then:
+``` javascript
+this.$refs.myref.getFilesPath()
+```
+
 ## <a id='s5-3' />Slots
 
 There is a slot for each button that triggers a file picker action:
