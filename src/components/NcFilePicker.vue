@@ -68,7 +68,9 @@
 					<span v-show="loadingDirectory || uploadingFiles"
 						:class="{ icon: true, 'icon-loading': true, rotate: true, dark: myDarkMode }" />
 					<button class="closeButton"
-						@click="close(true)" />
+						@click="close(true)">
+						<span class="icon icon-close" />
+					</button>
 				</div>
 				<div class="bread-container">
 					<PickerBreadcrumbs
@@ -1004,6 +1006,7 @@ export default {
 		}
 
 		button {
+			cursor: pointer;
 			padding: 10px;
 			font-weight: bold;
 			border-radius: 100px;
@@ -1019,17 +1022,14 @@ export default {
 		.closeButton {
 			width: 44px;
 			height: 44px;
-			//background: no-repeat center/22px url('./../../img/close.svg');
-			mask: url('./../../img/close.svg') no-repeat;
-			mask-size: 22px auto;
-			mask-position: center;
-			-webkit-mask: url('./../../img/close.svg') no-repeat;
-			-webkit-mask-size: 22px auto;
-			-webkit-mask-position: center;
-			background-color: var(--main-text-color);
-
+			border-radius: 50%;
+			border: 0;
+			background-color: var(--main-background-color);
 			&:hover {
-				background-color: var(--main-color);
+				background-color: var(--color-background-hover);
+			}
+			.icon {
+				width: 16px;
 			}
 		}
 
@@ -1087,7 +1087,8 @@ export default {
 		width: 20px;
 	}
 	.icon-close {
-		background-image: url('./../../img/close.svg');
+		mask: url('./../../img/close.svg') no-repeat;
+		-webkit-mask: url('./../../img/close.svg') no-repeat;
 	}
 	.icon-add {
 		mask: url('./../../img/add.svg') no-repeat;

@@ -189,6 +189,9 @@ export default {
 	th {
 		text-align: left;
 		height: 50px;
+		&:not(:first-child) {
+			cursor: pointer;
+		}
 	}
 
 	tr:not(:first-child) td {
