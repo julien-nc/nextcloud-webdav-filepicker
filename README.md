@@ -93,25 +93,31 @@ import('[...]/node_modules/nextcloud-webdav-filepicker/js/filePickerWrapper.js')
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
 
-Parameters of `createFilePicker(mountPoint, url, login, password, accessToken, color, darkModeEnabled, multipleDownload, multipleUpload, enableGetFilesPath, enableGetFilesLink, enableDownloadFiles, enableGetSaveFilePath, enableGetUploadFileLink, enableUploadFiles)` function:
+Parameters of `createFilePicker(mountPoint, options)` function:
 
 * mountPoint (String): the ID of the element in which the file picker is mounted
-* url (string, mandatory): the Nextcloud base URL
-* login (string): the user name
-* password (string): the user password, an app password or an OAuth access token
-* accessToken (string): an OAuth token (use this parameter if you absolutely want to use HTTP Authorization header to authenticate. Using the OAuth token as a password is recommended, see [OAuth token](#restrictions-with-oauth-access-tokens))
-* color (hex color string): the main file picker color (default: Nextcloud blue, `#0082c9`)
-* darkModeEnabled (boolean): toggle the dark theme (default: false)
-* multipleDownload (boolean): let the user select multiple files in the file picker (default: `true`)
-* multipleUpload (boolean): let the user select multiple local files to upload (default: `true`)
-* enableGetFilesPath (boolean): show the "Get files path" button (default: `true`)
-* enableGetFilesLink (boolean): show the "Get files link" button (default: `true`)
-* enableDownloadFiles (boolean): show the "Get files link" button (default: `true`)
-* enableGetSaveFilePath (boolean): show the "Get files link" button (default: `true`)
-* enableGetUploadFileLink (boolean): show the "Get files link" button (default: `true`)
-* enableUploadFiles (boolean): show the "Upload files" button (default: `true`)
+* options: initial option values
 
-Set login and password/accessToken to `null` to let the file picker authenticate through the web login flow and get an app password by itself.
+Accepted options:
+
+| key | value | type | default |
+| -- | -- | -- | -- |
+| url | the Nextcloud base URL | string | mandatory |
+| login | the user name | string | - |
+| password | the user password, an app password or an OAuth access token | string | - |
+| accessToken | an OAuth token (use this parameter if you absolutely want to use HTTP Authorization header to authenticate. Using the OAuth token as a password is recommended, see [OAuth token](#restrictions-with-oauth-access-tokens)) | string | - |
+| color | the main file picker color | hex color string | Nextcloud blue: `#0082c9` |
+| darkMode | toggle the dark theme | boolean | `false` |
+| multipleDownload | let the user select multiple files in the file picker | boolean | `true` |
+| multipleUpload | let the user select multiple local files to upload | boolean | `true` |
+| enableGetFilesPath | show the "Get files path" button | boolean | `false` |
+| enableGetFilesLink | show the "Get files link" button | boolean | `false` |
+| enableDownloadFiles | show the "Get files link" button | boolean | `false` |
+| enableGetSaveFilePath | show the "Get files link" button | boolean | `false` |
+| enableGetUploadFileLink | show the "Get files link" button | boolean | `false` |
+| enableUploadFiles | show the "Upload files" button | boolean | `false` |
+
+If login and password/accessToken are not defined, the file picker will let the user authenticate through the web login flow and get an app password by itself.
 
 ## <a id='s4-1' />Example
 
@@ -294,32 +300,32 @@ darkMode: {
 // display the button to get files path
 enableGetFilesPath: {
 	type: Boolean,
-	default: true,
+	default: false,
 },
 // display the button to get files links
 enableGetFilesLink: {
 	type: Boolean,
-	default: true,
+	default: false,
 },
 // display the button to download files
 enableDownloadFiles: {
 	type: Boolean,
-	default: true,
+	default: false,
 },
 // display the button to get a save file path
 enableGetSaveFilePath: {
 	type: Boolean,
-	default: true,
+	default: false,
 },
 // display the button to get webdav upload link
 enableGetUploadFileLink: {
 	type: Boolean,
-	default: true,
+	default: false,
 },
 // display the button to upload local files
 enableUploadFiles: {
 	type: Boolean,
-	default: true,
+	default: false,
 },
 ```
 
@@ -403,6 +409,8 @@ curl -H "OCS-APIRequest: true" -u login:token -X POST -d "path=/path/to/file&sha
 ```
 
 This will create and return a share link (shareType=3) with default permissions. The share token can be found in `ocs.data.token` of the JSON response. Then just place the token in the share link template. For example, if `get-files-link` gave you `https://my.nextcloud.org/index.php/s/TOKEN` as share link template and the token of the link you created is `wHx2BteGayciKiA`, then the share link is `https://my.nextcloud.org/index.php/s/wHx2BteGayciKiA`.
+
+Just append `/download` to the share link to trigger the file download instead of displaying the share page.
 
 ## <a id='s6-4' />Save downloaded files
 

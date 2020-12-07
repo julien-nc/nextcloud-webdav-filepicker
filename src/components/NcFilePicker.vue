@@ -271,32 +271,32 @@ export default {
 		// display the button to get files path
 		enableGetFilesPath: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		// display the button to get files links
 		enableGetFilesLink: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		// display the button to download files
 		enableDownloadFiles: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		// display the button to get a save file path
 		enableGetSaveFilePath: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		// display the button to get webdav upload link
 		enableGetUploadFileLink: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		// display the button to upload local files
 		enableUploadFiles: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 	},
 

@@ -17,28 +17,25 @@ import NcFilePicker from './components/NcFilePicker'
 // eslint-disable-next-line
 'use strict'
 
-window.createFilePicker = (mp, url, login, password, accessToken, themeColor = null, darkMode = false,
-	multipleDownload = true, multipleUpload = true,
-	enableGetFilesPath = true, enableGetFilesLink = true, enableDownloadFiles = true,
-	enableGetSaveFilePath = true, enableGetUploadFileLink = true, enableUploadFiles = true) => {
+window.createFilePicker = (mp, options) => {
 	const vm = new Vue({
 		el: '#' + mp,
 		render: h => h(NcFilePicker, {
 			props: {
-				ncUrl: url,
-				ncLogin: login,
-				ncPassword: password,
-				ncAccessToken: accessToken,
-				themeColor,
-				darkMode,
-				multipleDownload,
-				multipleUpload,
-				enableGetFilesPath,
-				enableGetFilesLink,
-				enableDownloadFiles,
-				enableGetSaveFilePath,
-				enableGetUploadFileLink,
-				enableUploadFiles,
+				ncUrl: options.url,
+				ncLogin: options.login,
+				ncPassword: options.password,
+				ncAccessToken: options.accessToken,
+				themeColor: options.themeColor,
+				darkMode: options.darkMode,
+				multipleDownload: options.multipleDownload,
+				multipleUpload: options.multipleUpload,
+				enableGetFilesPath: options.enableGetFilesPath,
+				enableGetFilesLink: options.enableGetFilesLink,
+				enableDownloadFiles: options.enableDownloadFiles,
+				enableGetSaveFilePath: options.enableGetSaveFilePath,
+				enableGetUploadFileLink: options.enableGetUploadFileLink,
+				enableUploadFiles: options.enableUploadFiles,
 			},
 		}),
 	})

@@ -99,10 +99,22 @@
 		const initialColor = document.getElementById('color').value
 		const initialDarkMode = document.getElementById('darkmode').checked
 
-		const filepicker = window.createFilePicker(
-			'mount_point', initialUrl, initialLogin, initialPassword, initialAccessToken,
-			initialColor, initialDarkMode, true, true, true, true, true, true, true, true
-		)
+		const filepicker = window.createFilePicker('mount_point', {
+			url: initialUrl,
+			login: initialLogin,
+			password: initialPassword,
+			accessToken: initialAccessToken,
+			themeColor: initialColor,
+			darkMode: initialDarkMode,
+			multipleDownload: true,
+			multipleUpload: true,
+			enableGetFilesPath: true,
+			enableGetFilesLink: true,
+			enableDownloadFiles: true,
+			enableGetSaveFilePath: true,
+			enableGetUploadFileLink: true,
+			enableUploadFiles: true,
+		})
 
 		// monitor form value change
 		document.getElementById('login').addEventListener('input', (e) => {
