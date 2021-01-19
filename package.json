@@ -2,7 +2,6 @@
   "name": "nextcloud-webdav-filepicker",
   "version": "0.0.7",
   "description": "Nextcloud WebDav file picker",
-  "main": "js/Components/NcFilePicker.js",
   "directories": {
     "test": "tests"
   },
@@ -32,6 +31,15 @@
   "homepage": "https://github.com/eneiluj/nextcloud-webdav-filepicker",
   "browserslist": [
     "extends @nextcloud/browserslist-config"
+  ],
+  "main": "js/Components/NcFilePicker.js",
+  "files": [
+    "COPYING",
+    "README.md",
+    "src",
+    "js",
+    "css",
+    "examples"
   ],
   "dependencies": {
     "@nextcloud/router": "^1.1.0",
