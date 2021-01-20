@@ -3,13 +3,14 @@ import { getGettextBuilder } from '@nextcloud/l10n/dist/gettext'
 import { po } from 'gettext-parser'
 
 const lang = navigator.language
-const parsedPo = po.parse(translations[lang] || translations.en)
-
-const gt = getGettextBuilder()
-	// .detectLocale()
-	.setLanguage(lang)
-	.addTranslation(lang, parsedPo)
-	.build()
+const gt = (lang in translations)
+	? getGettextBuilder()
+		// .detectLocale()
+		.setLanguage(lang)
+		.addTranslation(lang, po.parse(translations[lang]))
+		.build()
+	: getGettextBuilder()
+		.build()
 
 export const t = (appId, string, placeholders = null) => {
 	return gt.gettext(string, placeholders)
