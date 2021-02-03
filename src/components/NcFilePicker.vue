@@ -702,7 +702,7 @@ export default {
 		onBreadcrumbChange(path) {
 			this.getFolderContent(false, path)
 		},
-		onValidate() {
+		async onValidate() {
 			if (this.mode === 'uploadFiles') {
 				console.debug('upload to ' + this.currentPath)
 				console.debug(this.filesToUpload)
@@ -719,7 +719,7 @@ export default {
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
 				console.debug('get files link in ' + this.currentPath)
-				// this.getFilesShareLink()
+				const createdLinks = await this.getFilesShareLink(this.selection)
 				// generate WebDav download links
 				if (!this.password && this.accessToken) {
 					console.error('Download links can\'t be generated when using OAuth, you can provide the OAuth token as a normal password.')
@@ -737,6 +737,7 @@ export default {
 						pathList: this.selection,
 						ocsUrl,
 						genericShareLink,
+						shareLinks: createdLinks,
 					}
 					// for parent component
 					this.$emit('get-files-link', detail)
@@ -785,22 +786,40 @@ export default {
 				this.webdavDownload()
 			}
 		},
-		async getFilesShareLink() {
+		async getFilesShareLink(pathList) {
+			console.debug('Pathlistttt')
+			console.debug(pathList)
 			// create shared access with OCS API
 			// problem : CORS headers don't allow this for the moment,
 			// this could be done by adding a global origin whitelist in NC server
 			const url = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
-			const response = await axios.post(url, {
-				path: '...',
-				shareType: 3,
-			}, {
-				auth: {
-					username: this.login,
-					password: this.password || this.accessToken,
-				},
-				headers: { 'OCS-APIRequest': 'true' },
-			})
-			console.debug(response)
+			const publicLinks = []
+			let path
+			for (let i = 0; i < pathList.length; i++) {
+				path = pathList[i]
+				try {
+					const response = await axios.post(url, {
+						path,
+						shareType: 3,
+					}, {
+						auth: {
+							username: this.login,
+							password: this.password || this.accessToken,
+						},
+						headers: { 'OCS-APIRequest': 'true' },
+					})
+
+					publicLinks.push({
+						path,
+						url: response.data.ocs.data.url,
+					})
+				} catch (error) {
+					console.error('Impossible to create public links')
+					console.error(error)
+					return null
+				}
+			}
+			return publicLinks
 		},
 		async updateWebdavQuota() {
 			if (this.client) {
