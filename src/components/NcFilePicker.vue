@@ -97,6 +97,17 @@
 					{{ t('filepicker', 'File picker is not connected') }}
 				</EmptyContent>
 
+				<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
+					<div class="spacer" />
+					<label v-if="expirationDate">
+						{{ t('filepicker', 'Expires on') }}&nbsp;
+					</label>
+					<DatetimePicker
+						id="datepicker"
+						v-model="expirationDate"
+						:placeholder="t('filepicker', 'Expires on')"
+						:clearable="true" />
+				</div>
 				<ProgressBar v-if="uploadingFiles"
 					size="medium"
 					:bar-color="mainColorLight"
@@ -180,6 +191,7 @@ import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
 import { VTooltip } from 'v-tooltip'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
 import FileBrowser from './FileBrowser'
@@ -194,6 +206,7 @@ export default {
 		Modal,
 		ProgressBar,
 		EmptyContent,
+		DatetimePicker,
 		PickerBreadcrumbs,
 		FileBrowser,
 	},
@@ -326,6 +339,7 @@ export default {
 			uploadProgress: 0,
 			downloadingFiles: false,
 			downloadProgress: 0,
+			expirationDate: '',
 			// new dir
 			namingNewDirectory: false,
 			creatingDirectory: false,
@@ -343,12 +357,17 @@ export default {
 		cssVars() {
 			return {
 				'--main-color': this.mainColor,
+				'--color-primary-element': this.mainColor,
+				'--color-primary-text': '#ffffff',
 				'--main-color-light': this.mainColorLight,
 				'--main-color-lighter': this.mainColorLighter,
 				'--main-color-dark': this.mainColorDark,
 				'--main-color-darker': this.mainColorDarker,
 				'--main-background-color': this.mainBackgroundColor,
+				'--color-main-background': this.mainBackgroundColor,
+				'--color-border': this.colorBorder,
 				'--main-text-color': this.mainTextColor,
+				'--color-main-text': this.mainTextColor,
 				'--color-text-lighter': this.colorTextLighter,
 				'--color-background-hover': this.colorBackgroundHover,
 				'--color-background-dark': this.colorBackgroundDark,
@@ -363,6 +382,11 @@ export default {
 			return this.myDarkMode
 				? '#131313'
 				: 'white'
+		},
+		colorBorder() {
+			return this.myDarkMode
+				? '#2a2a2a'
+				: '#ededed'
 		},
 		colorTextLighter() {
 			return this.myDarkMode
@@ -611,6 +635,7 @@ export default {
 		},
 		getFilesLink() {
 			this.mode = 'getFilesLink'
+			this.expirationDate = ''
 			this.openFilePicker()
 		},
 		uploadFiles() {
@@ -699,6 +724,9 @@ export default {
 			})
 			this.browserSelection = this.selection
 		},
+		onExpirationUpdate(e) {
+			console.debug(e)
+		},
 		onBreadcrumbChange(path) {
 			this.getFolderContent(false, path)
 		},
@@ -718,8 +746,8 @@ export default {
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
-				console.debug('get files link in ' + this.currentPath)
-				const createdLinks = await this.getFilesShareLink(this.selection)
+				const options = this.getPublicLinkOptions()
+				const createdLinks = await this.getFilesShareLink(this.selection, options)
 				// generate WebDav download links
 				if (!this.password && this.accessToken) {
 					console.error('Download links can\'t be generated when using OAuth, you can provide the OAuth token as a normal password.')
@@ -786,9 +814,15 @@ export default {
 				this.webdavDownload()
 			}
 		},
-		async getFilesShareLink(pathList) {
-			console.debug('Pathlistttt')
-			console.debug(pathList)
+		getPublicLinkOptions() {
+			const expirationString = this.expirationDate
+				? moment(this.expirationDate).format('YYYY-MM-DD')
+				: null
+			return {
+				expireDate: expirationString,
+			}
+		},
+		async getFilesShareLink(pathList, options) {
 			// create shared access with OCS API
 			// problem : CORS headers don't allow this for the moment,
 			// this could be done by adding a global origin whitelist in NC server
@@ -801,6 +835,8 @@ export default {
 					const response = await axios.post(url, {
 						path,
 						shareType: 3,
+						label: 'E-mail',
+						...options,
 					}, {
 						auth: {
 							username: this.login,
@@ -1085,6 +1121,39 @@ export default {
 			margin: 9px 20px 0 0;
 			position: relative;
 			bottom: -5px;
+		}
+
+		.share-link-settings {
+			height: 55px;
+			min-height: 55px;
+
+			> * {
+				margin: auto 0 auto 0;
+			}
+			.spacer {
+				flex-grow: 1;
+			}
+		}
+
+		#datepicker {
+			width: 140px;
+			* {
+				opacity: 1;
+			}
+			.mx-calendar {
+				padding: 3px;
+			}
+			.mx-calendar-header-label button {
+				padding: 0 10px 0 10px;
+			}
+			.mx-calendar-header button,
+			.mx-calendar-header-label button {
+				background: none;
+				border: none;
+				&:hover {
+					background: var(--color-background-dark);
+				}
+			}
 		}
 	}
 
