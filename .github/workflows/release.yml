@@ -2,9 +2,9 @@ name: Publish release
 
 on:
   push:
-    branches: [ master ]
+    branches: [ release ]
   pull_request:
-    branches: [ master ]
+    branches: [ release ]
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
       - name: Publish
         if: ${{ startsWith( steps.tag.outputs.currenttag , 'v' ) }}
         run: |
-          npm install
+          npm ci
           npm run build
           npm publish
         env:

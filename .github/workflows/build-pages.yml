@@ -24,7 +24,7 @@ jobs:
           sudo rm -f /etc/apt/sources.list.d/github_git-lfs.list
           sudo apt-get update -yqq
           sudo apt-get install sed -yqq
-          npm install
+          npm ci
           npm run build
           DATE=`date -u`
           sed -i "s/Dev version/Generated at $DATE/" examples/without-vue.html

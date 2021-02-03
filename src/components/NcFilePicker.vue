@@ -1045,6 +1045,7 @@ export default {
 			font-weight: bold;
 			border-radius: 100px;
 			border: 1px solid lightgrey;
+			cursor: pointer;
 		}
 	}
 
