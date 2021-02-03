@@ -99,14 +99,25 @@
 
 				<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
 					<div class="spacer" />
-					<label v-if="expirationDate">
-						{{ t('filepicker', 'Expires on') }}&nbsp;
-					</label>
-					<DatetimePicker
-						id="datepicker"
-						v-model="expirationDate"
-						:placeholder="t('filepicker', 'Expires on')"
-						:clearable="true" />
+					<div>
+						<input
+							id="allow-edit"
+							v-model="allowEdition"
+							type="checkbox">
+						<label for="allow-edit">
+							{{ t('filepicker', 'Allow editing') }}&nbsp;
+						</label>
+					</div>
+					<div>
+						<label v-if="expirationDate">
+							{{ t('filepicker', 'Expires on') }}&nbsp;
+						</label>
+						<DatetimePicker
+							id="datepicker"
+							v-model="expirationDate"
+							:placeholder="t('filepicker', 'Expires on')"
+							:clearable="true" />
+					</div>
 				</div>
 				<ProgressBar v-if="uploadingFiles"
 					size="medium"
@@ -340,6 +351,7 @@ export default {
 			downloadingFiles: false,
 			downloadProgress: 0,
 			expirationDate: '',
+			allowEdition: false,
 			// new dir
 			namingNewDirectory: false,
 			creatingDirectory: false,
@@ -818,9 +830,10 @@ export default {
 			const expirationString = this.expirationDate
 				? moment(this.expirationDate).format('YYYY-MM-DD')
 				: null
-			return {
+			const options = {
 				expireDate: expirationString,
 			}
+			return options
 		},
 		async getFilesShareLink(pathList, options) {
 			// create shared access with OCS API
@@ -849,6 +862,19 @@ export default {
 						path,
 						url: response.data.ocs.data.url,
 					})
+					if (this.allowEdition) {
+						const shareId = response.data.ocs.data.id
+						const putUrl = url + '/' + shareId
+						await axios.put(putUrl, {
+							permissions: 3,
+						}, {
+							auth: {
+								username: this.login,
+								password: this.password || this.accessToken,
+							},
+							headers: { 'OCS-APIRequest': 'true' },
+						})
+					}
 				} catch (error) {
 					console.error('Impossible to create public links')
 					console.error(error)
@@ -1127,11 +1153,19 @@ export default {
 			height: 55px;
 			min-height: 55px;
 
-			> * {
-				margin: auto 0 auto 0;
+			> div {
+				display: flex;
+				margin-left: 25px;
+				> * {
+					margin: auto 0 auto 0;
+				}
 			}
 			.spacer {
 				flex-grow: 1;
+			}
+
+			#allow-edit {
+				margin: 0 5px 0 5px;
 			}
 		}
 
