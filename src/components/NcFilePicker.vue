@@ -925,9 +925,11 @@ export default {
 					// already exists or no permission
 					if (error.response?.status === 412) {
 						console.error('the file ' + file.name + ' could not be uploaded')
+						console.error(error)
 						errorFiles.push(file)
 						continue
 					} else {
+						console.error(error)
 						this.resetFilePicker()
 						return
 					}

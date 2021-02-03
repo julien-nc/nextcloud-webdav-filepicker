@@ -53,7 +53,7 @@
     "util": "^0.12.3",
     "@nextcloud/paths": "^1.1.2",
     "vue": "^2.6.11",
-    "webdav": "^4.0.0",
+    "webdav": "3.6.2",
     "path-browserify": "^1.0.1",
     "vuejs-smart-table": "^0.0.7",
     "v-tooltip": "^2.1.2",
@@ -66,7 +66,7 @@
   "devDependencies": {
     "process": "^0.11.10",
     "@babel/core": "^7.12.13",
-    "@babel/plugin-proposal-object-rest-spread": "^7.12.013",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.13",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.12.13",
     "@nextcloud/browserslist-config": "^1.0.0",
