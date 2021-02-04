@@ -42,6 +42,8 @@
 		<input id="darkmode" type="checkbox">
 		<h3>Custom button which calls the "getFilesPath" method</h3>
 		<button id="selectButton">My custom button to select files</button>
+		<h3>Custom button which calls the "getFilesLink" method</h3>
+		<button id="linkButton">My custom button to get files link</button>
 		<h3>
 			File picker component
 		</h3>
@@ -58,7 +60,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Thu Feb  4 10:49:17 UTC 2021
+		Generated at Thu Feb  4 11:15:39 UTC 2021
 	</footer>
 </body>
 <!--script src="../js/filePickerWrapper.js"></script-->
@@ -143,6 +145,10 @@
 
 		document.getElementById('selectButton').addEventListener('click', (e) => {
 			filepicker.getFilesPath()
+		})
+
+		document.getElementById('linkButton').addEventListener('click', (e) => {
+			filepicker.getFilesLink('custom link label!')
 		})
 
 		// events coming from the file picker
