@@ -199,7 +199,7 @@
 					</button>
 
 					<div id="validate">
-						<span v-if="selection.length > 0"
+						<span v-if="selection.length > 0 || ['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(mode)"
 							class="nb-selected">
 							{{ nbSelectedText }}
 						</span>
@@ -1182,6 +1182,7 @@ export default {
 
 		#file-browser {
 			border-bottom: 1px solid var(--color-border);
+			margin-bottom: 5px;
 		}
 		.share-link-settings {
 			height: 55px;
@@ -1311,6 +1312,7 @@ export default {
 
 		.nb-selected {
 			margin: auto 10px auto 0;
+			line-height: 44px;
 		}
 	}
 
