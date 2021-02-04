@@ -35,6 +35,10 @@
 		<button @click="onCustomButtonClick">
 			My custom button to select files
 		</button>
+		<h3>Custom button to open the file picker in "getFilesLink" mode</h3>
+		<button @click="onCustomLinkButtonClick">
+			My custom button to get public links
+		</button>
 		<h3>
 			File picker component
 		</h3>
@@ -142,6 +146,9 @@ export default {
 	methods: {
 		onCustomButtonClick() {
 			this.$refs.filepicker.getFilesPath()
+		},
+		onCustomLinkButtonClick() {
+			this.$refs.filepicker.getFilesLink('custom link label')
 		},
 		onUnauthorized(detail) {
 			console.debug('File picker failure, received unauthorized response code, check your credentials')

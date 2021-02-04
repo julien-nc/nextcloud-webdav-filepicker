@@ -9,7 +9,7 @@
 					</button>
 				</slot>
 			</div>
-			<div v-if="enableGetFilesLink" @click="getFilesLink">
+			<div v-if="enableGetFilesLink" @click="onGetFilesLinkClick">
 				<slot name="get-files-link">
 					<button>
 						<span class="icon icon-public" />
@@ -376,6 +376,7 @@ export default {
 			expirationDate: '',
 			protectionPassword: '',
 			allowEdition: false,
+			linkLabel: '',
 			// new dir
 			namingNewDirectory: false,
 			creatingDirectory: false,
@@ -669,12 +670,16 @@ export default {
 			this.mode = 'getFilesPath'
 			this.openFilePicker()
 		},
-		getFilesLink() {
+		onGetFilesLinkClick(e) {
+			this.getFilesLink()
+		},
+		getFilesLink(label = null) {
 			this.mode = 'getFilesLink'
 			this.showLinkSettings = false
 			this.expirationDate = ''
 			this.protectionPassword = ''
 			this.allowEdition = false
+			this.linkLabel = label
 			this.openFilePicker()
 		},
 		uploadFiles() {
@@ -875,7 +880,7 @@ export default {
 					const response = await axios.post(url, {
 						path,
 						shareType: 3,
-						label: 'E-mail',
+						label: this.linkLabel || 'E-mail',
 						...options,
 					}, {
 						auth: {
