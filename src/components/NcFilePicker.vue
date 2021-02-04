@@ -79,6 +79,7 @@
 						@hash-changed="onBreadcrumbChange" />
 				</div>
 				<FileBrowser v-if="connected && currentElements.length > 0"
+					id="file-browser"
 					:elements="sortedCurrentElements"
 					:forced-selection="browserSelection"
 					:can-select-files="['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(mode)"
@@ -99,15 +100,15 @@
 
 				<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
 					<div class="spacer" />
-					<div>
-						<span class="icon icon-password" />
+					<div v-if="showLinkSettings">
+						<span class="icon icon-password" />&nbsp;
 						<input
 							id="password-protect"
 							v-model="protectionPassword"
 							:placeholder="t('filepicker', 'Password protect')"
 							type="text">
 					</div>
-					<div>
+					<div v-if="showLinkSettings">
 						<span class="icon icon-rename" />
 						<input
 							id="allow-edit"
@@ -117,15 +118,26 @@
 							{{ t('filepicker', 'Allow editing') }}&nbsp;
 						</label>
 					</div>
-					<div>
-						<label v-if="expirationDate">
+					<div v-if="showLinkSettings">
+						<label v-if="expirationDate"
+							for="expiration-datepicker">
 							{{ t('filepicker', 'Expires on') }}&nbsp;
 						</label>
 						<DatetimePicker
-							id="datepicker"
+							id="expiration-datepicker"
 							v-model="expirationDate"
 							:placeholder="t('filepicker', 'Expires on')"
 							:clearable="true" />
+					</div>
+					<div>
+						<span class="icon icon-public" />
+						<input
+							id="link-settings"
+							v-model="showLinkSettings"
+							type="checkbox">
+						<label for="link-settings">
+							{{ t('filepicker', 'Link settings') }}&nbsp;
+						</label>
 					</div>
 				</div>
 				<ProgressBar v-if="uploadingFiles"
@@ -359,6 +371,8 @@ export default {
 			uploadProgress: 0,
 			downloadingFiles: false,
 			downloadProgress: 0,
+			// link settings
+			showLinkSettings: false,
 			expirationDate: '',
 			protectionPassword: '',
 			allowEdition: false,
@@ -657,6 +671,7 @@ export default {
 		},
 		getFilesLink() {
 			this.mode = 'getFilesLink'
+			this.showLinkSettings = false
 			this.expirationDate = ''
 			this.protectionPassword = ''
 			this.allowEdition = false
@@ -1165,6 +1180,9 @@ export default {
 			bottom: -5px;
 		}
 
+		#file-browser {
+			border-bottom: 1px solid var(--color-border);
+		}
 		.share-link-settings {
 			height: 55px;
 			min-height: 55px;
@@ -1180,18 +1198,21 @@ export default {
 				flex-grow: 1;
 			}
 
-			#allow-edit {
+			input[type=checkbox] {
 				margin: 0 5px 0 5px;
 			}
-			#datepicker {
+			#expiration-datepicker {
 				width: 140px;
 			}
 			#password-protect {
 				width: 140px;
 			}
+			label {
+				cursor: pointer;
+			}
 		}
 
-		#datepicker {
+		#expiration-datepicker {
 			* {
 				opacity: 1;
 			}
@@ -1261,6 +1282,10 @@ export default {
 	.icon-password {
 		mask: url('./../../img/password.svg') no-repeat;
 		-webkit-mask: url('./../../img/password.svg') no-repeat;
+	}
+	.icon-public {
+		mask: url('./../../img/public.svg') no-repeat;
+		-webkit-mask: url('./../../img/public.svg') no-repeat;
 	}
 	.icon-folder {
 		mask: url('./../../img/folder.svg') no-repeat;

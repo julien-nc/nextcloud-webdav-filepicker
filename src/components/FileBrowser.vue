@@ -1,6 +1,6 @@
 <template>
 	<VTable
-		id="element-table"
+		class="element-table"
 		:data="elements">
 		<thead slot="head">
 			<th style="width: 10%;" />
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#element-table {
+.element-table {
 	width: 100%;
 	height: 100%;
 	overflow: scroll;
