@@ -176,7 +176,7 @@ export default {
 	scrollbar-width: thin;
 	display: block;
 	border-spacing: 0;
-	padding: 10px 0 10px 0;
+	// padding: 10px 0 10px 0;
 
 	.icon {
 		width: 100px;
@@ -192,29 +192,37 @@ export default {
 		&:not(:first-child) {
 			cursor: pointer;
 		}
+		position: sticky;
+		top: 0;
+		background: var(--main-background-color);
+		z-index: 2;
 	}
 
-	tr:not(:first-child) td {
-		border-top: 1px solid #e3e3e3;
-	}
+	tr {
+		z-index: 1;
 
-	tr:not(.selectable) {
-		opacity: 30%;
-	}
-
-	tr.selectable {
-		cursor: pointer;
-
-		&.selected:hover {
-			background-color: var(--main-color-light);
+		&:not(:first-child) td {
+			border-top: 1px solid #e3e3e3;
 		}
 
-		&.selected {
-			background-color: var(--main-color-lighter);
+		&:not(.selectable) {
+			opacity: 30%;
 		}
 
-		&:hover {
-			background-color: var(--color-background-hover);
+		&.selectable {
+			cursor: pointer;
+
+			&.selected:hover {
+				background-color: var(--main-color-light);
+			}
+
+			&.selected {
+				background-color: var(--main-color-lighter);
+			}
+
+			&:hover {
+				background-color: var(--color-background-hover);
+			}
 		}
 	}
 
