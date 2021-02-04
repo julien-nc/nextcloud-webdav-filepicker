@@ -60,7 +60,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Thu Feb  4 11:15:39 UTC 2021
+		Generated at Thu Feb  4 12:14:04 UTC 2021
 	</footer>
 </body>
 <!--script src="../js/filePickerWrapper.js"></script-->
@@ -160,11 +160,12 @@
 		document.addEventListener('get-files-path', (e) => {
 			console.debug('no vue, received "get-files-path" event')
 			console.debug(e.detail)
-			document.getElementById('results').innerHTML = 'Path of selected files:'
+			const resultsP = document.getElementById('results')
+			resultsP.innerHTML = 'Path of selected files:'
 			e.detail.selection.forEach((path) => {
 				const p = document.createElement('p')
 				p.textContent = path
-				document.getElementById('results').appendChild(p)
+				resultsP.appendChild(p)
 			})
 		})
 
@@ -177,64 +178,87 @@
 		document.addEventListener('upload-path-link-generated', (e) => {
 			console.debug('no vue, received "upload-path-link-generated" event')
 			console.debug(e.detail)
-			document.getElementById('results').innerHTML = `File upload link in ${e.detail.targetDir}:`
+			const resultsP = document.getElementById('results')
+			resultsP.innerHTML = `File upload link in ${e.detail.targetDir}:`
 			const p = document.createElement('p')
 			p.textContent = e.detail.link
-			document.getElementById('results').appendChild(p)
+			resultsP.appendChild(p)
 		})
 
 		document.addEventListener('get-files-link', (e) => {
 			console.debug('no vue, received "get-files-link" event')
 			console.debug(e.detail)
-			document.getElementById('results').innerHTML = 'File links: <br>'
+			const resultsP = document.getElementById('results')
+			resultsP.innerHTML = ''
+
+			if (e.detail.shareLinks) {
+				const pl = document.createElement('p')
+				pl.textContent = 'Nextcloud public links:'
+				resultsP.appendChild(pl)
+				e.detail.shareLinks.forEach((link) => {
+					const pp = document.createElement('p')
+					pp.textContent = 'path: "' + link.path + '" '
+					const a = document.createElement('a')
+					a.textContent = link.url
+					a.setAttribute('href', link.url)
+					pp.appendChild(a)
+					resultsP.appendChild(pp)
+				})
+			}
+
+			const pw = document.createElement('p')
+			pw.textContent = 'File links:'
+			resultsP.appendChild(pw)
 			e.detail.webdavLinks.forEach((l) => {
 				const a = document.createElement('a')
 				a.textContent = l
 				a.setAttribute('href', l)
-				document.getElementById('results').appendChild(a)
-				document.getElementById('results').appendChild(document.createElement('br'))
+				resultsP.appendChild(a)
+				resultsP.appendChild(document.createElement('br'))
 			})
+
 			const p = document.createElement('p')
 			p.textContent = 'List of paths:'
-			document.getElementById('results').appendChild(p)
+			resultsP.appendChild(p)
 			e.detail.pathList.forEach((path) => {
 				const pp = document.createElement('p')
 				pp.textContent = path
-				document.getElementById('results').appendChild(pp)
+				resultsP.appendChild(pp)
 			})
 			const po = document.createElement('p')
 			po.textContent = 'OCS URL to create share link: ' + e.detail.ocsUrl
-			document.getElementById('results').appendChild(po)
+			resultsP.appendChild(po)
 			const pl = document.createElement('p')
 			pl.textContent = 'Generic share link: ' + e.detail.genericShareLink
-			document.getElementById('results').appendChild(pl)
+			resultsP.appendChild(pl)
 		})
 
 		document.addEventListener('files-uploaded', (e) => {
 			console.debug('no vue, received "files-uploaded" event')
 			console.debug(e.detail)
-			document.getElementById('results').innerHTML = ''
+			const resultsP = document.getElementById('results')
+			resultsP.innerHTML = ''
 
 			if (e.detail.successFiles.length > 0) {
 				const p = document.createElement('p')
 				p.textContent = `These files were uploaded in ${e.detail.targetDir}:`
-				document.getElementById('results').appendChild(p)
+				resultsP.appendChild(p)
 				e.detail.successFiles.forEach((f) => {
 					const p = document.createElement('p')
 					p.textContent = f.name
-					document.getElementById('results').appendChild(p)
+					resultsP.appendChild(p)
 				})
 			}
 
 			if (e.detail.errorFiles.length > 0) {
 				const p = document.createElement('p')
 				p.textContent = '!!! Those files could not be uploaded:'
-				document.getElementById('results').appendChild(p)
+				resultsP.appendChild(p)
 
 				e.detail.errorFiles.forEach((f) => {
 					const p = document.createElement('p')
 					p.textContent = f.name
-					document.getElementById('results').appendChild(p)
+					resultsP.appendChild(p)
 				})
 			}
 		})
@@ -244,7 +268,8 @@
 			console.debug(e.detail.errorFilePaths)
 			const files = e.detail.successFiles
 			console.debug('no vue, something was downloaded')
-			document.getElementById('results').innerHTML = 'Downloaded files: <br>'
+			const resultsP = document.getElementById('results')
+			resultsP.innerHTML = 'Downloaded files: <br>'
 			files.forEach(file => {
 				console.debug('File : ' + file.name)
 				console.debug(file)
@@ -254,7 +279,7 @@
 					console.debug(reader.result)
 					const p = document.createElement('P')
 					p.textContent = 'File ' + file.name + ': ' + reader.result.slice(0, 100) + '...'
-					document.getElementById('results').appendChild(p)
+					resultsP.appendChild(p)
 				}
 				reader.onerror = () => {
 					console.error('Impossible to read downloaded file')
