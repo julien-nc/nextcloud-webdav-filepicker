@@ -202,10 +202,10 @@ export default {
 		z-index: 1;
 
 		&:not(:first-child) td {
-			border-top: 1px solid #e3e3e3;
+			border-top: 1px solid var(--color-border);
 		}
 
-		&:not(.selectable) {
+		&:not(.selectable) td > * {
 			opacity: 30%;
 		}
 
