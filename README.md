@@ -153,7 +153,11 @@ Here is a minimal example getting files paths and displaying them in the console
 You can open the file picker by calling opening methods:
 
 * getFilesPath: open it to get files paths
-* getFilesLink: open it to get WebDav links, optional parameter: `label` to name the created links
+* getFilesLink: open it to get WebDav links, optional parameter: an object with default link option values
+	* `linkLabel` (String) to name the created links
+	* `expirationDate` (Date)
+	* `protectionPassword` (String)
+	* `allowEdition` (bool)
 * downloadFiles: open it to get files content
 * uploadFiles: open the browser file dialog to select local files and then open the filepicker to choose a target directory to upload them
 * getSaveFilePath: open it to get a target directory path
@@ -163,7 +167,12 @@ Those are the methods of the filepicker component returned by the `window.create
 ``` javascript
 const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org')
 filepicker.getFilesPath()
-filepicker.getFilesLink('e-mail attachment to Jane')
+filepicker.getFilesLink({
+	expirationDate: new Date('2050-01-01'),
+	protectionPassword: 'example passwd',
+	allowEdition: true,
+	linkLabel: 'e-mail attachment to Jane',
+})
 ```
 
 ## <a id='s4-3' />Events
@@ -355,7 +364,11 @@ enableUploadFiles: {
 You can also open the file picker by calling opening methods:
 
 * getFilesPath: open it to get files paths
-* getFilesLink: open it to get WebDav links, optional parameter: `label` to name the created links
+* getFilesLink: open it to get WebDav links, optional parameter: an object with default link option values
+	* `linkLabel` (String) to name the created links
+	* `expirationDate` (Date)
+	* `protectionPassword` (String)
+	* `allowEdition` (bool)
 * downloadFiles: open it to get files content
 * uploadFiles: open the browser file dialog to select local files and then open the filepicker to choose a target directory to upload them
 * getSaveFilePath: open it to get a target directory path
@@ -364,7 +377,12 @@ You can also open the file picker by calling opening methods:
 To access these methods, put a `ref` to the `NcFilePicker` component and then:
 ``` javascript
 this.$refs.myref.getFilesPath()
-this.$refs.myref.getFilesLink('e-mail attachment to Jane')
+this.$refs.myref.getFilesLink({
+	expirationDate: new Date('2050-01-01'),
+	protectionPassword: 'example passwd',
+	allowEdition: true,
+	linkLabel: 'e-mail attachment to Jane',
+})
 ```
 
 ## <a id='s5-4' />Slots

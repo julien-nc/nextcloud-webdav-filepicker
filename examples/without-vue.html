@@ -148,7 +148,12 @@
 		})
 
 		document.getElementById('linkButton').addEventListener('click', (e) => {
-			filepicker.getFilesLink('custom link label!')
+			filepicker.getFilesLink({
+				expirationDate: new Date('2050-01-01'),
+				protectionPassword: 'example passwd',
+				allowEdition: true,
+				linkLabel: 'custom link label',
+			})
 		})
 
 		// events coming from the file picker

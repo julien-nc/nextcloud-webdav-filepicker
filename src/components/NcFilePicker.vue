@@ -680,13 +680,13 @@ export default {
 		onGetFilesLinkClick(e) {
 			this.getFilesLink()
 		},
-		getFilesLink(label = null) {
+		getFilesLink(options = {}) {
 			this.mode = 'getFilesLink'
 			this.showLinkSettings = false
-			this.expirationDate = ''
-			this.protectionPassword = ''
-			this.allowEdition = false
-			this.linkLabel = label
+			this.expirationDate = options.expirationDate || ''
+			this.protectionPassword = options.protectionPassword || ''
+			this.allowEdition = options.allowEdition || false
+			this.linkLabel = options.linkLabel || ''
 			this.openFilePicker()
 		},
 		uploadFiles() {

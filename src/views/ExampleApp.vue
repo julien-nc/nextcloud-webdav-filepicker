@@ -160,7 +160,12 @@ export default {
 			this.$refs.filepicker.getFilesPath()
 		},
 		onCustomLinkButtonClick() {
-			this.$refs.filepicker.getFilesLink('custom link label')
+			this.$refs.filepicker.getFilesLink({
+				expirationDate: new Date('2050-01-01'),
+				protectionPassword: 'example passwd',
+				allowEdition: true,
+				linkLabel: 'custom link label',
+			})
 		},
 		onUnauthorized(detail) {
 			console.debug('File picker failure, received unauthorized response code, check your credentials')
