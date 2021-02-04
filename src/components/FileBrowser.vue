@@ -207,6 +207,7 @@ export default {
 			display: block;
 			position: absolute;
 			top: 0;
+			left: 0;
 			background-image: linear-gradient(180deg, var(--main-background-color) 65%, transparent 100%);
 			z-index: -1;
 		}

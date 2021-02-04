@@ -1176,6 +1176,7 @@ export default {
 
 		.footer {
 			display: flex;
+			height: 44px;
 		}
 
 		.quota {
@@ -1205,7 +1206,7 @@ export default {
 			}
 
 			input[type=checkbox] {
-				margin: 0 5px 0 5px;
+				margin: auto 5px auto 5px;
 			}
 			#expiration-datepicker {
 				width: 140px;
