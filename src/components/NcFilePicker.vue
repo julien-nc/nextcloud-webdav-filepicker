@@ -100,6 +100,15 @@
 				<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
 					<div class="spacer" />
 					<div>
+						<span class="icon icon-password" />
+						<input
+							id="password-protect"
+							v-model="protectionPassword"
+							:placeholder="t('filepicker', 'Password protect')"
+							type="text">
+					</div>
+					<div>
+						<span class="icon icon-rename" />
 						<input
 							id="allow-edit"
 							v-model="allowEdition"
@@ -351,6 +360,7 @@ export default {
 			downloadingFiles: false,
 			downloadProgress: 0,
 			expirationDate: '',
+			protectionPassword: '',
 			allowEdition: false,
 			// new dir
 			namingNewDirectory: false,
@@ -648,6 +658,8 @@ export default {
 		getFilesLink() {
 			this.mode = 'getFilesLink'
 			this.expirationDate = ''
+			this.protectionPassword = ''
+			this.allowEdition = false
 			this.openFilePicker()
 		},
 		uploadFiles() {
@@ -862,11 +874,12 @@ export default {
 						path,
 						url: response.data.ocs.data.url,
 					})
-					if (this.allowEdition) {
+					if (this.allowEdition || this.protectionPassword) {
 						const shareId = response.data.ocs.data.id
 						const putUrl = url + '/' + shareId
 						await axios.put(putUrl, {
-							permissions: 3,
+							permissions: this.allowEdition ? 3 : undefined,
+							password: this.protectionPassword ? this.protectionPassword : undefined,
 						}, {
 							auth: {
 								username: this.login,
@@ -1170,10 +1183,15 @@ export default {
 			#allow-edit {
 				margin: 0 5px 0 5px;
 			}
+			#datepicker {
+				width: 140px;
+			}
+			#password-protect {
+				width: 140px;
+			}
 		}
 
 		#datepicker {
-			width: 140px;
 			* {
 				opacity: 1;
 			}
@@ -1202,6 +1220,7 @@ export default {
 	button {
 		height: 44px;
 	}
+	.share-link-settings .icon,
 	button .icon {
 		mask-size: 16px auto;
 		mask-position: center;
@@ -1231,9 +1250,17 @@ export default {
 		mask: url('./../../img/checked.svg') no-repeat;
 		-webkit-mask: url('./../../img/checked.svg') no-repeat;
 	}
+	.icon-rename {
+		mask: url('./../../img/rename.svg') no-repeat;
+		-webkit-mask: url('./../../img/rename.svg') no-repeat;
+	}
 	.icon-unchecked {
 		mask: url('./../../img/unchecked.svg') no-repeat;
 		-webkit-mask: url('./../../img/unchecked.svg') no-repeat;
+	}
+	.icon-password {
+		mask: url('./../../img/password.svg') no-repeat;
+		-webkit-mask: url('./../../img/password.svg') no-repeat;
 	}
 	.icon-folder {
 		mask: url('./../../img/folder.svg') no-repeat;
