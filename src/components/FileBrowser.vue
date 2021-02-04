@@ -194,8 +194,17 @@ export default {
 		}
 		position: sticky;
 		top: 0;
-		background: var(--main-background-color);
 		z-index: 2;
+		&::before {
+			width: 100%;
+			height: 66px;
+			content: ' ';
+			display: block;
+			position: absolute;
+			top: 0;
+			background-image: linear-gradient(180deg, var(--main-background-color) 65%, transparent 100%);
+			z-index: -1;
+		}
 	}
 
 	tr {
