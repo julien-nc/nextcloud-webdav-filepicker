@@ -15,12 +15,14 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
   * [How to include it](#s3-3)
 * [ ✨ The wrapper](#s4)
   * [Example](#s4-1)
-  * [Events](#s4-2)
+  * [Methods](#s4-2)
+  * [Events](#s4-3)
 * [ 🇻 The Vue component](#s5)
   * [Example](#s5-1)
   * [Props](#s5-2)
-  * [Slots](#s5-3)
-  * [Events](#s5-4)
+  * [Methods](#s5-3)
+  * [Slots](#s5-4)
+  * [Events](#s5-5)
 * [ 🔧 More information](#s6)
   * [WebAppPassword app and CORS headers](#s6-1)
   * [Restrictions with OAuth access tokens](#s6-2)
@@ -146,7 +148,7 @@ Here is a minimal example getting files paths and displaying them in the console
 </script>
 ```
 
-## Methods
+## <a id='s4-2' />Methods
 
 You can open the file picker by calling opening methods:
 
@@ -157,11 +159,13 @@ You can open the file picker by calling opening methods:
 * getSaveFilePath: open it to get a target directory path
 * getUploadFileLink: open it to select a target directory and get a WebDav upload link
 
+Those are the methods of the filepicker component returned by the `window.createFilePicker()` function.
 ``` javascript
+const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org')
 filepicker.getFilesPath()
 ```
 
-## <a id='s4-2' />Events
+## <a id='s4-3' />Events
 
 Here are the events emitted by the component and the data they provide in the `detail` attribute:
 
@@ -345,7 +349,7 @@ enableUploadFiles: {
 },
 ```
 
-## Methods
+## <a id='s5-3' />Methods
 
 You can also open the file picker by calling opening methods:
 
@@ -361,7 +365,7 @@ To access these methods, put a `ref` to the `NcFilePicker` component and then:
 this.$refs.myref.getFilesPath()
 ```
 
-## <a id='s5-3' />Slots
+## <a id='s5-4' />Slots
 
 There is a slot for each button that triggers a file picker action:
 
@@ -374,7 +378,7 @@ There is a slot for each button that triggers a file picker action:
 
 The click event is catched by the file picker component, no need to listen to it. So you can put whatever you want in those slots, a click anywhere in the slot will open the file picker just like if the default button was clicked.
 
-## <a id='s5-4' />Events
+## <a id='s5-5' />Events
 
 Those events are emitted by the component and the data included in the associated object:
 
