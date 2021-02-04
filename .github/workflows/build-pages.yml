@@ -22,8 +22,8 @@ jobs:
         run: |
           export DEBIAN_FRONTEND=noninteractive
           sudo rm -f /etc/apt/sources.list.d/github_git-lfs.list
-          sudo apt-get update -yqq
-          sudo apt-get install sed -yqq
+          sudo apt update -y
+          sudo apt install sed -y
           npm ci
           npm run build
           DATE=`date -u`
