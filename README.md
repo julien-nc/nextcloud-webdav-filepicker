@@ -70,7 +70,7 @@ There are two ways to include this file picker in your web application:
 * A Vue.js component
 * A wrapper script
 
-The file picker can optionally show buttons to open it an perform actions. You can also use your own custom elements (anywhere in your application) to trigger the file picker actions.
+The file picker can optionally show buttons to open it an perform actions. You can also directly call the component methods to trigger the file picker actions.
 
 # <a id='s4' /> ✨ The wrapper
 
@@ -146,6 +146,21 @@ Here is a minimal example getting files paths and displaying them in the console
 </script>
 ```
 
+## Methods
+
+You can open the file picker by calling opening methods:
+
+* getFilesPath: open it to get files paths
+* getFilesLink: open it to get WebDav links, optional parameter: `label` to name the created links
+* downloadFiles: open it to get files content
+* uploadFiles: open the browser file dialog to select local files and then open the filepicker to choose a target directory to upload them
+* getSaveFilePath: open it to get a target directory path
+* getUploadFileLink: open it to select a target directory and get a WebDav upload link
+
+``` javascript
+filepicker.getFilesPath()
+```
+
 ## <a id='s4-2' />Events
 
 Here are the events emitted by the component and the data they provide in the `detail` attribute:
@@ -158,6 +173,7 @@ Here are the events emitted by the component and the data they provide in the `d
 	* `successFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 	* `errorFilePaths` array of path
 * `get-files-link`: links were generated
+	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links))
 	* `webdavLinks` an array of Webdav download links
 	* `pathList` list of selected paths
 	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
@@ -334,7 +350,7 @@ enableUploadFiles: {
 You can also open the file picker by calling opening methods:
 
 * getFilesPath: open it to get files paths
-* getFilesLink: open it to get WebDav links
+* getFilesLink: open it to get WebDav links, optional parameter: `label` to name the created links
 * downloadFiles: open it to get files content
 * uploadFiles: open the browser file dialog to select local files and then open the filepicker to choose a target directory to upload them
 * getSaveFilePath: open it to get a target directory path
@@ -372,6 +388,7 @@ Those events are emitted by the component and the data included in the associate
 	* `successFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 	* `errorFilePaths` array of path
 * `get-files-link`: links were generated
+	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links))
 	* `webdavLinks` an array of Webdav download links
 	* `pathList` list of selected paths
 	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
@@ -399,10 +416,11 @@ You can still use an OAuth token to authenticate, just use it like a normal pass
 
 ## <a id='s6-3' />Create Nextcloud share links
 
-As long as CORS headers can't be changed to allow extra origins (like it's done with WebDav endpoints in WebAppPassword), the browser can't create new share links.
-You can still do it anywhere else, on the server side of your web application for example. The `get-files-link` event provides a share link template and the OCS URL to create such share links. The OCS API endpoint looks like `https://my.nextcloud.org/ocs/v2.php/apps/files_sharing/api/v1/shares`.
+As long as the CORS headers can't be changed on Nextcloud side to allow extra origins (like it's done for WebDav endpoints in WebAppPassword), in most cases, the browser can't make the OCS requests to create new share links on Nextcloud.
+The file picker will still try to make those requests. They will succeed only if the file picker is used under the same domain as the target Nextcloud.
+If it fails, you can still do it anywhere else, on the server side of your web application for example. The `get-files-link` event provides a share link template and the OCS URL to create such share links. The OCS API endpoint looks like `https://my.nextcloud.org/ocs/v2.php/apps/files_sharing/api/v1/shares`.
 
-Here is an example of link creation:
+Here is an example of link creation that you can do on your server side:
 
 ```
 curl -H "OCS-APIRequest: true" -u login:token -X POST -d "path=/path/to/file&shareType=3" "$OCS_URL"

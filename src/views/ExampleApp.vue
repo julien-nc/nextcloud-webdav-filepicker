@@ -78,9 +78,17 @@
 		</NcFilePicker>
 		<hr>
 		<h3>Results</h3>
-		<p v-for="(line, i) in resultLines" :key="i">
-			{{ line }}
-		</p>
+		<div v-for="(line, i) in resultLines" :key="i">
+			<div v-if="line.path && line.url">
+				{{ line.path }}
+				<a :href="line.url">
+					{{ line.url }}
+				</a>
+			</div>
+			<div v-else>
+				{{ line }}
+			</div>
+		</div>
 		<div class="ribbon">
 			<a href="https://github.com/eneiluj/nextcloud-webdav-filepicker" target="_blank">Repository and documentation</a>
 		</div>
@@ -158,7 +166,7 @@ export default {
 		onGetFilesPath(detail) {
 			console.debug('something was selected')
 			console.debug(detail)
-			this.resultLines = ['File paths:']
+			this.resultLines = ['- File paths:']
 			detail.selection.forEach((l) => {
 				this.resultLines.push(l)
 			})
@@ -166,17 +174,25 @@ export default {
 		onGetFilesLink(detail) {
 			console.debug('links were generated')
 			console.debug(detail)
-			this.resultLines = ['File links:']
+			this.resultLines = []
+			if (detail.shareLinks) {
+				this.resultLines.push('- Nextcloud public links:')
+				detail.shareLinks.forEach((l) => {
+					this.resultLines.push(l)
+				})
+			}
+
+			this.resultLines.push('- File links:')
 			detail.webdavLinks.forEach((l) => {
 				this.resultLines.push(l)
 			})
-			this.resultLines.push('Path list:')
+			this.resultLines.push('- Path list:')
 			detail.pathList.forEach((path) => {
 				this.resultLines.push(path)
 			})
-			this.resultLines.push('OCS URL:')
+			this.resultLines.push('- OCS URL:')
 			this.resultLines.push(detail.ocsUrl)
-			this.resultLines.push('Share link template:')
+			this.resultLines.push('- Share link template:')
 			this.resultLines.push(detail.genericShareLink)
 		},
 		onGetSaveFilePath(detail) {
@@ -195,7 +211,7 @@ export default {
 			console.debug(detail.errorFiles)
 			this.resultLines = []
 			if (detail.successFiles.length > 0) {
-				this.resultLines.push(`These files were uploaded in ${detail.targetDir}:`)
+				this.resultLines.push(`- These files were uploaded in ${detail.targetDir}:`)
 				detail.successFiles.forEach(file => {
 					this.resultLines.push(file.name)
 				})
@@ -211,7 +227,7 @@ export default {
 			console.debug('something was downloaded')
 			console.debug('failures')
 			console.debug(detail.errorFilePaths)
-			this.resultLines = ['Downloaded files:']
+			this.resultLines = ['- Downloaded files:']
 			detail.successFiles.forEach(file => {
 				console.debug('File : ' + file.name)
 				console.debug(file)
