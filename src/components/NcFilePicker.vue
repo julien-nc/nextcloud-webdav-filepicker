@@ -126,6 +126,7 @@
 						<DatetimePicker
 							id="expiration-datepicker"
 							v-model="expirationDate"
+							:disabled-date="isDateDisabled"
 							:placeholder="t('filepicker', 'Expires on')"
 							:clearable="true" />
 					</div>
@@ -408,6 +409,7 @@ export default {
 				'--color-text-lighter': this.colorTextLighter,
 				'--color-background-hover': this.colorBackgroundHover,
 				'--color-background-dark': this.colorBackgroundDark,
+				'--color-background-darker': this.colorBackgroundDarker,
 			}
 		},
 		mainTextColor() {
@@ -434,6 +436,11 @@ export default {
 			return this.myDarkMode
 				? '#222222'
 				: '#ededed'
+		},
+		colorBackgroundDarker() {
+			return this.myDarkMode
+				? '#2c2c2c'
+				: '#dbdbdb'
 		},
 		colorBackgroundHover() {
 			return this.myDarkMode
@@ -1066,6 +1073,10 @@ export default {
 		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
 			return humanFileSize(bytes, approx, si, dp)
 		},
+		isDateDisabled(d) {
+			const now = new Date()
+			return d <= now
+		},
 	},
 }
 </script>
@@ -1235,6 +1246,13 @@ export default {
 				border: none;
 				&:hover {
 					background: var(--color-background-dark);
+				}
+			}
+			.mx-calendar-content .cell.disabled {
+				background: var(--color-background-hover);
+				flex-basis: 33px;
+				> * {
+					cursor: not-allowed;
 				}
 			}
 		}
