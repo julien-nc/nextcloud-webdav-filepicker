@@ -149,6 +149,10 @@ export default {
 		if (color) {
 			this.color = '#' + color
 		}
+		const darkMode = params.get('darkMode')
+		if (darkMode === '1') {
+			this.darkMode = true
+		}
 	},
 
 	methods: {

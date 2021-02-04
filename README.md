@@ -163,6 +163,7 @@ Those are the methods of the filepicker component returned by the `window.create
 ``` javascript
 const filepicker = window.createFilePicker('mount_point', 'https://my.nextcloud.org')
 filepicker.getFilesPath()
+filepicker.getFilesLink('e-mail attachment to Jane')
 ```
 
 ## <a id='s4-3' />Events
@@ -363,6 +364,7 @@ You can also open the file picker by calling opening methods:
 To access these methods, put a `ref` to the `NcFilePicker` component and then:
 ``` javascript
 this.$refs.myref.getFilesPath()
+this.$refs.myref.getFilesLink('e-mail attachment to Jane')
 ```
 
 ## <a id='s5-4' />Slots
@@ -442,7 +444,7 @@ You can allow users to save the files downloaded by the file picker. As the retu
 
 You can pass GET parameters to demo pages in order to initialize field values. It makes it easier to provide demo links directly working. For example:
 
-https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkmode=1 (url, login and password are examples)
+https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkMode=1 (url, login and password are examples)
 
 Accepted parameters are:
 * url
