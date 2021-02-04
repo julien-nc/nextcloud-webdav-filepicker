@@ -1,5 +1,6 @@
 <template>
 	<VTable
+		ref="table"
 		class="element-table"
 		:data="elements">
 		<thead slot="head">
@@ -95,6 +96,9 @@ export default {
 		forcedSelection() {
 			this.selection = this.forcedSelection
 		},
+		elements() {
+			this.$refs.table.$el.scrollTop = 0
+		},
 	},
 
 	mounted() {
@@ -171,7 +175,8 @@ export default {
 .element-table {
 	width: 100%;
 	height: 100%;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	scrollbar-color: var(--main-color-lighter) transparent;
 	scrollbar-width: thin;
 	display: block;
