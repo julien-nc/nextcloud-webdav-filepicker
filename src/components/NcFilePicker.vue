@@ -123,7 +123,7 @@
 							for="expiration-datepicker">
 							{{ t('filepicker', 'Expires on') }}&nbsp;
 						</label>
-						<DatetimePicker
+						<MyDatetimePicker
 							id="expiration-datepicker"
 							v-model="expirationDate"
 							:disabled-date="isDateDisabled"
@@ -224,7 +224,7 @@ import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import MyDatetimePicker from './MyDatetimePicker'
 import { VTooltip } from 'v-tooltip'
 import PickerBreadcrumbs from './PickerBreadcrumbs'
 import FileBrowser from './FileBrowser'
@@ -239,7 +239,7 @@ export default {
 		Modal,
 		ProgressBar,
 		EmptyContent,
-		DatetimePicker,
+		MyDatetimePicker,
 		PickerBreadcrumbs,
 		FileBrowser,
 	},
@@ -1227,33 +1227,6 @@ export default {
 			}
 			label {
 				cursor: pointer;
-			}
-		}
-
-		#expiration-datepicker {
-			* {
-				opacity: 1;
-			}
-			.mx-calendar {
-				padding: 3px;
-			}
-			.mx-calendar-header-label button {
-				padding: 0 10px 0 10px;
-			}
-			.mx-calendar-header button,
-			.mx-calendar-header-label button {
-				background: none;
-				border: none;
-				&:hover {
-					background: var(--color-background-dark);
-				}
-			}
-			.mx-calendar-content .cell.disabled {
-				background: var(--color-background-hover);
-				flex-basis: 33px;
-				> * {
-					cursor: not-allowed;
-				}
 			}
 		}
 	}
