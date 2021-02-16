@@ -200,7 +200,7 @@
 					</button>
 
 					<div id="validate">
-						<span v-if="selection.length > 0 || ['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(mode)"
+						<span v-if="connected && (selection.length > 0 || ['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(mode))"
 							class="nb-selected">
 							{{ nbSelectedText }}
 						</span>
@@ -221,6 +221,7 @@ import { t, n } from '../translation'
 import { createClient } from 'webdav/web'
 import moment from '@nextcloud/moment'
 import axios from 'axios'
+import base64 from 'base-64'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -727,6 +728,26 @@ export default {
 				this.currentElementsByPath = {}
 				this.loadingDirectory = true
 				try {
+					const headers = new Headers()
+					headers.append('Accept', 'text/plain')
+					headers.append('Depth', '0')
+					headers.append('Authorization', 'Basic ' + base64.encode('toto:T0T0T0T0'))
+
+					fetch('https://localhost/dev/server/remote.php/dav/files/julien/', {
+						method: 'PROPFIND',
+						credentials: 'omit',
+						headers,
+					}).then((response) => {
+						console.debug('then response')
+						// console.debug(response)
+						response.text().then(text => {
+							console.debug('RESPONSE')
+							console.debug(text)
+						})
+					}).catch(err => {
+						console.error(err)
+					})
+					return
 					const directoryItems = await this.client.getDirectoryContents(this.currentPath)
 					this.currentElements = directoryItems.map((el) => {
 						this.currentElementsByPath[el.filename] = el
