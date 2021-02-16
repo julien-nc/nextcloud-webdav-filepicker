@@ -753,8 +753,12 @@ export default {
 		close(manually = false) {
 			this.isOpen = false
 			this.$emit('closed')
+			const closedEvent = new CustomEvent('filepicker-closed')
+			document.dispatchEvent(closedEvent)
 			if (manually) {
 				this.$emit('manually-closed')
+				const manuallyClosedEvent = new CustomEvent('filepicker-manually-closed')
+				document.dispatchEvent(manuallyClosedEvent)
 			}
 		},
 		onFolderClicked(path) {

@@ -63,6 +63,8 @@
 			:enable-get-save-file-path="true"
 			:enable-get-upload-file-link="true"
 			:enable-upload-files="true"
+			@closed="onClosed"
+			@manually-closed="onManuallyClosed"
 			@filepicker-unauthorized="onUnauthorized"
 			@files-downloaded="onFilesDownloaded"
 			@files-uploaded="onFilesUploaded"
@@ -251,6 +253,12 @@ export default {
 					console.debug(reader.error)
 				}
 			})
+		},
+		onClosed(e) {
+			console.debug('file picker was closed')
+		},
+		onManuallyClosed(e) {
+			console.debug('file picker was manually closed')
 		},
 	},
 }

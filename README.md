@@ -179,6 +179,8 @@ filepicker.getFilesLink({
 
 Here are the events emitted by the component and the data they provide in the `detail` attribute:
 
+* `filepicker-closed`: when the file picker is closed, whatever the reason (no associated data)
+* `filepicker-manually-closed`: when the user closes the file picker with the top right close icon (no associated data)
 * `filepicker-unauthorized`: when a WebDav request faced a 401 response code
 	* `response`: the response object
 * `get-files-path`: files were selected
@@ -201,6 +203,13 @@ Here are the events emitted by the component and the data they provide in the `d
 	* `successFiles` array of successfully uploaded [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 	* `errorFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 	* `targetDir` the target directory path
+
+You can listen to filepicker events just like other events:
+``` javascript
+document.addEventListener('filepicker-manually-closed', (e) => {
+	console.debug('The file picker was manually closed')
+})
+```
 
 # <a id='s5' /> 🇻 The Vue component
 
