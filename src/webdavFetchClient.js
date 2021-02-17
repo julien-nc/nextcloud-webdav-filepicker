@@ -14,6 +14,15 @@ export class WebDavFetchClient {
 		this.username = options.username
 		this.password = options.password
 		this.token = options.token
+		if (this.token) {
+			this.authHeader = this.token.token_type + ' ' + this.token.access_token
+		} else {
+			if (!this.username || !this.password) {
+				throw new Error('No credentials provided')
+			} else {
+				this.authHeader = 'Basic ' + base64.encode(this.username + ':' + this.password)
+			}
+		}
 	}
 
 	parseWebDavFileListXML(xmlString, path) {
@@ -51,7 +60,7 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '1')
-		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+		headers.append('Authorization', this.authHeader)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
@@ -75,7 +84,7 @@ export class WebDavFetchClient {
 
 	createDirectory(path) {
 		const headers = new Headers()
-		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+		headers.append('Authorization', this.authHeader)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
@@ -99,7 +108,7 @@ export class WebDavFetchClient {
 
 	getFileContents(path) {
 		const headers = new Headers()
-		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+		headers.append('Authorization', this.authHeader)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
@@ -121,7 +130,7 @@ export class WebDavFetchClient {
 
 	putFileContents(targetPath, file, options) {
 		const headers = new Headers()
-		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+		headers.append('Authorization', this.authHeader)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + targetPath, {
@@ -146,7 +155,7 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '0')
-		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+		headers.append('Authorization', this.authHeader)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url, {

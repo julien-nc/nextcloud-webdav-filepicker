@@ -956,7 +956,7 @@ export default {
 				const file = this.filesToUpload[i]
 				try {
 					await this.client.putFileContents(this.currentPath.replace(/\/$/, '') + '/' + file.name, file, {
-						overwrite: false,
+						overwrite: true,
 						onUploadProgress: progress => {
 							// console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
 							console.debug(`uploaded ${totalUploaded + progress.loaded} on ${totalSize}`)
