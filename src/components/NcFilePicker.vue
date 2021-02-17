@@ -726,8 +726,6 @@ export default {
 				this.loadingDirectory = true
 				try {
 					const directoryItems = await this.client.getDirectoryContents(this.currentPath)
-					console.debug('YEYEYEYEEYEYEY')
-					console.debug(directoryItems)
 					this.currentElements = directoryItems.map((el) => {
 						this.currentElementsByPath[el.filename] = el
 						return {
@@ -792,7 +790,6 @@ export default {
 				this.webdavUploadFiles()
 			} else if (this.mode === 'getFilesPath') {
 				console.debug('get file path in ' + this.currentPath)
-				// const downloadLink = this.client.getFileDownloadLink(element)
 				const detail = { selection: this.selection }
 				// for parent component
 				this.$emit('get-files-path', detail)
@@ -847,7 +844,7 @@ export default {
 					this.close()
 					return
 				}
-				const uploadPath = this.currentPath + '/file.txt'
+				const uploadPath = this.currentPath.replace(/\/$/, '') + '/file.txt'
 				try {
 					const uploadLink = this.client.getFileUploadLink(uploadPath)
 					const detail = {

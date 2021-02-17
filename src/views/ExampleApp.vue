@@ -213,7 +213,7 @@ export default {
 		},
 		onUploadPathLinkGenerated(detail) {
 			console.debug('This upload link was generated')
-			console.debug(detail.link)
+			console.debug(detail)
 			this.resultLines = [`Upload link to ${detail.targetDir}:`, detail.link]
 		},
 		onFilesUploaded(detail) {

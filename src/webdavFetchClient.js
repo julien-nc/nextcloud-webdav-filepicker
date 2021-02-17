@@ -8,12 +8,15 @@ export class WebDavFetchClient {
 		this.ns = 'DAV:'
 
 		this.url = options.url
+		const parsedUrl = new URL(this.url)
+		this.basePath = parsedUrl.pathname
+
 		this.username = options.username
 		this.password = options.password
 		this.token = options.token
 	}
 
-	parseWebDavFileListXML(xmlString) {
+	parseWebDavFileListXML(xmlString, path) {
 		const dom = this.xmlParser.parseFromString(xmlString, 'application/xml')
 		const responseList = dom.documentElement.getElementsByTagNameNS(this.ns, 'response')
 		const elemList = []
@@ -21,9 +24,14 @@ export class WebDavFetchClient {
 			const elem = {}
 			const e = responseList.item(i)
 			elem.filename = decodeURIComponent(e.getElementsByTagNameNS(this.ns, 'href').item(0).innerHTML)
+			elem.filename = elem.filename.replace(this.basePath, '').replace(/\/$/, '')
 			if (e.getElementsByTagNameNS(this.ns, 'resourcetype').item(0).getElementsByTagNameNS(this.ns, 'collection').length > 0) {
+				// skip current directory
+				if (elem.filename === path.replace(/\/$/, '')) {
+					continue
+				}
 				elem.type = 'directory'
-				elem.basename = basename(elem.filename.replace(/\/$/, ''))
+				elem.basename = basename(elem.filename)
 				elem.size = 0
 			} else {
 				elem.type = 'file'
@@ -51,15 +59,35 @@ export class WebDavFetchClient {
 				credentials: 'omit',
 				headers,
 			}).then((response) => {
-				// console.debug('then response')
-				// console.debug(response)
 				response.text().then(text => {
-					// console.debug('RESPONSE')
-					// console.debug(text)
 					if (response.status < 400) {
-						resolve(this.parseWebDavFileListXML(text))
+						resolve(this.parseWebDavFileListXML(text, path))
 					} else {
-						reject(response, text)
+						reject(new Error({ response }), text)
+					}
+				})
+			}).catch(err => {
+				console.error(err)
+				reject(err)
+			})
+		})
+	}
+
+	createDirectory(path) {
+		const headers = new Headers()
+		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+
+		return new Promise((resolve, reject) => {
+			fetch(this.url + path, {
+				method: 'MKCOL',
+				credentials: 'omit',
+				headers,
+			}).then((response) => {
+				response.text().then(text => {
+					if (response.status < 400) {
+						resolve()
+					} else {
+						reject(new Error({ response }))
 					}
 				})
 			}).catch(err => {
@@ -117,6 +145,11 @@ export class WebDavFetchClient {
 	getFileDownloadLink(path) {
 		return this.url.replace(/^(https?:\/\/)([^/]+)\/.*/, '$1' + this.username + ':' + this.password + '@$2')
 			+ path
+	}
+
+	getFileUploadLink(uploadPath) {
+		return this.url.replace(/^(https?:\/\/)/, '$1' + this.username + ':' + this.password + '@')
+			+ uploadPath + '?Content-Type=application/octet-stream'
 	}
 
 }
