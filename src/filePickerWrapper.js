@@ -26,6 +26,7 @@ window.createFilePicker = (mp, options) => {
 				ncLogin: options.login,
 				ncPassword: options.password,
 				ncAccessToken: options.accessToken,
+				useCookies: options.useCookies,
 				themeColor: options.themeColor,
 				darkMode: options.darkMode,
 				multipleDownload: options.multipleDownload,

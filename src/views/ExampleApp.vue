@@ -52,6 +52,7 @@
 			:nc-login="login"
 			:nc-password="password"
 			:nc-access-token="accessToken"
+			:use-cookies="false"
 			:multiple-upload="true"
 			:multiple-download="true"
 			:theme-color="color"

@@ -269,6 +269,11 @@ export default {
 			type: String,
 			default: '',
 		},
+		// Include cookies in WebDav and OCS requests if this is true
+		useCookies: {
+			type: Boolean,
+			default: false,
+		},
 		/* === props to control the fp component from the parent one === */
 		// file picker mode to determine what is done when the picker is opened
 		pickerMode: {
@@ -632,6 +637,7 @@ export default {
 					url: this.davUrl + '/' + this.login,
 					username: this.login,
 					password: this.password,
+					useCookies: this.useCookies,
 				})
 				this.getFolderContent(true)
 			} else if (this.login && this.accessToken) {
@@ -642,6 +648,15 @@ export default {
 						access_token: this.accessToken,
 						token_type: 'Bearer',
 					},
+					useCookies: this.useCookies,
+				})
+				this.getFolderContent(true)
+			} else if (this.login) {
+				// no auth, no web login
+				this.client = new WebDavFetchClient({
+					url: this.davUrl + '/' + this.login,
+					username: this.login,
+					useCookies: this.useCookies,
 				})
 				this.getFolderContent(true)
 			} else {
@@ -885,7 +900,9 @@ export default {
 				path = pathList[i]
 				try {
 					const headers = new Headers()
-					headers.append('Authorization', this.client.authHeader)
+					if (this.client.authHeader) {
+						headers.append('Authorization', this.client.authHeader)
+					}
 					headers.append('OCS-APIRequest', 'true')
 					headers.append('Content-Type', 'application/json')
 					headers.append('Accept', 'application/json')
@@ -912,7 +929,9 @@ export default {
 						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
 						const putHeaders = new Headers()
-						putHeaders.append('Authorization', this.client.authHeader)
+						if (this.client.authHeader) {
+							putHeaders.append('Authorization', this.client.authHeader)
+						}
 						putHeaders.append('OCS-APIRequest', 'true')
 						putHeaders.append('Content-Type', 'application/json')
 						const putReq = {

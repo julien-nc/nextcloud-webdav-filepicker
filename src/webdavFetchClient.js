@@ -14,15 +14,14 @@ export class WebDavFetchClient {
 		this.username = options.username
 		this.password = options.password
 		this.token = options.token
-		if (this.token) {
+		if (this.username && this.password) {
+			this.authHeader = 'Basic ' + base64.encode(this.username + ':' + this.password)
+		} else if (this.token) {
 			this.authHeader = this.token.token_type + ' ' + this.token.access_token
-		} else {
-			if (!this.username || !this.password) {
-				throw new Error('No credentials provided')
-			} else {
-				this.authHeader = 'Basic ' + base64.encode(this.username + ':' + this.password)
-			}
 		}
+		this.credentialsMode = options.useCookies
+			? 'same-origin'
+			: 'omit'
 	}
 
 	parseWebDavFileListXML(xmlString, path) {
@@ -60,12 +59,14 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '1')
-		headers.append('Authorization', this.authHeader)
+		if (this.authHeader) {
+			headers.append('Authorization', this.authHeader)
+		}
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
 				method: 'PROPFIND',
-				credentials: 'omit',
+				credentials: this.credentialsMode,
 				headers,
 			}).then((response) => {
 				response.text().then(text => {
@@ -84,12 +85,14 @@ export class WebDavFetchClient {
 
 	createDirectory(path) {
 		const headers = new Headers()
-		headers.append('Authorization', this.authHeader)
+		if (this.authHeader) {
+			headers.append('Authorization', this.authHeader)
+		}
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
 				method: 'MKCOL',
-				credentials: 'omit',
+				credentials: this.credentialsMode,
 				headers,
 			}).then((response) => {
 				response.text().then(text => {
@@ -108,12 +111,14 @@ export class WebDavFetchClient {
 
 	getFileContents(path) {
 		const headers = new Headers()
-		headers.append('Authorization', this.authHeader)
+		if (this.authHeader) {
+			headers.append('Authorization', this.authHeader)
+		}
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
 				method: 'GET',
-				credentials: 'omit',
+				credentials: this.credentialsMode,
 				headers,
 			}).then((response) => {
 				if (response.status < 400) {
@@ -130,12 +135,14 @@ export class WebDavFetchClient {
 
 	putFileContents(targetPath, file, options) {
 		const headers = new Headers()
-		headers.append('Authorization', this.authHeader)
+		if (this.authHeader) {
+			headers.append('Authorization', this.authHeader)
+		}
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + targetPath, {
 				method: 'PUT',
-				credentials: 'omit',
+				credentials: this.credentialsMode,
 				headers,
 				body: file,
 			}).then((response) => {
@@ -155,12 +162,14 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '0')
-		headers.append('Authorization', this.authHeader)
+		if (this.authHeader) {
+			headers.append('Authorization', this.authHeader)
+		}
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url, {
 				method: 'PROPFIND',
-				credentials: 'omit',
+				credentials: this.credentialsMode,
 				headers,
 			}).then((response) => {
 				response.text().then(text => {
@@ -197,11 +206,17 @@ export class WebDavFetchClient {
 	}
 
 	getFileDownloadLink(path) {
+		if (!this.password) {
+			throw new Error('Impossible to generate download link when login or password is missing.')
+		}
 		return this.url.replace(/^(https?:\/\/)([^/]+)\/.*/, '$1' + this.username + ':' + this.password + '@$2')
 			+ path
 	}
 
 	getFileUploadLink(uploadPath) {
+		if (!this.password) {
+			throw new Error('Impossible to generate upload link when login or password is missing.')
+		}
 		return this.url.replace(/^(https?:\/\/)/, '$1' + this.username + ':' + this.password + '@')
 			+ uploadPath + '?Content-Type=application/octet-stream'
 	}
