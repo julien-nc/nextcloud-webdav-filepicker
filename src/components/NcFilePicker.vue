@@ -218,10 +218,10 @@
 
 <script>
 import { t, n } from '../translation'
-import { createClient } from 'webdav/web'
+// import { createClient } from 'webdav/web'
+import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
 import axios from 'axios'
-import base64 from 'base-64'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -630,23 +630,21 @@ export default {
 
 			// basic http auth (classic password, app password or even oauth token)
 			if (this.login && this.password) {
-				this.client = createClient(
-					this.davUrl + '/' + this.login, {
-						username: this.login,
-						password: this.password,
-					}
-				)
+				this.client = new WebDavFetchClient({
+					url: this.davUrl + '/' + this.login,
+					username: this.login,
+					password: this.password,
+				})
 				this.getFolderContent(true)
 			} else if (this.login && this.accessToken) {
 				// OAuth2 token
-				this.client = createClient(
-					this.davUrl + '/' + this.login, {
-						token: {
-							access_token: this.accessToken,
-							token_type: 'Bearer',
-						},
-					}
-				)
+				this.client = new WebDavFetchClient({
+					url: this.davUrl + '/' + this.login,
+					token: {
+						access_token: this.accessToken,
+						token_type: 'Bearer',
+					},
+				})
 				this.getFolderContent(true)
 			} else {
 				// web login flow
@@ -728,27 +726,9 @@ export default {
 				this.currentElementsByPath = {}
 				this.loadingDirectory = true
 				try {
-					const headers = new Headers()
-					headers.append('Accept', 'text/plain')
-					headers.append('Depth', '0')
-					headers.append('Authorization', 'Basic ' + base64.encode('toto:T0T0T0T0'))
-
-					fetch('https://localhost/dev/server/remote.php/dav/files/julien/', {
-						method: 'PROPFIND',
-						credentials: 'omit',
-						headers,
-					}).then((response) => {
-						console.debug('then response')
-						// console.debug(response)
-						response.text().then(text => {
-							console.debug('RESPONSE')
-							console.debug(text)
-						})
-					}).catch(err => {
-						console.error(err)
-					})
-					return
 					const directoryItems = await this.client.getDirectoryContents(this.currentPath)
+					console.debug('YEYEYEYEEYEYEY')
+					console.debug(directoryItems)
 					this.currentElements = directoryItems.map((el) => {
 						this.currentElementsByPath[el.filename] = el
 						return {
@@ -952,6 +932,8 @@ export default {
 			if (this.client) {
 				try {
 					this.quota = await this.client.getQuota()
+					console.debug('quota')
+					console.debug(this.quota)
 				} catch (error) {
 					console.error(error)
 					if (error.response?.status === 401) {
