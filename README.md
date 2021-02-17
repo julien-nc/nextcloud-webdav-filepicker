@@ -108,6 +108,7 @@ Accepted options:
 | login | the user name | string | - |
 | password | the user password, an app password or an OAuth access token | string | - |
 | accessToken | an OAuth token (use this parameter if you absolutely want to use HTTP Authorization header to authenticate. Using the OAuth token as a password is recommended, see [OAuth token](#restrictions-with-oauth-access-tokens)) | string | - |
+| useCookies | WebDav and OCS request will include same-origin cookies if true | boolean | false |
 | color | the main file picker color | hex color string | Nextcloud blue: `#0082c9` |
 | darkMode | toggle the dark theme | boolean | `false` |
 | multipleDownload | let the user select multiple files in the file picker | boolean | `true` |
@@ -291,6 +292,11 @@ ncPassword: {
 ncAccessToken: {
 	type: String,
 	default: '',
+},
+// Include cookies in WebDav and OCS requests if this is true
+useCookies: {
+	type: Boolean,
+	default: false,
 },
 /* === props to control the fp component from the parent one === */
 // file picker mode to determine what is done when the picker is opened
