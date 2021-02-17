@@ -119,6 +119,29 @@ export class WebDavFetchClient {
 		})
 	}
 
+	putFileContents(targetPath, file, options) {
+		const headers = new Headers()
+		headers.append('Authorization', 'Basic ' + base64.encode(this.username + ':' + this.password))
+
+		return new Promise((resolve, reject) => {
+			fetch(this.url + targetPath, {
+				method: 'PUT',
+				credentials: 'omit',
+				headers,
+				body: file,
+			}).then((response) => {
+				if (response.status < 400) {
+					resolve()
+				} else {
+					reject(new Error({ response }))
+				}
+			}).catch(err => {
+				console.error(err)
+				reject(err)
+			})
+		})
+	}
+
 	getQuota() {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')

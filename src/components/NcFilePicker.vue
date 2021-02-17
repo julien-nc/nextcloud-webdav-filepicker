@@ -955,15 +955,14 @@ export default {
 			for (let i = 0; i < this.filesToUpload.length; i++) {
 				const file = this.filesToUpload[i]
 				try {
-					await this.client
-						.putFileContents(this.currentPath + '/' + file.name, file, {
-							overwrite: false,
-							onUploadProgress: progress => {
-								// console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
-								console.debug(`uploaded ${totalUploaded + progress.loaded} on ${totalSize}`)
-								this.uploadProgress = parseInt((totalUploaded + progress.loaded) / totalSize * 100)
-							},
-						})
+					await this.client.putFileContents(this.currentPath.replace(/\/$/, '') + '/' + file.name, file, {
+						overwrite: false,
+						onUploadProgress: progress => {
+							// console.debug(`Uploaded ${progress.loaded} bytes of ${progress.total}`)
+							console.debug(`uploaded ${totalUploaded + progress.loaded} on ${totalSize}`)
+							this.uploadProgress = parseInt((totalUploaded + progress.loaded) / totalSize * 100)
+						},
+					})
 				} catch (error) {
 					// already exists or no permission
 					if (error.response?.status === 412) {
