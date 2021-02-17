@@ -1017,6 +1017,8 @@ export default {
 				try {
 					console.debug('DOWNLOADING ' + filepath)
 					const buff = await this.client.getFileContents(filepath)
+					console.debug('TYPE')
+					console.debug(typeof buff)
 					const file = new File([buff], selectedElement.basename, { type: selectedElement.mime })
 					results.push(file)
 					totalDownloaded += selectedElement.size
