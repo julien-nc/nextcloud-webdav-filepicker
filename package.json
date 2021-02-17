@@ -48,7 +48,6 @@
     "@nextcloud/paths": "^1.1.2",
     "@nextcloud/router": "^1.1.0",
     "@nextcloud/vue": "^3.5.4",
-    "axios": "^0.21.1",
     "base-64": "^1.0.0",
     "buffer": "^6.0.3",
     "gettext-parser": "^4.0.4",

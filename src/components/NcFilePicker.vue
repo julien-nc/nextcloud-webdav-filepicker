@@ -220,7 +220,6 @@
 import { t, n } from '../translation'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
-import axios from 'axios'
 import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -885,35 +884,46 @@ export default {
 			for (let i = 0; i < pathList.length; i++) {
 				path = pathList[i]
 				try {
-					const response = await axios.post(url, {
+					const headers = new Headers()
+					headers.append('Authorization', this.client.authHeader)
+					headers.append('OCS-APIRequest', 'true')
+					headers.append('Content-Type', 'application/json')
+					headers.append('Accept', 'application/json')
+					const req = {
 						path,
 						shareType: 3,
 						label: this.linkLabel || 'E-mail',
 						...options,
-					}, {
-						auth: {
-							username: this.login,
-							password: this.password || this.accessToken,
-						},
-						headers: { 'OCS-APIRequest': 'true' },
+					}
+
+					const rawResponse = await fetch(url, {
+						method: 'POST',
+						credentials: 'omit',
+						headers,
+						body: JSON.stringify(req),
 					})
+					const response = await rawResponse.json()
 
 					publicLinks.push({
 						path,
-						url: response.data.ocs.data.url,
+						url: response.ocs.data.url,
 					})
 					if (this.allowEdition || this.protectionPassword) {
-						const shareId = response.data.ocs.data.id
+						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
-						await axios.put(putUrl, {
+						const putHeaders = new Headers()
+						putHeaders.append('Authorization', this.client.authHeader)
+						putHeaders.append('OCS-APIRequest', 'true')
+						putHeaders.append('Content-Type', 'application/json')
+						const putReq = {
 							permissions: this.allowEdition ? 3 : undefined,
 							password: this.protectionPassword ? this.protectionPassword : undefined,
-						}, {
-							auth: {
-								username: this.login,
-								password: this.password || this.accessToken,
-							},
-							headers: { 'OCS-APIRequest': 'true' },
+						}
+						await fetch(putUrl, {
+							method: 'PUT',
+							credentials: 'omit',
+							headers: putHeaders,
+							body: JSON.stringify(putReq),
 						})
 					}
 				} catch (error) {
