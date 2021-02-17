@@ -102,11 +102,11 @@ export class WebDavFetchClient {
 		const availableRawValue = available
 			? parseInt(available.item(0).innerHTML)
 			: undefined
-		// negative -> 0
+		// negative -> unlimited
 		const availableValue = availableRawValue
-			? availableRawValue > 0
+			? availableRawValue >= 0
 				? availableRawValue
-				: 0
+				: 'unlimited'
 			: undefined
 		return {
 			used: used ? parseInt(used.item(0).innerHTML) : undefined,
