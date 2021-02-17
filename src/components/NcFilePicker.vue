@@ -218,7 +218,6 @@
 
 <script>
 import { t, n } from '../translation'
-// import { createClient } from 'webdav/web'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
 import axios from 'axios'

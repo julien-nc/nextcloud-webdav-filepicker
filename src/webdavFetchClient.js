@@ -114,4 +114,9 @@ export class WebDavFetchClient {
 		}
 	}
 
+	getFileDownloadLink(path) {
+		return this.url.replace(/^(https?:\/\/)([^/]+)\/.*/, '$1' + this.username + ':' + this.password + '@$2')
+			+ path
+	}
+
 }
