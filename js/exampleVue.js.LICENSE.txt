@@ -29,7 +29,7 @@
  * Copyright (c) 2016 Jorik Tangelder;
  * Licensed under the MIT license */
 
-/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+/*! https://mths.be/base64 v1.0.0 by @mathias | MIT license */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
@@ -211,14 +211,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-/**
-* @license nested-property https://github.com/cosmosio/nested-property
-*
-* The MIT License (MIT)
-*
-* Copyright (c) 2014-2020 Olivier Scherrer <pode.fr@gmail.com>
-*/
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
