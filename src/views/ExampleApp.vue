@@ -15,7 +15,7 @@
 		</p>
 		<br>
 		<p>
-			Following fields are directly plugged to NcFilePicker component's props.
+			Following fields are directly plugged to NcWebdavFilePicker component's props.
 		</p>
 		<h3>Authentication</h3>
 		<p>
@@ -43,10 +43,10 @@
 			File picker component
 		</h3>
 		<p>
-			NcFilePicker component is placed under the following line. It shows every button by default.
+			NcWebdavFilePicker component is placed under the following line. It shows every button by default.
 		</p>
 		<hr>
-		<NcFilePicker
+		<NcWebdavFilePicker
 			ref="filepicker"
 			:nc-url="ncUrl"
 			:nc-login="login"
@@ -78,7 +78,7 @@
 					🔗 Custom button passed via a slot, get files links
 				</button>
 			</template>
-		</NcFilePicker>
+		</NcWebdavFilePicker>
 		<hr>
 		<h3>Results</h3>
 		<div v-for="(line, i) in resultLines" :key="i">
@@ -99,13 +99,13 @@
 </template>
 
 <script>
-import NcFilePicker from '../components/NcFilePicker'
+import NcWebdavFilePicker from '../components/NcWebdavFilePicker'
 
 export default {
 	name: 'ExampleApp',
 
 	components: {
-		NcFilePicker,
+		NcWebdavFilePicker,
 	},
 
 	props: [],

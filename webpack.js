@@ -14,10 +14,10 @@ webpackConfig.stats = {
 webpackConfig.entry = {
 	exampleVue: { import: path.join(__dirname, 'src', 'exampleVue.js'), filename: 'exampleVue.js' },
 	wrapper: { import: path.join(__dirname, 'src', 'filePickerWrapper.js'), filename: 'filePickerWrapper.js' },
-	component: { import: path.join(__dirname, 'src', 'NcFilePicker.js'), filename: 'Components/NcFilePicker.js' },
+	component: { import: path.join(__dirname, 'src', 'NcWebdavFilePicker.js'), filename: 'Components/NcWebdavFilePicker.js' },
 }
 
-webpackConfig.output.library = 'NcFilePicker'
+webpackConfig.output.library = 'NcWebdavFilePicker'
 webpackConfig.output.libraryTarget = 'umd'
 
 webpackConfig.resolve.fallback = {

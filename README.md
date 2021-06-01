@@ -221,7 +221,7 @@ npm install --save nextcloud-webdav-filepicker
 
 And use it:
 ```
-import NcFilePicker from 'nextcloud-webdav-filepicker'
+import NcWebdavFilePicker from 'nextcloud-webdav-filepicker'
 ```
 
 [Complete Vue app example](https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/src/views/ExampleApp.vue) (top component using the file picker)
@@ -233,20 +233,20 @@ Here is a minimal example of a Vue.js app using the file picker:
 <template>
 	<div id="example-app">
 		<h2>My amazing app</h2>
-		<NcFilePicker
+		<NcWebdavFilePicker
 			:nc-url="ncUrl"
 			@get-files-path="onGetFilesPath">
-		</NcFilePicker>
+		</NcWebdavFilePicker>
 	</div>
 </template>
 
 <script>
-import NcFilePicker from 'nextcloud-webdav-filepicker'
+import NcWebdavFilePicker from 'nextcloud-webdav-filepicker'
 
 export default {
 	name: 'ExampleApp',
 
-	components: { NcFilePicker },
+	components: { NcWebdavFilePicker },
 
 	props: [],
 
@@ -389,7 +389,7 @@ You can also open the file picker by calling opening methods:
 * getSaveFilePath: open it to get a target directory path
 * getUploadFileLink: open it to select a target directory and get a WebDav upload link
 
-To access these methods, put a `ref` to the `NcFilePicker` component and then:
+To access these methods, put a `ref` to the `NcWebdavFilePicker` component and then:
 ``` javascript
 this.$refs.myref.getFilesPath()
 this.$refs.myref.getFilesLink({

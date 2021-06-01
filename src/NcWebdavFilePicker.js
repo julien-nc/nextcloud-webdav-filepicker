@@ -20,6 +20,6 @@
  *
  */
 
-import NcFilePicker from './components/NcFilePicker'
+import NcWebdavFilePicker from './components/NcWebdavFilePicker'
 
-export default NcFilePicker
+export default NcWebdavFilePicker

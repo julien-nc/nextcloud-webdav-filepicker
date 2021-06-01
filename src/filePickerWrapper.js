@@ -12,7 +12,7 @@
  */
 
 import Vue from 'vue'
-import NcFilePicker from './components/NcFilePicker'
+import NcWebdavFilePicker from './components/NcWebdavFilePicker'
 
 // eslint-disable-next-line
 'use strict'
@@ -20,7 +20,7 @@ import NcFilePicker from './components/NcFilePicker'
 window.createFilePicker = (mp, options) => {
 	const vm = new Vue({
 		el: '#' + mp,
-		render: h => h(NcFilePicker, {
+		render: h => h(NcWebdavFilePicker, {
 			props: {
 				ncUrl: options.url,
 				ncLogin: options.login,

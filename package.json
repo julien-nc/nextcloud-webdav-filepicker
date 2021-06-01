@@ -32,7 +32,7 @@
   "browserslist": [
     "extends @nextcloud/browserslist-config"
   ],
-  "main": "js/Components/NcFilePicker.js",
+  "main": "js/Components/NcWebdavFilePicker.js",
   "files": [
     "COPYING",
     "README.md",

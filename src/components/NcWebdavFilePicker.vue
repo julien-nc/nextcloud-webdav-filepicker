@@ -60,158 +60,27 @@
 			:can-close="false"
 			:style="cssVars"
 			@close="close">
-			<div class="modal__content">
-				<div class="modal__header">
-					<h2>
-						{{ modalTitle }}
-					</h2>
-					<span v-show="loadingDirectory || uploadingFiles"
-						:class="{ icon: true, 'icon-loading': true, rotate: true, dark: myDarkMode }" />
-					<button class="closeButton"
-						@click="close(true)">
-						<span class="icon icon-close" />
-					</button>
-				</div>
-				<div class="bread-container">
-					<PickerBreadcrumbs
-						:parts="currentPathParts"
-						:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
-						@hash-changed="onBreadcrumbChange" />
-				</div>
-				<FileBrowser v-if="connected && currentElements.length > 0"
-					id="file-browser"
-					:elements="sortedCurrentElements"
-					:forced-selection="browserSelection"
-					:can-select-files="['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(mode)"
-					:multiple-select="multipleDownload"
-					:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
-					:style="cssVars"
-					@folder-clicked="onFolderClicked"
-					@selection-changed="onSelectionChanged" />
-				<EmptyContent v-else-if="connected"
-					icon="icon-folder"
-					class="empty-content"
-					:style="cssVars">
-					{{ t('filepicker', 'This directory is empty') }}
-				</EmptyContent>
-				<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
-					{{ t('filepicker', 'File picker is not connected') }}
-				</EmptyContent>
-
-				<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
-					<div class="spacer" />
-					<div v-if="showLinkSettings">
-						<span class="icon icon-password" />&nbsp;
-						<input
-							id="password-protect"
-							v-model="protectionPassword"
-							:placeholder="t('filepicker', 'Password protect')"
-							type="text">
-					</div>
-					<div v-if="showLinkSettings">
-						<span class="icon icon-rename" />
-						<input
-							id="allow-edit"
-							v-model="allowEdition"
-							type="checkbox">
-						<label for="allow-edit">
-							{{ t('filepicker', 'Allow editing') }}&nbsp;
-						</label>
-					</div>
-					<div v-if="showLinkSettings">
-						<label v-if="expirationDate"
-							for="expiration-datepicker">
-							{{ t('filepicker', 'Expires on') }}&nbsp;
-						</label>
-						<MyDatetimePicker
-							id="expiration-datepicker"
-							v-model="expirationDate"
-							:disabled-date="isDateDisabled"
-							:placeholder="t('filepicker', 'Expires on')"
-							:clearable="true" />
-					</div>
-					<div>
-						<span class="icon icon-public" />
-						<input
-							id="link-settings"
-							v-model="showLinkSettings"
-							type="checkbox">
-						<label for="link-settings">
-							{{ t('filepicker', 'Link settings') }}&nbsp;
-						</label>
-					</div>
-				</div>
-				<ProgressBar v-if="uploadingFiles"
-					size="medium"
-					:bar-color="mainColorLight"
-					:val="uploadProgress"
-					:text="uploadProgress + '%'" />
-				<ProgressBar v-if="downloadingFiles"
-					size="medium"
-					:bar-color="mainColorLight"
-					:val="downloadProgress"
-					:text="downloadProgress + '%'" />
-				<div v-else class="footer">
-					<ProgressBar v-if="quota"
-						size="small"
-						class="quota"
-						:bar-color="mainColorLight"
-						:text-fg-color="mainTextColor"
-						:val="quotaPercent"
-						:text="quotaText" />
-					<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
-						class="newDirectory">
-						<button v-if="!namingNewDirectory"
-							v-tooltip.top="{ content: t('filepicker', 'Create new directory'), classes: myDarkMode ? 'dark' : '' }"
-							class="newDirectoryButton"
-							@click="onCreateDirectory">
-							<span class="icon icon-add" />
-						</button>
-						<div v-else
-							class="newDirectoryForm">
-							<input v-model="newDirectoryName"
-								type="text"
-								:placeholder="t('filepicker', 'New directory name')"
-								@keyup.escape="onCancelNewDirectory"
-								@keyup.enter="createDirectory">
-							<button
-								v-tooltip.top="{ content: t('filepicker', 'Cancel'), classes: myDarkMode ? 'dark' : '' }"
-								class="newDirectoryButton"
-								@click="onCancelNewDirectory">
-								<span class="icon icon-history" />
-							</button>
-							<button
-								v-tooltip.top="{ content: t('filepicker', 'Ok'), classes: myDarkMode ? 'dark' : '' }"
-								class="newDirectoryButton"
-								@click="createDirectory">
-								<span class="icon icon-checkmark" />
-							</button>
-						</div>
-					</div>
-					<button v-if="showSelectNone"
-						@click="selectNone">
-						<span class="icon icon-unchecked" />
-						{{ t('filepicker', 'None') }}
-					</button>
-					<button v-if="showSelectAll"
-						@click="selectAll">
-						<span class="icon icon-checked" />
-						{{ t('filepicker', 'All') }}
-					</button>
-
-					<div id="validate">
-						<span v-if="connected && (selection.length > 0 || ['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(mode))"
-							class="nb-selected">
-							{{ nbSelectedText }}
-						</span>
-						<button v-if="connected && canValidate"
-							@click="onValidate">
-							<span class="icon icon-checkmark" />
-							{{ validateButtonText }}
-						</button>
-					</div>
-				</div>
-			</div>
+			<FilePicker
+				:get-title="getTitle"
+				:put-title="putTitle"
+				:loading-directory="loadingDirectory"
+				:uploading-files="uploadingFiles"
+				:downloading-files="downloadingFiles"
+				:dark-mode="myDarkMode"
+				:current-path="currentPath"
+				:current-elements="currentElements"
+				:css-vars="cssVars"
+				:connected="connected"
+				:mode="mode"
+				:multiple-download="multipleDownload"
+				:quota="quota"
+				:files-to-upload="filesToUpload"
+				@close="close(true)"
+				@folder-clicked="onFolderClicked"
+				@selection-changed="onSelectionChanged"
+				@create-directory="createDirectory"
+				@validate="onValidate"
+				@breadcrumb-hash-changed="onBreadcrumbChange" />
 		</Modal>
 	</div>
 </template>
@@ -220,27 +89,19 @@
 import { t, n } from '../translation'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
-import { dirname, basename } from '@nextcloud/paths'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import MyDatetimePicker from './MyDatetimePicker'
 import { VTooltip } from 'v-tooltip'
-import PickerBreadcrumbs from './PickerBreadcrumbs'
-import FileBrowser from './FileBrowser'
-import { humanFileSize, colorOpacity, colorLuminance } from '../utils'
-import ProgressBar from 'vue-simple-progress'
+import { colorOpacity, colorLuminance } from '../utils'
 import '../../css/filepicker.scss'
 
+import FilePicker from './FilePicker'
+
 export default {
-	name: 'NcFilePicker',
+	name: 'NcWebdavFilePicker',
 
 	components: {
 		Modal,
-		ProgressBar,
-		EmptyContent,
-		MyDatetimePicker,
-		PickerBreadcrumbs,
-		FileBrowser,
+		FilePicker,
 	},
 
 	directives: {
@@ -369,7 +230,6 @@ export default {
 			currentElementsByPath: {},
 			currentPath: '/',
 			selection: [],
-			browserSelection: [],
 			quota: null,
 			loadingDirectory: false,
 			uploadingFiles: false,
@@ -377,15 +237,10 @@ export default {
 			downloadingFiles: false,
 			downloadProgress: 0,
 			// link settings
-			showLinkSettings: false,
 			expirationDate: '',
 			protectionPassword: '',
 			allowEdition: false,
 			linkLabel: '',
-			// new dir
-			namingNewDirectory: false,
-			creatingDirectory: false,
-			newDirectoryName: '',
 			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles, getUploadFileLink
 			mode: '',
 			loginWindow: null,
@@ -473,92 +328,6 @@ export default {
 		davUrl() {
 			return this.ncUrl + '/remote.php/dav/files'
 		},
-		modalTitle() {
-			if (['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(this.mode)) {
-				return this.multipleDownload
-					? this.getTitle || this.t('filepicker', 'Select one or multiple files')
-					: this.getTitle || this.t('filepicker', 'Select a file')
-			} else if (['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(this.mode)) {
-				return this.putTitle || t('filepicker', 'Save to')
-			}
-			return ''
-		},
-		currentFiles() {
-			return this.currentElements.filter((e) => {
-				return e.type === 'file'
-			})
-		},
-		currentPathParts() {
-			const parts = []
-			let tmpPath = this.currentPath
-			while (tmpPath && tmpPath !== '/') {
-				parts.push({
-					name: basename(tmpPath),
-					path: tmpPath,
-				})
-				tmpPath = dirname(tmpPath)
-			}
-			return parts.slice().reverse()
-		},
-		sortedCurrentElements() {
-			return this.currentElements.slice().sort((a, b) => {
-				return a.basename.toLowerCase().localeCompare(b.basename.toLowerCase())
-			})
-		},
-		quotaPercent() {
-			if (this.quota?.used && this.quota?.available) {
-				const available = parseInt(this.quota.available)
-				const used = parseInt(this.quota.used)
-				return (!isNaN(available) && available !== 0 && !isNaN(used))
-					? parseInt(used / available * 100)
-					: 0
-			} else {
-				return 0
-			}
-		},
-		quotaText() {
-			if (this.quota?.used && this.quota?.available) {
-				const available = parseInt(this.quota.available)
-				const used = parseInt(this.quota.used)
-				return !isNaN(used)
-					? (!isNaN(available) && available !== 0)
-						? this.t('filepicker', '{size} used ({percent} % of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
-						: this.t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
-					: this.t('filepicker', 'invalid quota')
-			} else {
-				return this.t('filepicker', 'invalid quota')
-			}
-		},
-		validateButtonText() {
-			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
-				return t('filepicker', 'OK')
-			} else if (['getSaveFilePath', 'getUploadFileLink'].includes(this.mode)) {
-				return this.t('filepicker', 'Save to {path}', { path: basename(this.currentPath) || '/' })
-			} else if (['uploadFiles'].includes(this.mode)) {
-				const nbToUpload = this.filesToUpload.length
-				return this.n('filepicker', 'Upload {nbToUpload} file to {path}', 'Upload {nbToUpload} files to {path}', nbToUpload, { nbToUpload, path: basename(this.currentPath) || '/' })
-			}
-			return ''
-		},
-		nbSelectedText() {
-			const nbSelected = this.selection.length
-			return this.n('filepicker', '{nbSelected} selected', '{nbSelected} selected', nbSelected, { nbSelected })
-		},
-		canValidate() {
-			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
-				return this.selection.length > 0
-			} else if (this.mode === 'uploadFiles') {
-				return this.filesToUpload.length > 0
-			} else {
-				return true
-			}
-		},
-		showSelectNone() {
-			return ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode) && this.selection.length > 0
-		},
-		showSelectAll() {
-			return ['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode) && this.selection.length < this.currentFiles.length
-		},
 	},
 
 	watch: {
@@ -600,8 +369,6 @@ export default {
 			this.client = null
 			this.connected = false
 			this.quota = null
-			this.namingNewDirectory = false
-			this.newDirectoryName = ''
 			this.uploadingFiles = false
 		},
 		updateUrl(newValue) {
@@ -694,7 +461,6 @@ export default {
 		},
 		getFilesLink(options = {}) {
 			this.mode = 'getFilesLink'
-			this.showLinkSettings = false
 			this.expirationDate = options.expirationDate || ''
 			this.protectionPassword = options.protectionPassword || ''
 			this.allowEdition = options.allowEdition || false
@@ -778,18 +544,6 @@ export default {
 		},
 		onSelectionChanged(selection) {
 			this.selection = selection
-		},
-		selectNone() {
-			this.selection = []
-			this.browserSelection = []
-		},
-		selectAll() {
-			this.currentElements.forEach((e) => {
-				if (e.type === 'file' && !this.selection.includes(e.filename)) {
-					this.selection.push(e.filename)
-				}
-			})
-			this.browserSelection = this.selection
 		},
 		onExpirationUpdate(e) {
 			console.debug(e)
@@ -1075,17 +829,9 @@ export default {
 			this.downloadingFiles = false
 			this.downloadProgress = 0
 		},
-		onCreateDirectory() {
-			this.namingNewDirectory = true
-		},
-		onCancelNewDirectory() {
-			this.namingNewDirectory = false
-		},
-		async createDirectory() {
-			const newDirectoryPath = this.currentPath.replace(/^\/$/, '') + '/' + this.newDirectoryName
+		async createDirectory(newDirectoryName) {
+			const newDirectoryPath = this.currentPath.replace(/^\/$/, '') + '/' + newDirectoryName
 			await this.webdavCreateDirectory(newDirectoryPath)
-			this.namingNewDirectory = false
-			this.newDirectoryName = ''
 			this.getFolderContent(false, newDirectoryPath)
 		},
 		async webdavCreateDirectory(path) {
@@ -1102,13 +848,6 @@ export default {
 		onFileInputChange(e) {
 			this.filesToUpload = [...this.$refs.myFiles.files]
 			this.uploadFiles()
-		},
-		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
-			return humanFileSize(bytes, approx, si, dp)
-		},
-		isDateDisabled(d) {
-			const now = new Date()
-			return d <= now
 		},
 	},
 }
@@ -1148,121 +887,6 @@ export default {
 	display: flex !important;
 	min-height: 80%;
 	border-radius: 10px !important;
-
-	.modal__content {
-		width: 900px;
-		// height: 800px;
-		background: var(--main-background-color);
-		color: var(--main-text-color);
-		display: flex;
-		flex-direction: column;
-		padding: 20px;
-
-		font-weight: normal;
-		font-size: 0.875em;
-		font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
-
-		.rotate {
-			animation: rotation 2s infinite linear;
-		}
-
-		button {
-			cursor: pointer;
-			padding: 10px;
-			font-weight: bold;
-			border-radius: 100px;
-			border: 1px solid lightgrey;
-			background-color: var(--color-background-dark);
-			color: var(--main-text-color);
-
-			&:hover {
-				border-color: var(--main-color);
-			}
-		}
-
-		.closeButton {
-			width: 44px;
-			height: 44px;
-			border-radius: 50%;
-			border: 0;
-			background-color: var(--main-background-color);
-			&:hover {
-				background-color: var(--color-background-hover);
-			}
-			.icon {
-				width: 16px;
-			}
-		}
-
-		.newDirectoryButton {
-			width: 44px;
-			height: 44px;
-
-			.icon {
-				min-height: 14px;
-			}
-		}
-
-		.modal__header {
-			display: flex;
-
-			h2 {
-				margin: 10px 0 10px 0;
-				flex-grow: 1;
-			}
-		}
-
-		.bread-container {
-			display: inline-flex;
-			width: 100%;
-			margin-top: 10px;
-		}
-
-		.footer {
-			display: flex;
-			height: 44px;
-		}
-
-		.quota {
-			width: 170px;
-			margin: 9px 20px 0 0;
-			position: relative;
-			bottom: -5px;
-		}
-
-		#file-browser {
-			border-bottom: 1px solid var(--color-border);
-			margin-bottom: 5px;
-		}
-		.share-link-settings {
-			height: 55px;
-			min-height: 55px;
-
-			> div {
-				display: flex;
-				margin-left: 25px;
-				> * {
-					margin: auto 0 auto 0;
-				}
-			}
-			.spacer {
-				flex-grow: 1;
-			}
-
-			input[type=checkbox] {
-				margin: auto 5px auto 5px;
-			}
-			#expiration-datepicker {
-				width: 140px;
-			}
-			#password-protect {
-				width: 140px;
-			}
-			label {
-				cursor: pointer;
-			}
-		}
-	}
 
 	.icon {
 		min-width: 16px;
