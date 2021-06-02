@@ -482,7 +482,7 @@ export default {
 			display: flex;
 			margin-left: 25px;
 			> * {
-				margin: auto 0 auto 0;
+				margin: auto 2px auto 2px !important;
 			}
 		}
 		.spacer {

@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// this is why this component exists: fix style issues because we're not in Nextcloud :-)
+// this is why this component exists: fix style issues because we can be outside Nextcloud :-)
 ::v-deep #my-datepicker {
 	width: 100%;
 	* {
