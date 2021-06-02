@@ -90,7 +90,7 @@
 			<ProgressBar v-if="quota"
 				size="small"
 				class="quota"
-				:val="22 || quotaPercent"
+				:val="quotaPercent"
 				:text="quotaText" />
 			<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 				class="newDirectory">
@@ -138,7 +138,7 @@
 					{{ nbSelectedText }}
 				</span>
 				<button v-if="connected && canValidate"
-					@click="$emit('validate')">
+					@click="onValidate">
 					<span class="icon icon-checkmark" />
 					{{ validateButtonText }}
 				</button>
@@ -383,6 +383,17 @@ export default {
 		},
 		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
 			return humanFileSize(bytes, approx, si, dp)
+		},
+		onValidate() {
+			if (this.mode === 'getFilesLink') {
+				this.$emit('validate', {
+					protectionPassword: this.protectionPassword,
+					allowEdition: this.allowEdition,
+					expirationDate: this.expirationDate,
+				})
+			} else {
+				this.$emit('validate')
+			}
 		},
 	},
 }

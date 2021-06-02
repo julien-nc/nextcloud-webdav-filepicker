@@ -231,9 +231,6 @@ export default {
 			downloadingFiles: false,
 			downloadProgress: 0,
 			// link settings
-			expirationDate: '',
-			protectionPassword: '',
-			allowEdition: false,
 			linkLabel: '',
 			// modes : getFilesPath, downloadFiles, getFilesLink, getSaveFilePath, uploadFiles, getUploadFileLink
 			mode: '',
@@ -445,9 +442,6 @@ export default {
 		},
 		getFilesLink(options = {}) {
 			this.mode = 'getFilesLink'
-			this.expirationDate = options.expirationDate || ''
-			this.protectionPassword = options.protectionPassword || ''
-			this.allowEdition = options.allowEdition || false
 			this.linkLabel = options.linkLabel || ''
 			this.openFilePicker()
 		},
@@ -535,7 +529,7 @@ export default {
 		onBreadcrumbChange(path) {
 			this.getFolderContent(false, path)
 		},
-		async onValidate() {
+		async onValidate(options = {}) {
 			if (this.mode === 'uploadFiles') {
 				console.debug('upload to ' + this.currentPath)
 				console.debug(this.filesToUpload)
@@ -550,7 +544,6 @@ export default {
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
-				const options = this.getPublicLinkOptions()
 				const createdLinks = await this.getFilesShareLink(this.selection, options)
 				// generate WebDav download links
 				if (!this.password && this.accessToken) {
@@ -618,15 +611,6 @@ export default {
 				this.webdavDownload()
 			}
 		},
-		getPublicLinkOptions() {
-			const expirationString = this.expirationDate
-				? moment(this.expirationDate).format('YYYY-MM-DD')
-				: null
-			const options = {
-				expireDate: expirationString,
-			}
-			return options
-		},
 		async getFilesShareLink(pathList, options) {
 			// create shared access with OCS API
 			// problem : CORS headers don't allow this for the moment,
@@ -647,8 +631,8 @@ export default {
 					const req = {
 						path,
 						shareType: 3,
-						label: this.linkLabel || 'E-mail',
-						...options,
+						label: this.linkLabel || 'File picker link',
+						expireDate: options.expirationDate ? moment(options.expirationDate).format('YYYY-MM-DD') : null,
 					}
 
 					const rawResponse = await fetch(url, {
@@ -663,7 +647,7 @@ export default {
 						path,
 						url: response.ocs.data.url,
 					})
-					if (this.allowEdition || this.protectionPassword) {
+					if (options.allowEdition || options.protectionPassword) {
 						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
 						const putHeaders = new Headers()
@@ -673,8 +657,8 @@ export default {
 						putHeaders.append('OCS-APIRequest', 'true')
 						putHeaders.append('Content-Type', 'application/json')
 						const putReq = {
-							permissions: this.allowEdition ? 3 : undefined,
-							password: this.protectionPassword ? this.protectionPassword : undefined,
+							permissions: options.allowEdition ? 3 : undefined,
+							password: options.protectionPassword ? options.protectionPassword : undefined,
 						}
 						await fetch(putUrl, {
 							method: 'PUT',
