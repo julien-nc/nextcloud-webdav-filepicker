@@ -235,11 +235,9 @@ export default {
 			t,
 			n,
 			selection: [],
-			// TODO take care of these options (set them from parent component and pass them on validation)
 			expirationDate: '',
 			protectionPassword: '',
 			allowEdition: false,
-			linkLabel: '',
 			showLinkSettings: false,
 			// new dir
 			namingNewDirectory: false,
@@ -413,8 +411,17 @@ export default {
 	font-size: 0.875em;
 	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
 
-	.rotate {
-		animation: rotation 2s infinite linear;
+	.picker__header {
+		display: flex;
+
+		h2 {
+			margin: 10px 0 10px 0;
+			flex-grow: 1;
+		}
+
+		.rotate {
+			animation: rotation 2s infinite linear;
+		}
 	}
 
 	button {
@@ -454,15 +461,6 @@ export default {
 		}
 	}
 
-	.picker__header {
-		display: flex;
-
-		h2 {
-			margin: 10px 0 10px 0;
-			flex-grow: 1;
-		}
-	}
-
 	.bread-container {
 		display: inline-flex;
 		width: 100%;
@@ -472,13 +470,22 @@ export default {
 	.footer {
 		display: flex;
 		height: 44px;
-	}
 
-	.quota {
-		width: 170px;
-		margin: 9px 20px 0 0;
-		position: relative;
-		bottom: -5px;
+		#validate {
+			margin-left: auto;
+
+			.nb-selected {
+				margin: auto 10px auto 0;
+				line-height: 44px;
+			}
+		}
+
+		.quota {
+			width: 170px;
+			margin: 9px 20px 0 0;
+			position: relative;
+			bottom: -5px;
+		}
 	}
 
 	#file-browser {

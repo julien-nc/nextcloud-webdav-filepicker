@@ -929,21 +929,6 @@ export default {
 		background-color: grey;
 	}
 
-	#validate {
-		margin-left: auto;
-
-		.nb-selected {
-			margin: auto 10px auto 0;
-			line-height: 44px;
-		}
-	}
-
-	.loading {
-		flex-grow: 1;
-		text-align: center;
-		padding-top: 50px;
-	}
-
 	.icon-loading {
 		margin-right: 10px;
 		background: no-repeat center/30px url('./../../img/loading.png');
