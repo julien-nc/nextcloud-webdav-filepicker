@@ -163,6 +163,7 @@ import { humanFileSize } from '../utils'
 
 import ProgressBar from 'vue-simple-progress'
 
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import { dirname, basename } from '@nextcloud/paths'
 
@@ -175,6 +176,10 @@ export default {
 		ProgressBar,
 		EmptyContent,
 		MyDatetimePicker,
+	},
+
+	directives: {
+		tooltip: Tooltip,
 	},
 
 	props: {
@@ -507,6 +512,15 @@ export default {
 		label {
 			cursor: pointer;
 		}
+	}
+}
+
+@keyframes rotation {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
 	}
 }
 </style>

@@ -90,7 +90,6 @@ import { t, n } from '../translation'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import { VTooltip } from 'v-tooltip'
 import { colorOpacity, colorLuminance } from '../utils'
 import '../../css/filepicker.scss'
 
@@ -102,10 +101,6 @@ export default {
 	components: {
 		Modal,
 		FilePicker,
-	},
-
-	directives: {
-		tooltip: VTooltip,
 	},
 
 	props: {
@@ -1008,15 +1003,6 @@ export default {
 		border-radius: 3px;
 		padding: 0px 6px;
 		height: 34px;
-	}
-}
-
-@keyframes rotation {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(359deg);
 	}
 }
 </style>
