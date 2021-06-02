@@ -90,7 +90,7 @@ import { t, n } from '../translation'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import { colorOpacity, colorLuminance } from '../utils'
+import { colorOpacity } from '../utils'
 import '../../css/filepicker.scss'
 
 import FilePicker from './FilePicker'
@@ -248,17 +248,13 @@ export default {
 	computed: {
 		cssVars() {
 			return {
-				'--main-color': this.mainColor,
+				'--color-primary': this.mainColor,
 				'--color-primary-element': this.mainColor,
 				'--color-primary-text': '#ffffff',
-				'--main-color-light': this.mainColorLight,
-				'--main-color-lighter': this.mainColorLighter,
-				'--main-color-dark': this.mainColorDark,
-				'--main-color-darker': this.mainColorDarker,
-				'--main-background-color': this.mainBackgroundColor,
+				'--color-primary-element-light': this.mainColorLight,
+				'--color-primary-light': this.mainColorLighter,
 				'--color-main-background': this.mainBackgroundColor,
 				'--color-border': this.colorBorder,
-				'--main-text-color': this.mainTextColor,
 				'--color-main-text': this.mainTextColor,
 				'--color-text-lighter': this.colorTextLighter,
 				'--color-background-hover': this.colorBackgroundHover,
@@ -310,12 +306,6 @@ export default {
 			return this.myDarkMode
 				? colorOpacity(this.mainColor, 0.8)
 				: colorOpacity(this.mainColor, 0.2)
-		},
-		mainColorDark() {
-			return colorLuminance(this.mainColor, -0.2)
-		},
-		mainColorDarker() {
-			return colorLuminance(this.mainColor, -0.4)
 		},
 		authUrl() {
 			return this.ncUrl + '/index.php/apps/webapppassword'
@@ -897,7 +887,7 @@ export default {
 		mask-position: center;
 		-webkit-mask-size: 16px auto;
 		-webkit-mask-position: center;
-		background-color: var(--main-text-color);
+		background-color: var(--color-main-text);
 		margin-bottom: -2px;
 		width: 20px;
 	}
@@ -944,7 +934,7 @@ export default {
 		-webkit-mask: url('./../../img/folder.svg') no-repeat;
 		-webkit-mask-size: 30px auto;
 		-webkit-mask-position: center;
-		background-color: var(--main-color, grey);
+		background-color: var(--color-primary-element, grey);
 	}
 	.icon-disabled-user {
 		mask: url('./../../img/disabled-user.svg') no-repeat;
@@ -997,8 +987,8 @@ export default {
 	input[type=text] {
 		-moz-appearance: textfield;
 		-webkit-appearance: textfield;
-		background-color: var(--main-background-color);
-		color: var(--main-text-color);
+		background-color: var(--color-main-background);
+		color: var(--color-main-text);
 		border: 1px solid lightgrey;
 		border-radius: 3px;
 		padding: 0px 6px;

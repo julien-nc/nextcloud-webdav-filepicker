@@ -83,20 +83,20 @@
 		<!-- TODO pass cssVars as style and rename all vars to fit the ones provided by server.css -->
 		<ProgressBar v-if="uploadingFiles"
 			size="medium"
-			:bar-color="cssVars['--main-color-light']"
+			:bar-color="cssVars['--color-primary-element-light']"
 			:val="uploadProgress"
 			:text="uploadProgress + '%'" />
 		<ProgressBar v-if="downloadingFiles"
 			size="medium"
-			:bar-color="cssVars['--main-color-light']"
+			:bar-color="cssVars['--color-primary-element-light']"
 			:val="downloadProgress"
 			:text="downloadProgress + '%'" />
 		<div v-else class="footer">
 			<ProgressBar v-if="quota"
 				size="small"
 				class="quota"
-				:bar-color="cssVars['--main-color-light']"
-				:text-fg-color="cssVars['--main-text-color']"
+				:bar-color="cssVars['--color-primary-element-light']"
+				:text-fg-color="cssVars['--color-main-text']"
 				:val="quotaPercent"
 				:text="quotaText" />
 			<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
@@ -403,8 +403,8 @@ export default {
 .picker__content {
 	width: 900px;
 	// height: 800px;
-	background: var(--main-background-color);
-	color: var(--main-text-color);
+	background: var(--color-main-background);
+	color: var(--color-main-text);
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
@@ -424,10 +424,10 @@ export default {
 		border-radius: 100px;
 		border: 1px solid lightgrey;
 		background-color: var(--color-background-dark);
-		color: var(--main-text-color);
+		color: var(--color-main-text);
 
 		&:hover {
-			border-color: var(--main-color);
+			border-color: var(--color-primary-element);
 		}
 	}
 
@@ -436,7 +436,7 @@ export default {
 		height: 44px;
 		border-radius: 50%;
 		border: 0;
-		background-color: var(--main-background-color);
+		background-color: var(--color-main-background);
 		&:hover {
 			background-color: var(--color-background-hover);
 		}

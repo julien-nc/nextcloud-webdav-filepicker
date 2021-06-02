@@ -177,7 +177,7 @@ export default {
 	height: 100%;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	scrollbar-color: var(--main-color-lighter) transparent;
+	scrollbar-color: var(--color-primary-light) transparent;
 	scrollbar-width: thin;
 	display: block;
 	border-spacing: 0;
@@ -208,7 +208,7 @@ export default {
 			position: absolute;
 			top: 0;
 			left: 0;
-			background-image: linear-gradient(180deg, var(--main-background-color) 65%, transparent 100%);
+			background-image: linear-gradient(180deg, var(--color-main-background) 65%, transparent 100%);
 			z-index: -1;
 		}
 	}
@@ -228,11 +228,11 @@ export default {
 			cursor: pointer;
 
 			&.selected:hover {
-				background-color: var(--main-color-light);
+				background-color: var(--color-primary-element-light);
 			}
 
 			&.selected {
-				background-color: var(--main-color-lighter);
+				background-color: var(--color-primary-light);
 			}
 
 			&:hover {
@@ -254,7 +254,7 @@ export default {
 	}
 
 	.icon-folder {
-		background-color: var(--main-color, grey) !important;
+		background-color: var(--color-primary-element, grey) !important;
 	}
 	.icon-file {
 		mask: url('./../../img/file.svg') no-repeat;
