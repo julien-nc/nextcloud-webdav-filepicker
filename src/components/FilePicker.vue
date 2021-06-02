@@ -522,6 +522,16 @@ export default {
 	}
 }
 
+::v-deep .icon-folder {
+	mask: url('./../../img/folder.svg') no-repeat;
+	mask-size: 30px auto;
+	mask-position: center;
+	-webkit-mask: url('./../../img/folder.svg') no-repeat;
+	-webkit-mask-size: 30px auto;
+	-webkit-mask-position: center;
+	background-color: var(--color-primary-element, grey);
+}
+
 ::v-deep .vue-simple-progress-bar {
 	background: var(--color-primary-element-light) none repeat scroll 0% 0% !important;
 }

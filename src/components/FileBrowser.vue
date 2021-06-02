@@ -184,6 +184,7 @@ export default {
 	// padding: 10px 0 10px 0;
 
 	.icon {
+		display: inline-block;
 		width: 100px;
 		height: 50px;
 		background-repeat: no-repeat;
@@ -226,6 +227,12 @@ export default {
 
 		&.selectable {
 			cursor: pointer;
+			td {
+				cursor: pointer;
+				* {
+					cursor: pointer;
+				}
+			}
 
 			&.selected:hover {
 				background-color: var(--color-primary-element-light);
@@ -243,6 +250,7 @@ export default {
 
 	td {
 		border: 0;
+		height: 50px;
 
 		.icon {
 			mask-size: 30px auto;
@@ -299,6 +307,12 @@ export default {
 	.icon-spreadsheet {
 		background-image: url('./../../img/spreadsheet.svg');
 		background-color: unset !important;
+	}
+	.icon-text,
+	.icon-audio,
+	.icon-calendar,
+	.icon-picture {
+		background-image: unset;
 	}
 }
 </style>

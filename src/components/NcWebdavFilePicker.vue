@@ -910,15 +910,6 @@ export default {
 		mask: url('./../../img/public.svg') no-repeat;
 		-webkit-mask: url('./../../img/public.svg') no-repeat;
 	}
-	.icon-folder {
-		mask: url('./../../img/folder.svg') no-repeat;
-		mask-size: 30px auto;
-		mask-position: center;
-		-webkit-mask: url('./../../img/folder.svg') no-repeat;
-		-webkit-mask-size: 30px auto;
-		-webkit-mask-position: center;
-		background-color: var(--color-primary-element, grey);
-	}
 	.icon-disabled-user {
 		mask: url('./../../img/disabled-user.svg') no-repeat;
 		mask-size: 30px auto;
