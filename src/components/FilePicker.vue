@@ -24,13 +24,11 @@
 			:can-select-files="['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(mode)"
 			:multiple-select="multipleDownload"
 			:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
-			:style="cssVars"
 			@folder-clicked="$emit('folder-clicked', $event)"
 			@selection-changed="onSelectionChange" />
 		<EmptyContent v-else-if="connected"
 			icon="icon-folder"
-			class="empty-content"
-			:style="cssVars">
+			class="empty-content">
 			{{ t('filepicker', 'This directory is empty') }}
 		</EmptyContent>
 		<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
@@ -80,24 +78,19 @@
 				</label>
 			</div>
 		</div>
-		<!-- TODO pass cssVars as style and rename all vars to fit the ones provided by server.css -->
 		<ProgressBar v-if="uploadingFiles"
 			size="medium"
-			:bar-color="cssVars['--color-primary-element-light']"
 			:val="uploadProgress"
 			:text="uploadProgress + '%'" />
 		<ProgressBar v-if="downloadingFiles"
 			size="medium"
-			:bar-color="cssVars['--color-primary-element-light']"
 			:val="downloadProgress"
 			:text="downloadProgress + '%'" />
 		<div v-else class="footer">
 			<ProgressBar v-if="quota"
 				size="small"
 				class="quota"
-				:bar-color="cssVars['--color-primary-element-light']"
-				:text-fg-color="cssVars['--color-main-text']"
-				:val="quotaPercent"
+				:val="22 || quotaPercent"
 				:text="quotaText" />
 			<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 				class="newDirectory">
@@ -210,10 +203,6 @@ export default {
 		currentPath: {
 			type: String,
 			default: null,
-		},
-		cssVars: {
-			type: Object,
-			default: () => {},
 		},
 		quota: {
 			type: Object,
@@ -513,6 +502,14 @@ export default {
 			cursor: pointer;
 		}
 	}
+}
+
+::v-deep .vue-simple-progress-bar {
+	background: var(--color-primary-element-light) none repeat scroll 0% 0% !important;
+}
+
+::v-deep .vue-simple-progress-text {
+	color: var(--color-main-text) !important;
 }
 
 @keyframes rotation {

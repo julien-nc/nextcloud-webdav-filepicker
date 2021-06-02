@@ -69,7 +69,6 @@
 				:dark-mode="myDarkMode"
 				:current-path="currentPath"
 				:current-elements="currentElements"
-				:css-vars="cssVars"
 				:connected="connected"
 				:mode="mode"
 				:multiple-download="multipleDownload"
