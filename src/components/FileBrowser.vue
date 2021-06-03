@@ -177,7 +177,7 @@ export default {
 	height: 100%;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	scrollbar-color: var(--color-primary-light) transparent;
+	scrollbar-color: var(--color-border-dark) transparent;
 	scrollbar-width: thin;
 	display: block;
 	border-spacing: 0;

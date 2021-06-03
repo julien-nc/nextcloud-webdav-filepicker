@@ -251,6 +251,7 @@ export default {
 				'--color-primary-light': this.mainColorLighter,
 				'--color-main-background': this.mainBackgroundColor,
 				'--color-border': this.colorBorder,
+				'--color-border-dark': this.colorBorderDark,
 				'--color-main-text': this.mainTextColor,
 				'--color-text-lighter': this.colorTextLighter,
 				'--color-background-hover': this.colorBackgroundHover,
@@ -274,6 +275,11 @@ export default {
 			return this.myDarkMode
 				? '#2a2a2a'
 				: '#ededed'
+		},
+		colorBorderDark() {
+			return this.myDarkMode
+				? '#3c3c3c'
+				: '#dbdbdb'
 		},
 		colorTextLighter() {
 			return this.myDarkMode
@@ -866,14 +872,13 @@ export default {
 	button {
 		height: 44px;
 	}
-	.share-link-settings .icon,
 	button .icon {
 		mask-size: 16px auto;
 		mask-position: center;
 		-webkit-mask-size: 16px auto;
 		-webkit-mask-position: center;
 		background-color: var(--color-main-text);
-		margin-bottom: -2px;
+		margin-bottom: -3px;
 		width: 20px;
 	}
 	.icon-close {
@@ -892,17 +897,9 @@ export default {
 		mask: url('./../../img/checkmark.svg') no-repeat;
 		-webkit-mask: url('./../../img/checkmark.svg') no-repeat;
 	}
-	.icon-checked {
-		mask: url('./../../img/checked.svg') no-repeat;
-		-webkit-mask: url('./../../img/checked.svg') no-repeat;
-	}
 	.icon-rename {
 		mask: url('./../../img/rename.svg') no-repeat;
 		-webkit-mask: url('./../../img/rename.svg') no-repeat;
-	}
-	.icon-unchecked {
-		mask: url('./../../img/unchecked.svg') no-repeat;
-		-webkit-mask: url('./../../img/unchecked.svg') no-repeat;
 	}
 	.icon-password {
 		mask: url('./../../img/password.svg') no-repeat;

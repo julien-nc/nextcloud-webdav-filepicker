@@ -123,12 +123,12 @@
 			</div>
 			<button v-if="showSelectNone"
 				@click="selectNone">
-				<span class="icon icon-unchecked" />
+				<span class="icon custom-icon icon-unchecked" />
 				{{ t('filepicker', 'None') }}
 			</button>
 			<button v-if="showSelectAll"
 				@click="selectAll">
-				<span class="icon icon-checked" />
+				<span class="icon custom-icon icon-checked" />
 				{{ t('filepicker', 'All') }}
 			</button>
 
@@ -442,6 +442,7 @@ export default {
 	}
 
 	button {
+		height: 44px;
 		cursor: pointer;
 		padding: 10px;
 		font-weight: bold;
@@ -537,6 +538,26 @@ export default {
 		label {
 			cursor: pointer;
 		}
+	}
+
+	.share-link-settings .custom-icon,
+	button .custom-icon {
+		mask-size: 15px auto;
+		mask-position: center;
+		-webkit-mask-size: 15px auto;
+		-webkit-mask-position: center;
+		background-color: var(--color-main-text);
+		// margin-bottom: -2px;
+		width: 20px;
+	}
+
+	.icon-checked {
+		mask: url('../../img/checked.svg') no-repeat;
+		-webkit-mask: url('../../img/checked.svg') no-repeat;
+	}
+	.icon-unchecked {
+		mask: url('../../img/unchecked.svg') no-repeat;
+		-webkit-mask: url('../../img/unchecked.svg') no-repeat;
 	}
 }
 
