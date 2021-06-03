@@ -234,15 +234,11 @@ export default {
 				}
 			}
 
-			&.selected:hover {
-				background-color: var(--color-primary-element-light);
-			}
-
 			&.selected {
-				background-color: var(--color-primary-light);
+				background-color: var(--color-background-darker);
 			}
 
-			&:hover {
+			&:hover:not(.selected) {
 				background-color: var(--color-background-hover);
 			}
 		}
