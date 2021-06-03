@@ -14,7 +14,8 @@ webpackConfig.stats = {
 webpackConfig.entry = {
 	exampleVue: { import: path.join(__dirname, 'src', 'exampleVue.js'), filename: 'exampleVue.js' },
 	wrapper: { import: path.join(__dirname, 'src', 'filePickerWrapper.js'), filename: 'filePickerWrapper.js' },
-	component: { import: path.join(__dirname, 'src', 'NcWebdavFilePicker.js'), filename: 'Components/NcWebdavFilePicker.js' },
+	mainComponent: { import: path.join(__dirname, 'src', 'NcWebdavFilePicker.js'), filename: 'Components/NcWebdavFilePicker.js' },
+	filePickerComponent: { import: path.join(__dirname, 'src', 'FilePicker.js'), filename: 'Components/FilePicker.js' },
 }
 
 webpackConfig.output.library = 'NcWebdavFilePicker'

@@ -920,18 +920,6 @@ export default {
 		background-color: grey;
 	}
 
-	.icon-loading {
-		margin-right: 10px;
-		background: no-repeat center/30px url('./../../img/loading.png');
-		width: 44px;
-		height: 44px;
-
-		&.dark {
-			filter: invert(100%);
-			-webkit-filter: invert(100%);
-		}
-	}
-
 	.empty-content {
 		flex-grow: 1;
 		color: lightgrey;
