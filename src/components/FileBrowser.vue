@@ -5,15 +5,39 @@
 		:data="elements">
 		<thead slot="head">
 			<th style="width: 10%;" />
-			<VTh sort-key="basename" style="width: 50%;">
+			<MyVTh sort-key="basename" style="width: 50%;">
+				<template #descIcon>
+					<svg width="16"
+						height="16"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 320 512">
+						<path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" />
+					</svg>
+				</template>
+				<template #sortIcon>
+					<svg width="16"
+						height="16"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 320 512">
+						<path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" />
+					</svg>
+				</template>
+				<template #ascIcon>
+					<svg width="16"
+						height="16"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 320 512">
+						<path fill="currentColor" d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z" />
+					</svg>
+				</template>
 				{{ t('filepicker', 'Name') }}
-			</VTh>
-			<VTh sort-key="size" style="width: 15%;">
+			</MyVTh>
+			<MyVTh sort-key="size" style="width: 15%;">
 				{{ t('filepicker', 'Size') }}
-			</VTh>
-			<VTh sort-key="lastmod_ts" style="width: 25%;">
+			</MyVTh>
+			<MyVTh sort-key="lastmod_ts" style="width: 25%;">
 				{{ t('filepicker', 'Modified') }}
-			</VTh>
+			</MyVTh>
 		</thead>
 		<tbody slot="body" slot-scope="{displayData}">
 			<tr v-for="value in displayData"
@@ -47,15 +71,16 @@
 import { t, n } from '../translation'
 import moment from '@nextcloud/moment'
 import { humanFileSize } from '../utils'
+import MyVTh from './MyVTh'
 
-import { VTable, VTh } from 'vuejs-smart-table'
+import { VTable } from 'vuejs-smart-table'
 
 export default {
 	name: 'FileBrowser',
 
 	components: {
 		VTable,
-		VTh,
+		MyVTh,
 	},
 
 	props: {
@@ -195,6 +220,7 @@ export default {
 	th {
 		text-align: left;
 		height: 50px;
+		font-weight: bold;
 		&:not(:first-child) {
 			cursor: pointer;
 		}
