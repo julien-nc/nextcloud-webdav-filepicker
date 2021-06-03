@@ -412,9 +412,9 @@ export default {
 	flex-direction: column;
 	padding: 20px;
 
-	font-weight: normal;
-	font-size: 0.875em;
-	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
+	// font-weight: normal;
+	font-size: var(--default-font-size);
+	font-family: var(--font-face);
 
 	.picker__header {
 		display: flex;
