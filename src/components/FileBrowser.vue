@@ -227,6 +227,7 @@ export default {
 		position: sticky;
 		top: 0;
 		z-index: 2;
+		border: 0;
 		&::before {
 			width: 100%;
 			height: 66px;

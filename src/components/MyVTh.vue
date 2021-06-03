@@ -53,5 +53,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// nothing
+svg {
+	margin-bottom: -3px;
+}
 </style>
