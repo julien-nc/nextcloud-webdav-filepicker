@@ -654,9 +654,7 @@ export default {
 				path = pathList[i]
 				try {
 					const headers = new Headers()
-					if (this.client.authHeader) {
-						headers.append('Authorization', this.client.authHeader)
-					}
+					this.client.appendAuthHeader(headers)
 					headers.append('OCS-APIRequest', 'true')
 					headers.append('Content-Type', 'application/json')
 					headers.append('Accept', 'application/json')
@@ -683,9 +681,7 @@ export default {
 						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
 						const putHeaders = new Headers()
-						if (this.client.authHeader) {
-							putHeaders.append('Authorization', this.client.authHeader)
-						}
+						this.client.appendAuthHeader(headers)
 						putHeaders.append('OCS-APIRequest', 'true')
 						putHeaders.append('Content-Type', 'application/json')
 						const putReq = {
