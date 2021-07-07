@@ -32,6 +32,14 @@ export class WebDavFetchClient {
 		}
 	}
 
+	getAuthHeader() {
+		if (this.authHeader) {
+			return { Authorization: this.authHeader }
+		} else if (this.token?.token_type === 'oidc') {
+			return { oidc: this.token.access_token }
+		}
+	}
+
 	parseWebDavFileListXML(xmlString, path) {
 		const dom = this.xmlParser.parseFromString(xmlString, 'application/xml')
 		const responseList = dom.documentElement.getElementsByTagNameNS(this.ns, 'response')

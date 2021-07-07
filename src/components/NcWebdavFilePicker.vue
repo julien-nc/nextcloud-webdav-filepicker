@@ -91,6 +91,7 @@ import moment from '@nextcloud/moment'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import { colorOpacity } from '../utils'
 import '../../css/filepicker.scss'
+import axios from 'axios'
 
 import FilePicker from './FilePicker'
 
@@ -682,20 +683,48 @@ export default {
 					if (options.allowEdition || options.protectionPassword) {
 						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
-						const putHeaders = new Headers()
-						this.client.appendAuthHeader(putHeaders)
-						putHeaders.append('OCS-APIRequest', 'true')
-						putHeaders.append('Content-Type', 'application/json')
 						const putReq = {
 							permissions: options.allowEdition ? 3 : undefined,
 							password: options.protectionPassword ? options.protectionPassword : undefined,
 						}
-						await fetch(putUrl, {
-							method: 'PUT',
-							credentials: 'omit',
-							headers: putHeaders,
-							body: JSON.stringify(putReq),
-						})
+						const useFetch = true
+						if (useFetch) {
+							const putHeaders = new Headers()
+							this.client.appendAuthHeader(putHeaders)
+							putHeaders.append('OCS-APIRequest', 'true')
+							putHeaders.append('Content-Type', 'application/json')
+							await fetch(putUrl, {
+								method: 'PUT',
+								credentials: 'omit',
+								headers: putHeaders,
+								body: JSON.stringify(putReq),
+							}).then((response) => {
+								if (response.status >= 400 && response.status < 600) {
+									throw new Error('Bad response from server')
+								}
+								return response
+							}).catch((error) => {
+								console.debug('Impossible to edit shared access')
+								console.debug(error)
+							})
+						} else {
+							try {
+								await axios.put(putUrl, putReq, {
+									headers: {
+										...this.client.getAuthHeader(),
+										'OCS-APIRequest': 'true',
+										'Content-Type': 'application/json',
+									},
+									// this has no effect, cookies are passed anyway
+									withCredentials: false,
+								})
+							} catch (error) {
+								console.error('Impossible to edit shared access')
+								console.error(error.response?.data?.ocs?.meta?.message)
+								console.error(error)
+								return null
+							}
+						}
 					}
 				} catch (error) {
 					console.error('Impossible to create public links')
