@@ -583,27 +583,29 @@ export default {
 					this.close()
 					return
 				}
+				let webdavLinks
 				try {
-					const webdavLinks = this.selection.map((path) => {
+					webdavLinks = this.selection.map((path) => {
 						return this.client.getFileDownloadLink(path)
 					})
-					const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
-					const genericShareLink = this.url + '/index.php/s/TOKEN'
-					const detail = {
-						webdavLinks,
-						pathList: this.selection,
-						ocsUrl,
-						genericShareLink,
-						shareLinks: createdLinks,
-					}
-					// for parent component
-					this.$emit('get-files-link', detail)
-					// for potential global listener
-					const event = new CustomEvent('get-files-link', { detail })
-					document.dispatchEvent(event)
 				} catch (error) {
 					console.error('Impossible to generate download links')
+					console.error(error)
 				}
+				const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
+				const genericShareLink = this.url + '/index.php/s/TOKEN'
+				const detail = {
+					webdavLinks,
+					pathList: this.selection,
+					ocsUrl,
+					genericShareLink,
+					shareLinks: createdLinks,
+				}
+				// for parent component
+				this.$emit('get-files-link', detail)
+				// for potential global listener
+				const event = new CustomEvent('get-files-link', { detail })
+				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getSaveFilePath') {
 				console.debug('user wants to save in ' + this.currentPath)
@@ -681,7 +683,7 @@ export default {
 						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
 						const putHeaders = new Headers()
-						this.client.appendAuthHeader(headers)
+						this.client.appendAuthHeader(putHeaders)
 						putHeaders.append('OCS-APIRequest', 'true')
 						putHeaders.append('Content-Type', 'application/json')
 						const putReq = {

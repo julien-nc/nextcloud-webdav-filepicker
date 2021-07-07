@@ -201,10 +201,12 @@ export default {
 				})
 			}
 
-			this.resultLines.push('- File links:')
-			detail.webdavLinks.forEach((l) => {
-				this.resultLines.push(l)
-			})
+			if (detail.webdavLinks) {
+				this.resultLines.push('- File links:')
+				detail.webdavLinks.forEach((l) => {
+					this.resultLines.push(l)
+				})
+			}
 			this.resultLines.push('- Path list:')
 			detail.pathList.forEach((path) => {
 				this.resultLines.push(path)
