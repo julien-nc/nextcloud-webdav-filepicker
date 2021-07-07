@@ -124,6 +124,11 @@ export default {
 			type: String,
 			default: '',
 		},
+		// OIDC access token
+		ncOidcToken: {
+			type: String,
+			default: '',
+		},
 		// Include cookies in WebDav and OCS requests if this is true
 		useCookies: {
 			type: Boolean,
@@ -213,6 +218,7 @@ export default {
 			login: this.ncLogin,
 			password: this.ncPassword,
 			accessToken: this.ncAccessToken,
+			oidcToken: this.ncOidcToken,
 			url: this.ncUrl,
 			mainColor: this.themeColor || '#0082c9',
 			myDarkMode: this.darkMode,
@@ -332,6 +338,9 @@ export default {
 		ncAccessToken() {
 			this.updateAccessToken(this.ncAccessToken)
 		},
+		ncOidcToken() {
+			this.updateAccessToken(this.ncOidcToken)
+		},
 		themeColor() {
 			this.setMainColor(this.themeColor)
 		},
@@ -376,6 +385,10 @@ export default {
 			this.resetFilePicker()
 			this.accessToken = newValue
 		},
+		updateOidcToken(newValue) {
+			this.resetFilePicker()
+			this.oidcToken = newValue
+		},
 		setMainColor(color) {
 			this.mainColor = color
 		},
@@ -403,6 +416,17 @@ export default {
 					token: {
 						access_token: this.accessToken,
 						token_type: 'Bearer',
+					},
+					useCookies: this.useCookies,
+				})
+				this.getFolderContent(true)
+			} else if (this.login && this.oidcToken) {
+				// OIDC token
+				this.client = new WebDavFetchClient({
+					url: this.davUrl + '/' + this.login,
+					token: {
+						access_token: this.oidcToken,
+						token_type: 'oidc',
 					},
 					useCookies: this.useCookies,
 				})

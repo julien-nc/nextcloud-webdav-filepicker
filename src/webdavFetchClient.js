@@ -16,12 +16,20 @@ export class WebDavFetchClient {
 		this.token = options.token
 		if (this.username && this.password) {
 			this.authHeader = 'Basic ' + base64.encode(this.username + ':' + this.password)
-		} else if (this.token) {
+		} else if (this.token && this.token.token_type !== 'oidc') {
 			this.authHeader = this.token.token_type + ' ' + this.token.access_token
 		}
 		this.credentialsMode = options.useCookies
 			? 'same-origin'
 			: 'omit'
+	}
+
+	appendAuthHeader(headers) {
+		if (this.authHeader) {
+			headers.append('Authorization', this.authHeader)
+		} else if (this.token?.token_type === 'oidc') {
+			headers.append('oidc', this.token.access_token)
+		}
 	}
 
 	parseWebDavFileListXML(xmlString, path) {
@@ -59,9 +67,7 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '1')
-		if (this.authHeader) {
-			headers.append('Authorization', this.authHeader)
-		}
+		this.appendAuthHeader(headers)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
@@ -85,9 +91,7 @@ export class WebDavFetchClient {
 
 	createDirectory(path) {
 		const headers = new Headers()
-		if (this.authHeader) {
-			headers.append('Authorization', this.authHeader)
-		}
+		this.appendAuthHeader(headers)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
@@ -111,9 +115,7 @@ export class WebDavFetchClient {
 
 	getFileContents(path) {
 		const headers = new Headers()
-		if (this.authHeader) {
-			headers.append('Authorization', this.authHeader)
-		}
+		this.appendAuthHeader(headers)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + path, {
@@ -135,9 +137,7 @@ export class WebDavFetchClient {
 
 	putFileContents(targetPath, file, options) {
 		const headers = new Headers()
-		if (this.authHeader) {
-			headers.append('Authorization', this.authHeader)
-		}
+		this.appendAuthHeader(headers)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url + targetPath, {
@@ -162,9 +162,7 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '0')
-		if (this.authHeader) {
-			headers.append('Authorization', this.authHeader)
-		}
+		this.appendAuthHeader(headers)
 
 		return new Promise((resolve, reject) => {
 			fetch(this.url, {

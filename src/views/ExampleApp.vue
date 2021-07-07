@@ -25,6 +25,7 @@
 		<input v-model="login" type="text" placeholder="login">
 		<input v-model="password" type="password" placeholder="password">
 		<input v-model="accessToken" type="password" placeholder="OAuth2 access token">
+		<input v-model="oidcToken" type="password" placeholder="OIDC access token">
 		<h3>Theme color</h3>
 		<label for="color">Main file picker color</label>
 		<input id="color" v-model="color" type="color">
@@ -52,6 +53,7 @@
 			:nc-login="login"
 			:nc-password="password"
 			:nc-access-token="accessToken"
+			:nc-oidc-token="oidcToken"
 			:use-cookies="false"
 			:multiple-upload="true"
 			:multiple-download="true"
@@ -116,6 +118,7 @@ export default {
 			login: '',
 			password: '',
 			accessToken: '',
+			oidcToken: '',
 			color: '#0082c9',
 			darkMode: false,
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
@@ -143,6 +146,10 @@ export default {
 		const accessToken = params.get('accessToken')
 		if (accessToken) {
 			this.accessToken = accessToken
+		}
+		const oidcToken = params.get('oidcToken')
+		if (oidcToken) {
+			this.oidcToken = oidcToken
 		}
 		const url = params.get('url')
 		if (url) {
