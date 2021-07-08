@@ -341,7 +341,7 @@ export default {
 			this.updateAccessToken(this.ncAccessToken)
 		},
 		ncOidcToken() {
-			this.updateAccessToken(this.ncOidcToken)
+			this.updateOidcToken(this.ncOidcToken)
 		},
 		themeColor() {
 			this.setMainColor(this.themeColor)
