@@ -121,16 +121,19 @@
 					</button>
 				</div>
 			</div>
-			<button v-if="showSelectNone"
-				@click="selectNone">
-				<span class="icon custom-icon icon-unchecked" />
-				{{ t('filepicker', 'None') }}
-			</button>
-			<button v-if="showSelectAll"
-				@click="selectAll">
-				<span class="icon custom-icon icon-checked" />
-				{{ t('filepicker', 'All') }}
-			</button>
+			<div v-if="showSelectNone || showSelectAll"
+				class="allNoneButtons">
+				<button v-if="showSelectNone"
+					@click="selectNone">
+					<span class="icon custom-icon icon-unchecked" />
+					{{ t('filepicker', 'None') }}
+				</button>
+				<button v-if="showSelectAll"
+					@click="selectAll">
+					<span class="icon custom-icon icon-checked" />
+					{{ t('filepicker', 'All') }}
+				</button>
+			</div>
 
 			<div id="validate">
 				<span v-if="connected && (selection.length > 0 || ['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(mode))"
@@ -140,7 +143,9 @@
 				<button v-if="connected && canValidate"
 					@click="onValidate">
 					<span class="icon icon-checkmark" />
-					{{ validateButtonText }}
+					<span class="button-text">
+						{{ validateButtonText }}
+					</span>
 				</button>
 			</div>
 		</div>
@@ -489,13 +494,36 @@ export default {
 	.footer {
 		display: flex;
 		height: 44px;
+		max-width: 860px;
+
+		.allNoneButtons,
+		.newDirectory {
+			flex-grow: 1;
+		}
 
 		#validate {
-			margin-left: auto;
+			//margin-left: auto;
+			max-width: 30%;
+			display: flex;
 
 			.nb-selected {
 				margin: auto 10px auto 0;
 				line-height: 44px;
+				white-space: nowrap;
+			}
+			button {
+				display: flex;
+				align-items: center;
+				width: 100%;
+				.icon {
+					margin: 0 1px 0 1px;
+				}
+				.button-text {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					margin: 0 5px 0 5px;
+				}
 			}
 		}
 
