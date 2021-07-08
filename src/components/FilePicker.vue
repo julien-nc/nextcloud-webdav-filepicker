@@ -233,6 +233,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		uploadProgress: {
+			type: Number,
+			default: 0,
+		},
 	},
 
 	data() {

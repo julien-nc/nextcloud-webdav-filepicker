@@ -65,6 +65,7 @@
 				:put-title="putTitle"
 				:loading-directory="loadingDirectory"
 				:uploading-files="uploadingFiles"
+				:upload-progress="uploadProgress"
 				:downloading-files="downloadingFiles"
 				:dark-mode="myDarkMode"
 				:current-path="currentPath"
