@@ -66,6 +66,7 @@
 				:loading-directory="loadingDirectory"
 				:uploading-files="uploadingFiles"
 				:upload-progress="uploadProgress"
+				:download-progress="downloadProgress"
 				:downloading-files="downloadingFiles"
 				:dark-mode="myDarkMode"
 				:current-path="currentPath"

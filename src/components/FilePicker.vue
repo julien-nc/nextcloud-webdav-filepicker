@@ -237,6 +237,10 @@ export default {
 			type: Number,
 			default: 0,
 		},
+		downloadProgress: {
+			type: Number,
+			default: 0,
+		},
 	},
 
 	data() {
