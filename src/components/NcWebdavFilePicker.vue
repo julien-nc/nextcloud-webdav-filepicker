@@ -827,15 +827,40 @@ export default {
 				const selectedElement = this.currentElementsByPath[filepath]
 				try {
 					console.debug('DOWNLOADING ' + filepath)
-					const buff = await this.client.getFileContents(filepath)
-					console.debug('TYPE')
-					console.debug(typeof buff)
-					const file = new File([buff], selectedElement.basename, { type: selectedElement.mime })
+					const response = await this.client.getFileContents(filepath)
+					if (response.status >= 400) {
+						console.error('download error response:')
+						console.debug(response)
+						if (response.status === 401) {
+							this.onUnauthorized(response)
+							this.resetFilePicker()
+							return
+						}
+						errorFilePaths.push(filepath)
+						continue
+					}
+					const reader = response.body.getReader()
+
+					// get total length
+					// const contentLength = +response.headers.get('Content-Length')
+
+					// read the data
+					const chunks = [] // array of received binary chunks (comprises the body)
+					while (true) {
+						const { done, value } = await reader.read()
+						if (done) {
+							break
+						}
+						chunks.push(value)
+						totalDownloaded += value.length
+						this.downloadProgress = parseInt(totalDownloaded / totalSize * 100)
+						console.debug(`Total progress ${this.downloadProgress} %`)
+					}
+					const file = new File(chunks, selectedElement.basename, { type: selectedElement.mime })
 					results.push(file)
-					totalDownloaded += selectedElement.size
-					this.downloadProgress = parseInt(totalDownloaded / totalSize * 100)
 				} catch (error) {
-					console.error(error)
+					console.error('download error!')
+					console.debug(error)
 					if (error.response?.status === 401) {
 						this.onUnauthorized(error.response)
 						this.resetFilePicker()

@@ -125,21 +125,10 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		this.appendAuthHeader(headers)
 
-		return new Promise((resolve, reject) => {
-			fetch(this.url + path, {
-				method: 'GET',
-				credentials: this.credentialsMode,
-				headers,
-			}).then((response) => {
-				if (response.status < 400) {
-					resolve(response.arrayBuffer())
-				} else {
-					reject(new Error({ response }))
-				}
-			}).catch(err => {
-				console.error(err)
-				reject(err)
-			})
+		return fetch(this.url + path, {
+			method: 'GET',
+			credentials: this.credentialsMode,
+			headers,
 		})
 	}
 
