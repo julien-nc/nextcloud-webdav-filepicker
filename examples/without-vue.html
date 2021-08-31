@@ -61,7 +61,7 @@
 		</div>
 	</main>
 	<footer style="position: fixed; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.1);">
-		Generated at Mon Aug 30 16:50:20 UTC 2021
+		Generated at Tue Aug 31 11:18:22 UTC 2021
 	</footer>
 </body>
 <!--script src="../js/filePickerWrapper.js"></script-->
@@ -220,19 +220,6 @@
 					a.setAttribute('href', link.url)
 					pp.appendChild(a)
 					resultsP.appendChild(pp)
-				})
-			}
-
-			if (e.detail.webdavLinks) {
-				const pw = document.createElement('p')
-				pw.textContent = 'File links:'
-				resultsP.appendChild(pw)
-				e.detail.webdavLinks.forEach((l) => {
-					const a = document.createElement('a')
-					a.textContent = l
-					a.setAttribute('href', l)
-					resultsP.appendChild(a)
-					resultsP.appendChild(document.createElement('br'))
 				})
 			}
 
