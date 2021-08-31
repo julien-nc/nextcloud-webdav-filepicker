@@ -580,25 +580,9 @@ export default {
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
 				const createdLinks = await this.getFilesShareLink(this.selection, options)
-				// generate WebDav download links
-				if (!this.password && this.accessToken) {
-					console.error('Download links can\'t be generated when using OAuth, you can provide the OAuth token as a normal password.')
-					this.close()
-					return
-				}
-				let webdavLinks
-				try {
-					webdavLinks = this.selection.map((path) => {
-						return this.client.getFileDownloadLink(path)
-					})
-				} catch (error) {
-					console.error('Impossible to generate download links')
-					console.error(error)
-				}
 				const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
 				const genericShareLink = this.url + '/index.php/s/TOKEN'
 				const detail = {
-					webdavLinks,
 					pathList: this.selection,
 					ocsUrl,
 					genericShareLink,

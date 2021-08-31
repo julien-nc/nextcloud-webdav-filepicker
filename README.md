@@ -191,7 +191,6 @@ Here are the events emitted by the component and the data they provide in the `d
 	* `errorFilePaths` array of path
 * `get-files-link`: links were generated
 	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links))
-	* `webdavLinks` an array of Webdav download links
 	* `pathList` list of selected paths
 	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
 	* `genericShareLink` an example of share link with "TOKEN" as the token value
@@ -428,7 +427,6 @@ Those events are emitted by the component and the data included in the associate
 	* `errorFilePaths` array of path
 * `get-files-link`: links were generated
 	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links))
-	* `webdavLinks` an array of Webdav download links
 	* `pathList` list of selected paths
 	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
 	* `genericShareLink` an example of share link with "TOKEN" as the token value

@@ -223,19 +223,6 @@
 				})
 			}
 
-			if (e.detail.webdavLinks) {
-				const pw = document.createElement('p')
-				pw.textContent = 'File links:'
-				resultsP.appendChild(pw)
-				e.detail.webdavLinks.forEach((l) => {
-					const a = document.createElement('a')
-					a.textContent = l
-					a.setAttribute('href', l)
-					resultsP.appendChild(a)
-					resultsP.appendChild(document.createElement('br'))
-				})
-			}
-
 			const p = document.createElement('p')
 			p.textContent = 'List of paths:'
 			resultsP.appendChild(p)
