@@ -558,9 +558,6 @@ export default {
 		onSelectionChanged(selection) {
 			this.selection = selection
 		},
-		onExpirationUpdate(e) {
-			console.debug(e)
-		},
 		onBreadcrumbChange(path) {
 			this.getFolderContent(false, path)
 		},
