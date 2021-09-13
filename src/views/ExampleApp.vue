@@ -199,6 +199,11 @@ export default {
 				detail.shareLinks.forEach((l) => {
 					this.resultLines.push(l)
 				})
+			} else {
+				this.resultLines.push('- Nextcloud public link creation failed. Link options are:')
+				for (const k in detail.linkOptions) {
+					this.resultLines.push(k + ': ' + detail.linkOptions[k])
+				}
 			}
 
 			this.resultLines.push('- Path list:')

@@ -190,10 +190,11 @@ Here are the events emitted by the component and the data they provide in the `d
 	* `successFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 	* `errorFilePaths` array of path
 * `get-files-link`: links were generated
-	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links))
-	* `pathList` list of selected paths
-	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
-	* `genericShareLink` an example of share link with "TOKEN" as the token value
+    * `shareLinks` an array of Nextcloud share links, (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links)), `null` if failed
+    * `linkOptions` user selected option values for link creation (in case you want to make the OCS requests yourself)
+    * `pathList` list of selected paths
+    * `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
+    * `genericShareLink` an example of share link with "TOKEN" as the token value
 * `get-save-file-path`: a target directory was selected
 	* `path` the path of the selected target directory
 * `upload-path-link-generated`: WebDav upload link was generated
@@ -426,7 +427,8 @@ Those events are emitted by the component and the data included in the associate
 	* `successFiles` array of [Files](https://developer.mozilla.org/en-US/docs/Web/API/File)
 	* `errorFilePaths` array of path
 * `get-files-link`: links were generated
-	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links))
+	* `shareLinks` an array of Nextcloud share links (only if link creation was successful, see [CORS issue](#create-nextcloud-share-links)), `null` if failed
+	* `linkOptions` user selected option values for link creation (in case you want to make the OCS requests yourself)
 	* `pathList` list of selected paths
 	* `ocsUrl` OCS API URL to [create Nextcloud share links](#create-nextcloud-share-links)
 	* `genericShareLink` an example of share link with "TOKEN" as the token value

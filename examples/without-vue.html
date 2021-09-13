@@ -221,6 +221,15 @@
 					pp.appendChild(a)
 					resultsP.appendChild(pp)
 				})
+			} else {
+				const pl = document.createElement('p')
+				pl.textContent = 'Nextcloud public links creation failed. Link options are:'
+				resultsP.appendChild(pl)
+				for (const k in e.detail.linkOptions) {
+					const pp = document.createElement('p')
+					pp.textContent = k + ': "' + e.detail.linkOptions[k] + '" '
+					resultsP.appendChild(pp)
+				}
 			}
 
 			const p = document.createElement('p')

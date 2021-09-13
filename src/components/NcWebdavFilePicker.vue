@@ -584,6 +584,7 @@ export default {
 					ocsUrl,
 					genericShareLink,
 					shareLinks: createdLinks,
+					linkOptions: options,
 				}
 				// for parent component
 				this.$emit('get-files-link', detail)
