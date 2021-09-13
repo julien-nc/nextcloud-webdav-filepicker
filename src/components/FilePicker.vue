@@ -355,7 +355,7 @@ export default {
 		/**
 		 * Reset selection when path changes
 		 *
-		 * @param {String} val new path
+		 * @param {string} val new path
 		 */
 		currentPath(val) {
 			this.selection = []
