@@ -4,6 +4,8 @@
 			<h2>
 				{{ title }}
 			</h2>
+			<span v-show="downloadingFiles || uploadingFiles"
+				:class="{ icon: true, 'loading-custom': true, rotate: true, dark: darkMode }" />
 			<button class="closeButton"
 				@click="$emit('close')">
 				<span class="icon icon-close" />
