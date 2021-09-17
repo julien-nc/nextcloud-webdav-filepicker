@@ -197,6 +197,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.element-table::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+}
+
+.element-table::-webkit-scrollbar-thumb {
+	background: var(--color-border-dark);
+	border-radius: var(--border-radius-large);
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+.element-table::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+
 .element-table {
 	width: 100%;
 	height: 100%;

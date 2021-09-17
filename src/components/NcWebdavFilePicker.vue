@@ -266,6 +266,7 @@ export default {
 				'--color-background-hover': this.colorBackgroundHover,
 				'--color-background-dark': this.colorBackgroundDark,
 				'--color-background-darker': this.colorBackgroundDarker,
+				'--border-radius-large': '10px',
 				'--default-font-size': '15px',
 				'--font-face': '-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen-Sans,Cantarell,Ubuntu,\'Helvetica Neue\',Arial,\'Noto Color Emoji\',sans-serif,\'Apple Color Emoji\',\'Segoe UI Emoji\',\'Segoe UI Symbol\'',
 			}
