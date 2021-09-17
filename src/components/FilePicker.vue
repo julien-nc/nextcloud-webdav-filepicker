@@ -4,8 +4,6 @@
 			<h2>
 				{{ title }}
 			</h2>
-			<span v-show="loadingDirectory || uploadingFiles"
-				:class="{ icon: true, 'loading-custom': true, rotate: true, dark: darkMode }" />
 			<button class="closeButton"
 				@click="$emit('close')">
 				<span class="icon icon-close" />
@@ -17,7 +15,9 @@
 				:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
 				@hash-changed="onBreadcrumbChange" />
 		</div>
-		<FileBrowser v-if="connected && currentElements.length > 0"
+		<span v-if="loadingDirectory"
+			:class="{ icon: true, 'loading-custom': true, rotate: true, dark: darkMode, 'loading-custom-main': true }" />
+		<FileBrowser v-else-if="connected && currentElements.length > 0"
 			id="file-browser"
 			:elements="sortedCurrentElements"
 			:forced-selection="selection"
@@ -439,22 +439,27 @@ export default {
 			margin: 10px 0 10px 0;
 			flex-grow: 1;
 		}
+	}
 
-		.rotate {
-			animation: rotation 2s infinite linear;
+	.rotate {
+		animation: rotation 2s infinite linear;
+	}
+
+	.loading-custom {
+		margin-right: 10px;
+		background: no-repeat center/30px url('../../img/loading.png');
+		width: 44px;
+		height: 44px;
+
+		&.dark {
+			filter: invert(100%);
+			-webkit-filter: invert(100%);
 		}
+	}
 
-		.loading-custom {
-			margin-right: 10px;
-			background: no-repeat center/30px url('../../img/loading.png');
-			width: 44px;
-			height: 44px;
-
-			&.dark {
-				filter: invert(100%);
-				-webkit-filter: invert(100%);
-			}
-		}
+	.loading-custom-main {
+		width: 100%;
+		height: 100%;
 	}
 
 	button {
