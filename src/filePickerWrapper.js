@@ -38,6 +38,7 @@ window.createFilePicker = (mp, options) => {
 				enableGetSaveFilePath: options.enableGetSaveFilePath,
 				enableGetUploadFileLink: options.enableGetUploadFileLink,
 				enableUploadFiles: options.enableUploadFiles,
+				language: options.language,
 			},
 		}),
 	})

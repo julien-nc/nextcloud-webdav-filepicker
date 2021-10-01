@@ -119,6 +119,7 @@ Accepted options:
 | enableGetSaveFilePath | show the "Get files link" button | boolean | `false` |
 | enableGetUploadFileLink | show the "Get files link" button | boolean | `false` |
 | enableUploadFiles | show the "Upload files" button | boolean | `false` |
+| language | optional language for translation (xx-XX and xx locales accepted) | string | browser locale |
 
 If login and password/accessToken are not defined, the file picker will let the user authenticate through the web login flow and get an app password by itself.
 
@@ -371,6 +372,11 @@ enableGetUploadFileLink: {
 enableUploadFiles: {
 	type: Boolean,
 	default: false,
+},
+// optional language for translation (xx-XX and xx locales accepted), use browser locale if null
+language: {
+	type: String,
+	default: null,
 },
 ```
 

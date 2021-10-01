@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { t, n } from '../translation'
+import { setLanguage, t, n } from '../translation'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
@@ -210,6 +210,11 @@ export default {
 		enableUploadFiles: {
 			type: Boolean,
 			default: false,
+		},
+		// optional language for translation (xx-XX and xx locales accepted), use browser locale if null
+		language: {
+			type: String,
+			default: null,
 		},
 	},
 
@@ -363,7 +368,10 @@ export default {
 		},
 	},
 
-	created() {
+	beforeMount() {
+		if (this.language) {
+			setLanguage(this.language)
+		}
 	},
 
 	methods: {

@@ -66,6 +66,7 @@
 			:enable-get-save-file-path="true"
 			:enable-get-upload-file-link="true"
 			:enable-upload-files="true"
+			:language="null"
 			@closed="onClosed"
 			@manually-closed="onManuallyClosed"
 			@filepicker-unauthorized="onUnauthorized"

@@ -48,21 +48,29 @@ const langConvertions = {
 	'sq-AL': 'sq',
 }
 
-let lang = navigator.language
-if (lang && lang.length > 2) {
-	for (const orig in langConvertions) {
-		lang = lang.replace(orig, langConvertions[orig])
+let gt
+
+export function setLanguage(lang = null) {
+	if (lang === null) {
+		lang = navigator.language
 	}
+	if (lang && lang.length > 2) {
+		for (const orig in langConvertions) {
+			lang = lang.replace(orig, langConvertions[orig])
+		}
+	}
+
+	gt = (lang in translations)
+		? getGettextBuilder()
+			// .detectLocale()
+			.setLanguage(lang)
+			.addTranslation(lang, po.parse(translations[lang]))
+			.build()
+		: getGettextBuilder()
+			.build()
 }
 
-const gt = (lang in translations)
-	? getGettextBuilder()
-		// .detectLocale()
-		.setLanguage(lang)
-		.addTranslation(lang, po.parse(translations[lang]))
-		.build()
-	: getGettextBuilder()
-		.build()
+setLanguage()
 
 export const t = (appId, string, placeholders = null) => {
 	return gt.gettext(string, placeholders)
