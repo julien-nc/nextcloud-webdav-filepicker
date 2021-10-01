@@ -31,10 +31,10 @@
 		<EmptyContent v-else-if="connected"
 			icon="icon-folder"
 			class="empty-content">
-			{{ t('filepicker', 'This directory is empty') }}
+			{{ t('filepicker', 'This folder is empty') }}
 		</EmptyContent>
 		<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
-			{{ t('filepicker', 'File picker is not connected') }}
+			{{ t('filepicker', 'Not connected') }}
 		</EmptyContent>
 
 		<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
@@ -100,7 +100,7 @@
 			<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 				class="newDirectory">
 				<button v-if="!namingNewDirectory"
-					v-tooltip.top="{ content: t('filepicker', 'Create new directory'), classes: darkMode ? 'dark' : '' }"
+					v-tooltip.top="{ content: t('filepicker', 'Create new folder'), classes: darkMode ? 'dark' : '' }"
 					class="newDirectoryButton"
 					@click="onCreateDirectory">
 					<span class="icon icon-add" />
@@ -109,7 +109,7 @@
 					class="newDirectoryForm">
 					<input v-model="newDirectoryName"
 						type="text"
-						:placeholder="t('filepicker', 'New directory name')"
+						:placeholder="t('filepicker', 'New folder name')"
 						@keyup.escape="onCancelNewDirectory"
 						@keyup.enter="createDirectory">
 					<button
@@ -314,7 +314,7 @@ export default {
 				const used = parseInt(this.quota.used)
 				return !isNaN(used)
 					? (!isNaN(available) && available !== 0)
-						? t('filepicker', '{size} used ({percent} % of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
+						? t('filepicker', '{size} used ({percent}% of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
 						: t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
 					: t('filepicker', 'invalid quota')
 			} else {
