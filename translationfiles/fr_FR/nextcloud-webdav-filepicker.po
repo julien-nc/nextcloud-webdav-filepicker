@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2021-10-01 12:56+0200\n"
-"PO-Revision-Date: 2021-10-01 10:57\n"
+"PO-Revision-Date: 2021-10-01 10:58\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -69,7 +69,7 @@ msgstr "Annuler"
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:14
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:15
 msgid "None"
