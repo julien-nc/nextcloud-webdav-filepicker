@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-10-01 12:56+0200\n"
-"PO-Revision-Date: 2021-10-01 10:58\n"
+"POT-Creation-Date: 2021-10-01 14:45+0200\n"
+"PO-Revision-Date: 2021-10-01 12:46\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -30,12 +30,12 @@ msgid "Modified"
 msgstr "Modifié"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
-msgid "This directory is empty"
-msgstr "Ce dossier est vide"
+msgid "This folder is empty"
+msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
-msgid "File picker is not connected"
-msgstr "Le sélecteur de fichier n'est pas connecté"
+msgid "Not connected"
+msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
 msgid "Password protect"
@@ -55,12 +55,12 @@ msgid "Link settings"
 msgstr "Paramètres du lien"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
-msgid "Create new directory"
-msgstr "Créer un nouveau dossier"
+msgid "Create new folder"
+msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
-msgid "New directory name"
-msgstr "Nom du nouveau dossier"
+msgid "New folder name"
+msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
 msgid "Cancel"
@@ -93,8 +93,8 @@ msgstr "Enregistrer dans"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
 #, javascript-format
-msgid "{size} used ({percent} % of {total})"
-msgstr "{size} utilisé ({percent} % de {total})"
+msgid "{size} used ({percent}% of {total})"
+msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
 msgid "{size} used"
