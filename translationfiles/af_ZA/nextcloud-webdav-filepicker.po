@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-10-01 12:56+0200\n"
-"PO-Revision-Date: 2021-10-01 10:57\n"
+"POT-Creation-Date: 2021-10-01 14:45+0200\n"
+"PO-Revision-Date: 2021-10-01 12:46\n"
 "Last-Translator: \n"
 "Language-Team: Afrikaans\n"
 "Language: af_ZA\n"
@@ -30,11 +30,11 @@ msgid "Modified"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
-msgid "This directory is empty"
+msgid "This folder is empty"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
-msgid "File picker is not connected"
+msgid "Not connected"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
@@ -55,11 +55,11 @@ msgid "Link settings"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
-msgid "Create new directory"
+msgid "Create new folder"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
-msgid "New directory name"
+msgid "New folder name"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
@@ -93,7 +93,7 @@ msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
 #, javascript-format
-msgid "{size} used ({percent} % of {total})"
+msgid "{size} used ({percent}% of {total})"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
