@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2021-09-30 17:37+0200\n"
-"PO-Revision-Date: 2021-10-01 10:52\n"
+"POT-Creation-Date: 2021-10-01 12:56+0200\n"
+"PO-Revision-Date: 2021-10-01 10:57\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -19,132 +19,129 @@ msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:1
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:2
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:3
 msgid "Modified"
-msgstr ""
+msgstr "Modifié"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
 msgid "This directory is empty"
-msgstr ""
+msgstr "Ce dossier est vide"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
 msgid "File picker is not connected"
-msgstr ""
+msgstr "Le sélecteur de fichier n'est pas connecté"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
 msgid "Password protect"
-msgstr ""
+msgstr "Protéger par un mot de passe"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:7
 msgid "Allow editing"
-msgstr ""
+msgstr "Autoriser la modification"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:8
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:9
 msgid "Expires on"
-msgstr ""
+msgstr "Expire le"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:10
 msgid "Link settings"
-msgstr ""
+msgstr "Paramètres du lien"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
 msgid "Create new directory"
-msgstr ""
+msgstr "Créer un nouveau dossier"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
 msgid "New directory name"
-msgstr ""
+msgstr "Nom du nouveau dossier"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:14
+#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
 msgid "Ok"
 msgstr ""
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:15
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:17
 msgid "Select one or multiple files"
-msgstr ""
+msgstr "Sélectionnez un ou plusieurs fichiers"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
 msgid "Select a file"
-msgstr ""
+msgstr "Sélectionnez un fichier"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:19
 msgid "Save to"
-msgstr ""
+msgstr "Enregistrer dans"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
 #, javascript-format
 msgid "{size} used ({percent} % of {total})"
-msgstr ""
+msgstr "{size} utilisé ({percent} % de {total})"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
 msgid "{size} used"
-msgstr ""
+msgstr "{size} utilisé"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
 msgid "invalid quota"
-msgstr ""
-
-#: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
-msgid "OK"
-msgstr ""
+msgstr "quota invalide"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
 msgid "Save to {path}"
-msgstr ""
+msgstr "Enregistrer dans {path}"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
 msgid "{nbSelected} selected"
 msgid_plural "{nbSelected} selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{nbSelected} sélectionné"
+msgstr[1] "{nbSelected} sélectionnés"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
 msgid "Upload {nbToUpload} file to {path}"
 msgid_plural "Upload {nbToUpload} files to {path}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Téléverser {nbToUpload} fichier vers {path}"
+msgstr[1] "Téléverser {nbToUpload} fichiers vers {path}"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:28
 msgid "Get files path"
-msgstr ""
+msgstr "Obtenir des chemins vers des fichiers"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:29
 msgid "Get files link"
-msgstr ""
+msgstr "Obtenir des liens vers des fichiers"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:30
 msgid "Download files"
-msgstr ""
+msgstr "Télécharger des fichiers"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:31
 msgid "Get save file path"
-msgstr ""
+msgstr "Obtenir un chemin de destination"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:32
 msgid "Get file upload link"
-msgstr ""
+msgstr "Obtenir un lien de téléversement"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:33
 msgid "Upload files"
-msgstr ""
+msgstr "Téléverser des fichiers"
 
