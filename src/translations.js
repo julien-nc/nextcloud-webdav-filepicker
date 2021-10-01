@@ -784,7 +784,7 @@ msgstr "Geändert"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
 msgid "This folder is empty"
-msgstr "Dieses Ordner ist leer"
+msgstr "Dieser Ordner ist leer"
 
 #: /var/www/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
 msgid "Not connected"
