@@ -342,7 +342,7 @@ export default {
 		},
 		validateButtonText() {
 			if (['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(this.mode)) {
-				return t('filepicker', 'OK')
+				return t('filepicker', 'Ok')
 			} else if (['getSaveFilePath', 'getUploadFileLink'].includes(this.mode)) {
 				return t('filepicker', 'Save to {path}', { path: basename(this.currentPath) || '/' })
 			} else if (['uploadFiles'].includes(this.mode)) {
