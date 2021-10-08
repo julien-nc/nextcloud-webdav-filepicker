@@ -659,6 +659,7 @@ export default {
 						shareType: 3,
 						label: this.linkLabel || 'File picker link',
 						expireDate: options.expirationDate ? moment(options.expirationDate).format('YYYY-MM-DD') : null,
+						password: options.protectionPassword ? options.protectionPassword : undefined,
 					}
 
 					const rawResponse = await fetch(url, {
@@ -678,7 +679,6 @@ export default {
 						const putUrl = url + '/' + shareId
 						const putReq = {
 							permissions: options.allowEdition ? 3 : undefined,
-							password: options.protectionPassword ? options.protectionPassword : undefined,
 						}
 						const useFetch = true
 						if (useFetch) {
