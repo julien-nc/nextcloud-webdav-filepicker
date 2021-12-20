@@ -49,6 +49,7 @@
 		<hr>
 		<NcWebdavFilePicker
 			ref="filepicker"
+			:oidc-config="oidcConfig"
 			:nc-url="ncUrl"
 			:nc-login="login"
 			:nc-password="password"
@@ -124,6 +125,16 @@ export default {
 			darkMode: false,
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 			resultLines: [],
+			oidcConfig: {
+				openIdConnect: {
+					authority: 'http://localhost:8080/auth/realms/myrealm/.well-known/openid-configuration',
+					client_id: 'superclient',
+					client_secret: 'be4e2e3e-506e-4078-8919-5067edfa722a',
+					popup_redirect_uri: 'http://localhost/oidc-callback.html',
+					response_type: 'code',
+					scope: 'openid email profile',
+				},
+			},
 		}
 	},
 
@@ -133,7 +144,7 @@ export default {
 	watch: {
 	},
 
-	mounted() {
+	beforeMount() {
 		const uri = window.location.search.substring(1)
 		const params = new URLSearchParams(uri)
 		const login = params.get('login')

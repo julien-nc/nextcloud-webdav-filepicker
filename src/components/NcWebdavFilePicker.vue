@@ -94,6 +94,7 @@ import Modal from '@nextcloud/vue/dist/Components/Modal'
 import { colorOpacity } from '../utils'
 import '../../css/filepicker.scss'
 import axios from 'axios'
+import { initVueAuthenticate } from '../services/auth'
 
 import FilePicker from './FilePicker'
 
@@ -128,9 +129,9 @@ export default {
 			default: '',
 		},
 		// OIDC access token
-		ncOidcToken: {
-			type: String,
-			default: '',
+		oidcConfig: {
+			type: Object,
+			default: () => null,
 		},
 		// Include cookies in WebDav and OCS requests if this is true
 		useCookies: {
@@ -226,7 +227,6 @@ export default {
 			login: this.ncLogin,
 			password: this.ncPassword,
 			accessToken: this.ncAccessToken,
-			oidcToken: this.ncOidcToken,
 			url: this.ncUrl,
 			mainColor: this.themeColor || '#0082c9',
 			myDarkMode: this.darkMode,
@@ -252,6 +252,8 @@ export default {
 			filesToUpload: [],
 			// translations
 			gt: null,
+			// OIDC
+			oidcAuthInstance: null,
 		}
 	},
 
@@ -347,9 +349,6 @@ export default {
 		ncAccessToken() {
 			this.updateAccessToken(this.ncAccessToken)
 		},
-		ncOidcToken() {
-			this.updateOidcToken(this.ncOidcToken)
-		},
 		themeColor() {
 			this.setMainColor(this.themeColor)
 		},
@@ -372,6 +371,9 @@ export default {
 		if (this.language) {
 			setLanguage(this.language)
 		}
+		if (this.oidcConfig) {
+			this.initOidcAuthentication()
+		}
 	},
 
 	methods: {
@@ -380,6 +382,21 @@ export default {
 			this.connected = false
 			this.quota = null
 			this.uploadingFiles = false
+		},
+		// OIDC stuff
+		initOidcAuthentication() {
+			this.oidcAuthInstance = initVueAuthenticate(this.oidcConfig)
+			this.checkOidcUserAuthentication()
+		},
+		checkOidcUserAuthentication() {
+			if (this.oidcAuthInstance.isAuthenticated()) {
+				return this.createClient()
+			}
+			// user is not authenticated => we add an event listener
+			// to create a webdav client after a successful login
+			this.oidcAuthInstance.mgr.events.addUserLoaded(() => {
+				this.createClient()
+			})
 		},
 		updateUrl(newValue) {
 			this.resetFilePicker()
@@ -396,10 +413,6 @@ export default {
 		updateAccessToken(newValue) {
 			this.resetFilePicker()
 			this.accessToken = newValue
-		},
-		updateOidcToken(newValue) {
-			this.resetFilePicker()
-			this.oidcToken = newValue
 		},
 		setMainColor(color) {
 			this.mainColor = color
@@ -432,17 +445,24 @@ export default {
 					useCookies: this.useCookies,
 				})
 				this.getFolderContent(true)
-			} else if (this.login && this.oidcToken) {
-				// OIDC token
-				this.client = new WebDavFetchClient({
-					url: this.davUrl + '/' + this.login,
-					token: {
-						access_token: this.oidcToken,
-						token_type: 'oidc',
-					},
-					useCookies: this.useCookies,
-				})
-				this.getFolderContent(true)
+			} else if (this.oidcConfig) {
+				// OIDC client
+				if (this.oidcAuthInstance.isAuthenticated()) {
+					const oidcToken = this.oidcAuthInstance.getToken()
+					const userObject = this.oidcAuthInstance.getStoredUserObject()
+					const userId = userObject?.profile?.preferred_username
+					this.client = new WebDavFetchClient({
+						url: this.davUrl + '/' + userId,
+						token: {
+							access_token: oidcToken,
+							token_type: 'Bearer',
+						},
+						useCookies: this.useCookies,
+					})
+					this.getFolderContent(true)
+				} else {
+					this.oidcAuthInstance.authenticate()
+				}
 			} else if (this.login) {
 				// no auth, no web login
 				this.client = new WebDavFetchClient({

@@ -16,7 +16,7 @@ export class WebDavFetchClient {
 		this.token = options.token
 		if (this.username && this.password) {
 			this.authHeader = 'Basic ' + base64.encode(this.username + ':' + this.password)
-		} else if (this.token && this.token.token_type !== 'oidc') {
+		} else if (this.token) {
 			this.authHeader = this.token.token_type + ' ' + this.token.access_token
 		}
 		this.credentialsMode = options.useCookies
@@ -27,16 +27,12 @@ export class WebDavFetchClient {
 	appendAuthHeader(headers) {
 		if (this.authHeader) {
 			headers.append('Authorization', this.authHeader)
-		} else if (this.token?.token_type === 'oidc') {
-			headers.append('oidc', this.token.access_token)
 		}
 	}
 
 	getAuthHeader() {
 		if (this.authHeader) {
 			return { Authorization: this.authHeader }
-		} else if (this.token?.token_type === 'oidc') {
-			return { oidc: this.token.access_token }
 		}
 	}
 
