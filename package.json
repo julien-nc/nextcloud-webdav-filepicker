@@ -73,6 +73,7 @@
 		"file-loader": "^6.1.1",
 		"lodash": "^4.17.21",
 		"process": "^0.11.10",
-		"webpack": "^5.65.0"
+		"webpack": "^5.65.0",
+		"webpack-cli": "^4.9.1"
 	}
 }
