@@ -18,6 +18,9 @@ jobs:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Set up npm
+        run: npm i -g npm
+
       - name: Get current tag
         id: tag
         run: |
