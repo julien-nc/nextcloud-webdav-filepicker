@@ -1,106 +1,76 @@
 {
-  "name": "nextcloud-webdav-filepicker",
-  "version": "0.0.21",
-  "description": "Nextcloud WebDav file picker",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "build": "NODE_ENV=production webpack --progress --config webpack.js",
-    "dev": "NODE_ENV=development webpack --progress --config webpack.js",
-    "watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
-    "lint": "eslint --ext .js,.vue src",
-    "lint:fix": "eslint --ext .js,.vue src --fix",
-    "stylelint": "stylelint src",
-    "stylelint:fix": "stylelint src --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eneiluj/nextcloud-webdav-filepicker"
-  },
-  "keywords": [
-    "filepicker",
-    "nextcloud",
-    "webdav"
-  ],
-  "author": "Julien Veyssier",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/eneiluj/nextcloud-webdav-filepicker/issues"
-  },
-  "homepage": "https://github.com/eneiluj/nextcloud-webdav-filepicker",
-  "browserslist": [
-    "extends @nextcloud/browserslist-config"
-  ],
-  "main": "js/Components/NcWebdavFilePicker.js",
-  "files": [
-    "COPYING",
-    "README.md",
-    "src",
-    "js",
-    "css",
-    "examples"
-  ],
-  "dependencies": {
-    "@nextcloud/dialogs": "^3.1.2",
-    "@nextcloud/l10n": "^1.4.0",
-    "@nextcloud/moment": "^1.1.1",
-    "@nextcloud/paths": "^2.0.0",
-    "@nextcloud/router": "^2.0.0",
-    "@nextcloud/vue": "^4.0.3",
-    "axios": "^0.21.1",
-    "base-64": "^1.0.0",
-    "buffer": "^6.0.3",
-    "gettext-parser": "^4.0.4",
-    "path-browserify": "^1.0.1",
-    "util": "^0.12.4",
-    "vue": "^2.6.13",
-    "vue-click-outside": "^1.1.0",
-    "vue-simple-progress": "^1.1.1",
-    "vuejs-smart-table": "^0.0.7"
-  },
-  "engines": {
-    "node": ">=10.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/eslint-parser": "^7.14.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.14.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.14.4",
-    "@nextcloud/browserslist-config": "^2.1.0",
-    "@nextcloud/eslint-config": "^6.1.0",
-    "@nextcloud/eslint-plugin": "^2.0.0",
-    "@nextcloud/webpack-vue-config": "^4.0.3",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.2",
-    "css-loader": "^4.3.0",
-    "eslint": "^7.27.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jsdoc": "^36.1.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^7.10.0",
-    "eslint-webpack-plugin": "^2.5.4",
-    "file-loader": "^6.1.1",
-    "lodash": "^4.17.21",
-    "node-polyfill-webpack-plugin": "^1.1.2",
-    "node-sass": "^5.0.0",
-    "process": "^0.11.10",
-    "sass": "^1.34.0",
-    "sass-loader": "^10.2.0",
-    "style-loader": "^2.0.0",
-    "stylelint": "^13.13.1",
-    "stylelint-config-recommended-scss": "^4.2.0",
-    "stylelint-scss": "^3.19.0",
-    "stylelint-webpack-plugin": "^2.1.0",
-    "url-loader": "^4.1.1",
-    "vue-loader": "^15.9.7",
-    "vue-template-compiler": "^2.6.13",
-    "webpack": "^5.38.1",
-    "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^3.0.0"
-  }
+	"name": "nextcloud-webdav-filepicker",
+	"version": "0.0.21",
+	"description": "Nextcloud WebDav file picker",
+	"directories": {
+		"test": "tests"
+	},
+	"scripts": {
+		"build": "NODE_ENV=production webpack --progress --config webpack.js",
+		"dev": "NODE_ENV=development webpack --progress --config webpack.js",
+		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
+		"lint": "eslint --ext .js,.vue src",
+		"lint:fix": "eslint --ext .js,.vue src --fix",
+		"stylelint": "stylelint src",
+		"stylelint:fix": "stylelint src --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/eneiluj/nextcloud-webdav-filepicker"
+	},
+	"keywords": [
+		"filepicker",
+		"nextcloud",
+		"webdav"
+	],
+	"author": "Julien Veyssier",
+	"license": "AGPL-3.0",
+	"bugs": {
+		"url": "https://github.com/eneiluj/nextcloud-webdav-filepicker/issues"
+	},
+	"homepage": "https://github.com/eneiluj/nextcloud-webdav-filepicker",
+	"browserslist": [
+		"extends @nextcloud/browserslist-config"
+	],
+	"main": "js/Components/NcWebdavFilePicker.js",
+	"files": [
+		"COPYING",
+		"README.md",
+		"src",
+		"js",
+		"css",
+		"examples"
+	],
+	"engines": {
+		"node": "^14.0.0",
+		"npm": "^7.0.0"
+	},
+	"dependencies": {
+		"@nextcloud/dialogs": "^3.1.2",
+		"@nextcloud/l10n": "^1.4.0",
+		"@nextcloud/moment": "^1.1.1",
+		"@nextcloud/paths": "^2.0.0",
+		"@nextcloud/router": "^2.0.0",
+		"@nextcloud/vue": "4.0.3",
+		"axios": "^0.21.1",
+		"base-64": "^1.0.0",
+		"buffer": "^6.0.3",
+		"gettext-parser": "^4.0.4",
+		"path-browserify": "^1.0.1",
+		"util": "^0.12.4",
+		"vue": "^2.6.13",
+		"vue-click-outside": "^1.1.0",
+		"vue-simple-progress": "^1.1.1",
+		"vuejs-smart-table": "^0.0.7"
+	},
+	"devDependencies": {
+		"@nextcloud/babel-config": "^1.0.0",
+		"@nextcloud/browserslist-config": "^2.2.0",
+		"@nextcloud/eslint-config": "^6.1.0",
+		"@nextcloud/stylelint-config": "^2.0.1",
+		"@nextcloud/webpack-vue-config": "^4.1.0",
+		"file-loader": "^6.1.1",
+		"lodash": "^4.17.21",
+		"process": "^0.11.10"
+	}
 }
