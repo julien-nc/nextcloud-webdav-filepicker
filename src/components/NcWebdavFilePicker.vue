@@ -128,10 +128,15 @@ export default {
 			type: String,
 			default: '',
 		},
-		// OIDC access token
-		oidcConfig: {
+		// OIDC configuration
+		ncOidcConfig: {
 			type: Object,
 			default: () => null,
+		},
+		// URL to get the OIDC configuration
+		oidcConfigLocation: {
+			type: String,
+			default: '',
 		},
 		// Include cookies in WebDav and OCS requests if this is true
 		useCookies: {
@@ -253,6 +258,7 @@ export default {
 			// translations
 			gt: null,
 			// OIDC
+			oidcConfig: null,
 			oidcAuthInstance: null,
 		}
 	},
@@ -371,8 +377,11 @@ export default {
 		if (this.language) {
 			setLanguage(this.language)
 		}
-		if (this.oidcConfig) {
+		if (this.ncOidcConfig) {
+			this.oidcConfig = this.ncOidcConfig
 			this.initOidcAuthentication()
+		} else if (this.oidcConfigLocation) {
+			this.getOidcConfig()
 		}
 	},
 
@@ -384,6 +393,11 @@ export default {
 			this.uploadingFiles = false
 		},
 		// OIDC stuff
+		async getOidcConfig() {
+			const config = await fetch(this.oidcConfigLocation)
+			this.oidcConfig = await config.json()
+			this.initOidcAuthentication()
+		},
 		initOidcAuthentication() {
 			this.oidcAuthInstance = initVueAuthenticate(this.oidcConfig)
 			this.checkOidcUserAuthentication()

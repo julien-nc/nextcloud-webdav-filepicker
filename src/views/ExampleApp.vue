@@ -49,7 +49,8 @@
 		<hr>
 		<NcWebdavFilePicker
 			ref="filepicker"
-			:oidc-config="oidcConfig"
+			:commented-nc-oidc-config="oidcConfig"
+			:oidc-config-location="oidcConfigLocation"
 			:nc-url="ncUrl"
 			:nc-login="login"
 			:nc-password="password"
@@ -125,6 +126,7 @@ export default {
 			darkMode: false,
 			domainToAuthorize: window.location.protocol + '//' + window.location.host,
 			resultLines: [],
+			oidcConfigLocation: 'http://localhost/oidc-config.json',
 			oidcConfig: {
 				openIdConnect: {
 					authority: 'http://localhost:8080/auth/realms/myrealm/.well-known/openid-configuration',
