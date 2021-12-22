@@ -400,16 +400,36 @@ export default {
 		},
 		initOidcAuthentication() {
 			this.oidcAuthInstance = initVueAuthenticate(this.oidcConfig)
+			this.oidcAuthInstance.mgr.events.addAccessTokenExpiring(() => {
+				console.debug('auth token is expiring')
+			})
 			this.checkOidcUserAuthentication()
 		},
 		checkOidcUserAuthentication() {
-			if (this.oidcAuthInstance.isAuthenticated()) {
-				return this.createClient()
-			}
-			// user is not authenticated => we add an event listener
-			// to create a webdav client after a successful login
+			// create a webdav client after a successful login/renew
 			this.oidcAuthInstance.mgr.events.addUserLoaded(() => {
+				console.debug('token obtained or renewed -> recreate the client')
+				this.createClientFromOidcAuth()
+				this.getFolderContent(true)
+			})
+			// if we are already authenticated, create the client now
+			if (this.oidcAuthInstance.isAuthenticated()) {
+				console.debug('already authenticated, create a client')
 				this.createClient()
+			}
+		},
+		createClientFromOidcAuth() {
+			const oidcToken = this.oidcAuthInstance.getToken()
+			const userObject = this.oidcAuthInstance.getStoredUserObject()
+			console.debug('createClientFromOidcAuth, token expires in', userObject.expires_in)
+			const userId = userObject?.profile?.preferred_username
+			this.client = new WebDavFetchClient({
+				url: this.davUrl + '/' + userId,
+				token: {
+					access_token: oidcToken,
+					token_type: 'Bearer',
+				},
+				useCookies: this.useCookies,
 			})
 		},
 		updateUrl(newValue) {
@@ -462,17 +482,7 @@ export default {
 			} else if (this.oidcConfig) {
 				// OIDC client
 				if (this.oidcAuthInstance.isAuthenticated()) {
-					const oidcToken = this.oidcAuthInstance.getToken()
-					const userObject = this.oidcAuthInstance.getStoredUserObject()
-					const userId = userObject?.profile?.preferred_username
-					this.client = new WebDavFetchClient({
-						url: this.davUrl + '/' + userId,
-						token: {
-							access_token: oidcToken,
-							token_type: 'Bearer',
-						},
-						useCookies: this.useCookies,
-					})
+					this.createClientFromOidcAuth()
 					this.getFolderContent(true)
 				} else {
 					this.oidcAuthInstance.authenticate()
