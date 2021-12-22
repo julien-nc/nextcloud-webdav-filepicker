@@ -403,20 +403,20 @@ export default {
 			this.oidcAuthInstance.mgr.events.addAccessTokenExpiring(() => {
 				console.debug('auth token is expiring')
 			})
-			this.checkOidcUserAuthentication()
-		},
-		checkOidcUserAuthentication() {
+			this.oidcAuthInstance.mgr.events.addAccessTokenExpired(() => {
+				console.debug('auth token has expired')
+			})
 			// create a webdav client after a successful login/renew
 			this.oidcAuthInstance.mgr.events.addUserLoaded(() => {
-				console.debug('token obtained or renewed -> recreate the client')
+				console.debug('token obtained or renewed -> create or recreate the client')
+				const clientWasNull = this.client === null
 				this.createClientFromOidcAuth()
-				this.getFolderContent(true)
+				// only load the content if we just created the client, otherwise it's most likely a token renew
+				// and we want it to be transparent
+				if (clientWasNull) {
+					this.getFolderContent(true)
+				}
 			})
-			// if we are already authenticated, create the client now
-			if (this.oidcAuthInstance.isAuthenticated()) {
-				console.debug('already authenticated, create a client')
-				this.createClient()
-			}
 		},
 		createClientFromOidcAuth() {
 			const oidcToken = this.oidcAuthInstance.getToken()

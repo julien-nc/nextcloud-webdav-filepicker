@@ -135,6 +135,8 @@ export default {
 					popup_redirect_uri: 'http://localhost/oidc-callback.html',
 					response_type: 'code',
 					scope: 'openid email profile',
+					automaticSilentRenew: true,
+					accessTokenExpiringNotificationTime: 50,
 				},
 			},
 		}
