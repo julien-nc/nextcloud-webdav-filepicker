@@ -407,7 +407,14 @@ export default {
 				console.debug('auth token has expired')
 			})
 			// create a webdav client after a successful login/renew
-			this.oidcAuthInstance.mgr.events.addUserLoaded(() => {
+			this.oidcAuthInstance.mgr.events.addUserSignedIn((e) => {
+				console.debug('EEEEE SIGNEDIN', e)
+			})
+			this.oidcAuthInstance.mgr.events.addUserLoaded((e) => {
+				console.debug('EEEEE', e)
+				if (e.user_id) {
+					this.login = e.user_id
+				}
 				console.debug('token obtained or renewed -> create or recreate the client')
 				const clientWasNull = this.client === null
 				this.createClientFromOidcAuth()
@@ -421,8 +428,10 @@ export default {
 		createClientFromOidcAuth() {
 			const oidcToken = this.oidcAuthInstance.getToken()
 			const userObject = this.oidcAuthInstance.getStoredUserObject()
+			console.debug('userObject', userObject)
 			console.debug('createClientFromOidcAuth, token expires in', userObject.expires_in)
-			const userId = userObject?.profile?.preferred_username
+			console.debug('createClientFromOidcAuth, USER_ID', userObject.user_id)
+			const userId = userObject?.profile?.preferred_username || this.login
 			this.client = new WebDavFetchClient({
 				url: this.davUrl + '/' + userId,
 				token: {

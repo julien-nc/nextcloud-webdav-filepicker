@@ -127,17 +127,28 @@
 			// language: 'de',
 			// language: 'de-DE',
 			//oidcConfigLocation: 'http://localhost/oidc-config.json',
+			//oidcConfig: {
+			//	openIdConnect: {
+			//		authority: 'http://localhost:8080/auth/realms/myrealm/.well-known/openid-configuration',
+			//		client_id: 'superclient',
+			//		client_secret: 'be4e2e3e-506e-4078-8919-5067edfa722a',
+			//		popup_redirect_uri: 'http://localhost/oidc-callback.html',
+			//		response_type: 'code',
+			//		scope: 'openid email profile',
+			//		automaticSilentRenew: true,
+			//		accessTokenExpiringNotificationTime: 50,
+			//	},
+			//},
+			//
+			// OAuth2
 			oidcConfig: {
-				openIdConnect: {
-					authority: 'http://localhost:8080/auth/realms/myrealm/.well-known/openid-configuration',
-					client_id: 'superclient',
-					client_secret: 'be4e2e3e-506e-4078-8919-5067edfa722a',
-					popup_redirect_uri: 'http://localhost/oidc-callback.html',
-					response_type: 'code',
-					scope: 'openid email profile',
-					automaticSilentRenew: true,
-					accessTokenExpiringNotificationTime: 50,
-				},
+				auth: {
+					url: 'http://localhost/dev/n20/index.php/apps/oauth2/api/v1/token',
+					authUrl: 'http://localhost/dev/n20/index.php/apps/oauth2/authorize',
+					clientId: 'y5iORwwXm5bHFI1rEcPo9EPaLPrCQVbMERtUjyDozu2DjpLJjwmPgK1oDxOzoaVZ',
+					clientSecret: 'bChIDqBFKf2n3zP9zx0Cn8XMg1KnmbqCuTjtgcv0e5XLm6NwZOlvk5EY46xoPNIb',
+					redirectUri: 'http://localhost/oidc-callback.html',
+				}
 			},
 		})
 

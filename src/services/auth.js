@@ -50,12 +50,13 @@ export function initVueAuthenticate(config) {
 						userinfo_endpoint: '',
 					},
 					client_id: config.auth.clientId,
+					client_secret: config.auth.clientSecret,
 					redirect_uri: config.auth.redirectUri
 						? config.auth.redirectUri
 						: window.location.origin + '/oidc-callback.html',
-					response_type: 'token', // token is implicit flow - to be killed
+					response_type: 'code',
 					scope: 'openid profile',
-					loadUserInfo: false,
+					loadUserInfo: true,
 				})
 			}
 		}
