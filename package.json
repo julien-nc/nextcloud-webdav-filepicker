@@ -12,7 +12,8 @@
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
 		"stylelint": "stylelint src",
-		"stylelint:fix": "stylelint src --fix"
+		"stylelint:fix": "stylelint src --fix",
+		"serve": "http-server ./ -o examples/with-vue.html -a localhost"
 	},
 	"repository": {
 		"type": "git",
@@ -71,6 +72,7 @@
 		"@nextcloud/stylelint-config": "^2.0.1",
 		"@nextcloud/webpack-vue-config": "^4.1.0",
 		"file-loader": "^6.1.1",
+		"http-server": "^14.1.0",
 		"lodash": "^4.17.21",
 		"process": "^0.11.10"
 	}
