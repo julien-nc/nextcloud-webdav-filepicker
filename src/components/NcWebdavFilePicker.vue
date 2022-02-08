@@ -692,6 +692,9 @@ export default {
 			let path
 			for (let i = 0; i < pathList.length; i++) {
 				path = pathList[i]
+				const publicLink = {
+					path,
+				}
 				try {
 					const headers = new Headers()
 					this.client.appendAuthHeader(headers)
@@ -713,12 +716,14 @@ export default {
 						body: JSON.stringify(req),
 					})
 					const response = await rawResponse.json()
+					const creationSuccess = rawResponse.status < 400
+					if (creationSuccess) {
+						publicLink.url = response.ocs.data.url
+					} else {
+						publicLink.error = response?.ocs?.meta?.message ?? ''
+					}
 
-					publicLinks.push({
-						path,
-						url: response.ocs.data.url,
-					})
-					if (options.allowEdition || options.protectionPassword) {
+					if (creationSuccess && options.allowEdition) {
 						const shareId = response.ocs.data.id
 						const putUrl = url + '/' + shareId
 						const putReq = {
@@ -730,20 +735,19 @@ export default {
 							this.client.appendAuthHeader(putHeaders)
 							putHeaders.append('OCS-APIRequest', 'true')
 							putHeaders.append('Content-Type', 'application/json')
-							await fetch(putUrl, {
+							putHeaders.append('Accept', 'application/json')
+							const rawEditionResponse = await fetch(putUrl, {
 								method: 'PUT',
 								credentials: 'omit',
 								headers: putHeaders,
 								body: JSON.stringify(putReq),
-							}).then((response) => {
-								if (response.status >= 400 && response.status < 600) {
-									throw new Error('Bad response from server')
-								}
-								return response
-							}).catch((error) => {
-								console.debug('Impossible to edit shared access')
-								console.debug(error)
 							})
+							const editionSuccess = rawEditionResponse.status < 400
+							if (!editionSuccess) {
+								console.debug('Impossible to edit shared access')
+								const editionResponse = await rawEditionResponse.json()
+								publicLink.editionError = editionResponse?.ocs?.meta?.message ?? ''
+							}
 						} else {
 							try {
 								await axios.put(putUrl, putReq, {
@@ -768,6 +772,7 @@ export default {
 					console.error(error)
 					return null
 				}
+				publicLinks.push(publicLink)
 			}
 			return publicLinks
 		},
