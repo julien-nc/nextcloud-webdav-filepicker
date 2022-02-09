@@ -1,6 +1,6 @@
 {
 	"name": "nextcloud-webdav-filepicker",
-	"version": "0.0.21",
+	"version": "0.0.22",
 	"description": "Nextcloud WebDav file picker",
 	"directories": {
 		"test": "tests"
