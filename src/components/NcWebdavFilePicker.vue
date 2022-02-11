@@ -81,7 +81,14 @@
 				@selection-changed="onSelectionChanged"
 				@create-directory="createDirectory"
 				@validate="onValidate"
-				@breadcrumb-hash-changed="onBreadcrumbChange" />
+				@breadcrumb-hash-changed="onBreadcrumbChange">
+				<template #file-icon="{node}">
+					<NextcloudFileIcon
+						:preview-url="previewUrl"
+						:node="node"
+						:client="client" />
+				</template>
+			</FilePicker>
 		</Modal>
 	</div>
 </template>
@@ -97,6 +104,7 @@ import axios from 'axios'
 import { initVueAuthenticate } from '../services/auth'
 
 import FilePicker from './FilePicker'
+import NextcloudFileIcon from './NextcloudFileIcon'
 
 export default {
 	name: 'NcWebdavFilePicker',
@@ -104,6 +112,7 @@ export default {
 	components: {
 		Modal,
 		FilePicker,
+		NextcloudFileIcon,
 	},
 
 	props: {
@@ -339,6 +348,9 @@ export default {
 		},
 		davUrl() {
 			return this.ncUrl + '/remote.php/dav/files'
+		},
+		previewUrl() {
+			return this.ncUrl + '/index.php/core/preview.png?file={filename}&x=50&y=50&forceIcon=0&a=0'
 		},
 	},
 

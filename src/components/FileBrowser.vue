@@ -45,7 +45,9 @@
 				:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
 				@click="onElemClick(value)">
 				<td>
-					<span :class="{ icon: true, ...getElemTypeClass(value) }" />
+					<slot name="file-icon" :node="value">
+						<span :class="{ icon: true, ...getElemTypeClass(value) }" />
+					</slot>
 				</td>
 				<td :style="''">
 					<div>
@@ -70,7 +72,7 @@
 <script>
 import { t, n } from '../translation'
 import moment from '@nextcloud/moment'
-import { humanFileSize } from '../utils'
+import { humanFileSize, getElemTypeClass } from '../utils'
 import MyVTh from './MyVTh'
 
 import { VTable } from 'vuejs-smart-table'
@@ -111,6 +113,7 @@ export default {
 			t,
 			n,
 			selection: [],
+			getElemTypeClass,
 		}
 	},
 
@@ -138,35 +141,6 @@ export default {
 		},
 		isSelectable(elem) {
 			return elem.type === 'directory' || this.canSelectFiles
-		},
-		getElemTypeClass(elem) {
-			if (elem.type === 'directory') {
-				return { 'icon-folder': true }
-			} else {
-				const mime = elem.mime
-				if (mime.match(/^video\//)) {
-					return { 'icon-video': true }
-				} else if (mime === 'text/calendar') {
-					return { 'icon-calendar': true }
-				} else if (mime === 'text/csv' || mime.match(/^application\/.*opendocument\.spreadsheet$/) || mime.match(/^application\/.*office.*sheet$/)) {
-					return { 'icon-spreadsheet': true }
-				} else if (mime.match(/^text\//)) {
-					return { 'icon-text': true }
-				} else if (mime.match(/^application\/pdf$/)) {
-					return { 'icon-pdf': true }
-				} else if (mime.match(/^application\/gpx/)) {
-					return { 'icon-location': true }
-				} else if (mime.match(/^image\//)) {
-					return { 'icon-picture': true }
-				} else if (mime.match(/^audio\//)) {
-					return { 'icon-audio': true }
-				} else if (mime.match(/^application\/.*opendocument\.text$/) || mime.match(/^application\/.*word.*document$/)) {
-					return { 'icon-office-document': true }
-				} else if (mime.match(/^application\/.*opendocument\.presentation$/) || mime.match(/^application\/.*office.*presentation$/)) {
-					return { 'icon-office-presentation': true }
-				}
-				return { 'icon-file': true }
-			}
 		},
 		onElemClick(e) {
 			if (this.disabled) {
@@ -224,10 +198,15 @@ export default {
 	border-spacing: 0;
 	// padding: 10px 0 10px 0;
 
-	.icon {
-		display: inline-block;
+	// for the NextcloudFileIcon
+	::v-deep .nc-icon-container,
+	::v-deep .icon {
 		width: 100px;
 		height: 50px;
+	}
+
+	::v-deep .icon {
+		display: inline-block;
 		background-repeat: no-repeat;
 		background-size: 30px;
 		background-position: center;
@@ -287,7 +266,7 @@ export default {
 		}
 	}
 
-	td {
+	::v-deep td {
 		border: 0;
 		height: 50px;
 
@@ -300,57 +279,57 @@ export default {
 		}
 	}
 
-	.icon-folder {
+	::v-deep .icon-folder {
 		background-color: var(--color-primary-element, grey) !important;
 	}
-	.icon-file {
+	::v-deep .icon-file {
 		mask: url('./../../img/file.svg') no-repeat;
 		-webkit-mask: url('./../../img/file.svg') no-repeat;
 	}
-	.icon-video {
+	::v-deep .icon-video {
 		mask: url('./../../img/video.svg') no-repeat;
 		-webkit-mask: url('./../../img/video.svg') no-repeat;
 	}
-	.icon-audio {
+	::v-deep .icon-audio {
 		mask: url('./../../img/audio.svg') no-repeat;
 		-webkit-mask: url('./../../img/audio.svg') no-repeat;
 	}
-	.icon-calendar {
+	::v-deep .icon-calendar {
 		mask: url('./../../img/calendar.svg') no-repeat;
 		-webkit-mask: url('./../../img/calendar.svg') no-repeat;
 	}
-	.icon-text {
+	::v-deep .icon-text {
 		mask: url('./../../img/text.svg') no-repeat;
 		-webkit-mask: url('./../../img/text.svg') no-repeat;
 	}
-	.icon-location {
+	::v-deep .icon-location {
 		mask: url('./../../img/location.svg') no-repeat;
 		-webkit-mask: url('./../../img/location.svg') no-repeat;
 	}
-	.icon-picture {
+	::v-deep .icon-picture {
 		mask: url('./../../img/picture.svg') no-repeat;
 		-webkit-mask: url('./../../img/picture.svg') no-repeat;
 	}
-	.icon-pdf {
+	::v-deep .icon-pdf {
 		background-image: url('./../../img/pdf.svg');
 		background-color: unset !important;
 	}
-	.icon-office-document {
+	::v-deep .icon-office-document {
 		background-image: url('./../../img/office-document.svg');
 		background-color: unset !important;
 	}
-	.icon-office-presentation {
+	::v-deep .icon-office-presentation {
 		background-image: url('./../../img/office-presentation.svg');
 		background-color: unset !important;
 	}
-	.icon-spreadsheet {
+	::v-deep .icon-spreadsheet {
 		background-image: url('./../../img/spreadsheet.svg');
 		background-color: unset !important;
 	}
-	.icon-text,
-	.icon-audio,
-	.icon-calendar,
-	.icon-picture {
+	::v-deep .icon-text,
+	::v-deep .icon-audio,
+	::v-deep .icon-calendar,
+	::v-deep .icon-picture {
 		background-image: unset;
 	}
 }

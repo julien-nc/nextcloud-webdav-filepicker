@@ -27,7 +27,11 @@
 			:multiple-select="multipleDownload"
 			:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
 			@folder-clicked="$emit('folder-clicked', $event)"
-			@selection-changed="onSelectionChange" />
+			@selection-changed="onSelectionChange">
+			<template #file-icon="{node}">
+				<slot name="file-icon" :node="node" />
+			</template>
+		</FileBrowser>
 		<EmptyContent v-else-if="connected"
 			icon="icon-folder"
 			class="empty-content">
