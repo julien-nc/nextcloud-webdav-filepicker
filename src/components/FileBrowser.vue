@@ -223,16 +223,9 @@ export default {
 		top: 0;
 		z-index: 2;
 		border: 0;
-		&::before {
-			width: 100%;
-			height: 66px;
-			content: ' ';
-			display: block;
-			position: absolute;
-			top: 0;
-			left: 0;
-			background-image: linear-gradient(180deg, var(--color-main-background) 65%, transparent 100%);
-			z-index: -1;
+		background-image: linear-gradient(180deg, var(--color-main-background) 80%, transparent 100%);
+		&:hover {
+			background-image: linear-gradient(180deg, var(--color-background-hover) 80%, transparent 100%);
 		}
 	}
 
