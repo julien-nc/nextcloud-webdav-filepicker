@@ -1,6 +1,25 @@
 import base64 from 'base-64'
 import { basename } from '@nextcloud/paths'
 
+const propertyRequestBody = `<?xml version="1.0"?>
+<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+  <d:prop>
+        <d:getlastmodified />
+        <d:getetag />
+        <d:getcontenttype />
+        <d:resourcetype />
+        <oc:fileid />
+        <oc:permissions />
+        <oc:size />
+        <d:getcontentlength />
+        <nc:has-preview />
+        <oc:favorite />
+        <oc:comments-unread />
+        <oc:owner-display-name />
+        <oc:share-types />
+  </d:prop>
+</d:propfind>`
+
 export class WebDavFetchClient {
 
 	constructor(options) {
@@ -45,21 +64,24 @@ export class WebDavFetchClient {
 			const e = responseList.item(i)
 			elem.filename = decodeURIComponent(e.getElementsByTagNameNS(this.ns, 'href').item(0).innerHTML)
 			elem.filename = elem.filename.replace(this.basePath, '').replace(/\/$/, '')
+			elem.fileid = parseInt(e.getElementsByTagName('oc:fileid')?.item(0)?.innerHTML ?? 0)
 			if (e.getElementsByTagNameNS(this.ns, 'resourcetype').item(0).getElementsByTagNameNS(this.ns, 'collection').length > 0) {
 				// skip current directory
 				if (elem.filename === path.replace(/\/$/, '')) {
 					continue
 				}
 				elem.type = 'directory'
-				elem.basename = basename(elem.filename)
-				elem.size = 0
 			} else {
 				elem.type = 'file'
-				elem.basename = basename(elem.filename)
-				elem.size = +e.getElementsByTagNameNS(this.ns, 'getcontentlength').item(0).innerHTML
 				elem.mime = e.getElementsByTagNameNS(this.ns, 'getcontenttype').item(0).innerHTML
 				elem.etag = e.getElementsByTagNameNS(this.ns, 'getetag').item(0).innerHTML
 			}
+			elem.size = +e.getElementsByTagNameNS(this.ns, 'getcontentlength')?.item(0)?.innerHTML
+			if (!elem.size) {
+				elem.size = +e.getElementsByTagName('oc:size')?.item(0)?.innerHTML
+			}
+			elem.haspreview = e.getElementsByTagName('nc:has-preview')?.item(0)?.innerHTML === 'true'
+			elem.basename = basename(elem.filename)
 			elem.lastmod = e.getElementsByTagNameNS(this.ns, 'getlastmodified').item(0).innerHTML
 			// elem.Status = e.getElementsByTagNameNS(this.ns, 'status').item(0).innerHTML
 			elemList.push(elem)
@@ -71,6 +93,7 @@ export class WebDavFetchClient {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '1')
+		headers.append('Content-Type', 'application/xml')
 		this.appendAuthHeader(headers)
 
 		return new Promise((resolve, reject) => {
@@ -78,6 +101,7 @@ export class WebDavFetchClient {
 				method: 'PROPFIND',
 				credentials: this.credentialsMode,
 				headers,
+				body: propertyRequestBody,
 			}).then((response) => {
 				response.text().then(text => {
 					if (response.status < 400) {

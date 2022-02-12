@@ -84,7 +84,7 @@
 				@breadcrumb-hash-changed="onBreadcrumbChange">
 				<template #file-icon="{node}">
 					<NextcloudFileIcon
-						:preview-url="previewUrl"
+						:nc-url="url"
 						:node="node"
 						:client="client" />
 				</template>
@@ -348,9 +348,6 @@ export default {
 		},
 		davUrl() {
 			return this.ncUrl + '/remote.php/dav/files'
-		},
-		previewUrl() {
-			return this.ncUrl + '/index.php/core/preview.png?file={filename}&x=50&y=50&forceIcon=0&a=0'
 		},
 	},
 

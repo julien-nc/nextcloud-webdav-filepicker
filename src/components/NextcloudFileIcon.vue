@@ -22,7 +22,7 @@ export default {
 			type: Object,
 			required: true,
 		},
-		previewUrl: {
+		ncUrl: {
 			type: String,
 			default: '',
 		},
@@ -41,12 +41,16 @@ export default {
 
 	computed: {
 		filePreviewUrl() {
-			return this.previewUrl.replace('{filename}', this.node.filename)
+			// 2 endpoints available for previews, one takes the file path, the other takes the file ID
+			// const genericUrl = this.ncUrl + '/index.php/core/preview.png?file={filename}&x=50&y=50&forceIcon=0&a=0'
+			// return genericUrl.replace('{filename}', encodeURIComponent(this.node.filename))
+			const genericUrl = this.ncUrl + '/index.php/core/preview?fileId={fileId}&x=50&y=50&forceIcon=0&a=0'
+			return genericUrl.replace('{fileId}', this.node.fileid)
 		},
 	},
 
 	mounted() {
-		if (this.node.type === 'file') {
+		if (this.node.type === 'file' && this.node.haspreview) {
 			this.setImgSrc()
 		}
 	},
