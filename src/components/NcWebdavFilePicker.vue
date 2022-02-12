@@ -86,6 +86,7 @@
 					<NextcloudFileIcon
 						:nc-url="url"
 						:node="node"
+						:dark-mode="myDarkMode"
 						:client="client" />
 				</template>
 			</FilePicker>

@@ -1,7 +1,9 @@
 <template>
 	<div class="nc-icon-container">
 		<img v-if="imgSrc"
-			:src="imgSrc">
+			v-tooltip.right="{ content: tooltipHtml, classes: darkMode ? 'dark' : '', html: true, offset: 10 }"
+			:src="imgSrc"
+			class="small">
 		<span v-else
 			:class="{ icon: true, ...getElemTypeClass(node) }" />
 	</div>
@@ -9,12 +11,20 @@
 
 <script>
 import axios from 'axios'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import { getElemTypeClass } from '../utils'
+
+const PREVIEW_WIDTH = 128
+const PREVIEW_HEIGHT = 128
 
 export default {
 	name: 'NextcloudFileIcon',
 
 	components: {
+	},
+
+	directives: {
+		tooltip: Tooltip,
 	},
 
 	props: {
@@ -30,6 +40,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		darkMode: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -42,10 +56,17 @@ export default {
 	computed: {
 		filePreviewUrl() {
 			// 2 endpoints available for previews, one takes the file path, the other takes the file ID
-			// const genericUrl = this.ncUrl + '/index.php/core/preview.png?file={filename}&x=50&y=50&forceIcon=0&a=0'
-			// return genericUrl.replace('{filename}', encodeURIComponent(this.node.filename))
-			const genericUrl = this.ncUrl + '/index.php/core/preview?fileId={fileId}&x=50&y=50&forceIcon=0&a=0'
-			return genericUrl.replace('{fileId}', this.node.fileid)
+			return this.ncUrl
+				// + '/index.php/core/preview.png?'
+				// + 'file=' + encodeURIComponent(this.node.filename)
+				+ '/index.php/core/preview?'
+				+ 'fileId=' + this.node.fileid
+				+ '&x=' + PREVIEW_WIDTH
+				+ '&y=' + PREVIEW_HEIGHT
+				+ '&forceIcon=0&a=0'
+		},
+		tooltipHtml() {
+			return '<img class="plop" src="' + this.imgSrc + '" width="128" height="128">'
 		},
 	},
 
@@ -101,7 +122,7 @@ export default {
 	display: flex;
 	align-items: center;
 
-	img {
+	img.small {
 		width: 32px;
 		height: 32px;
 		margin: auto;
