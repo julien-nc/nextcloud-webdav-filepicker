@@ -3,6 +3,7 @@
 		<img v-if="imgSrc"
 			v-tooltip.right="{ content: tooltipHtml, classes: darkMode ? 'dark' : '', html: true, offset: 10 }"
 			:src="imgSrc"
+			alt=""
 			class="small">
 		<span v-else
 			:class="{ icon: true, ...getElemTypeClass(node) }" />
@@ -66,7 +67,7 @@ export default {
 				+ '&forceIcon=0&a=0'
 		},
 		tooltipHtml() {
-			return '<img class="plop" src="' + this.imgSrc + '" width="128" height="128">'
+			return '<img src="' + this.imgSrc + '" width="128" height="128" alt="">'
 		},
 	},
 
