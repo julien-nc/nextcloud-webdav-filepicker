@@ -100,7 +100,7 @@ export default {
 
 			fetch(this.filePreviewUrl, {
 				method: 'GET',
-				credentials: 'omit',
+				credentials: this.client.credentialsMode,
 				headers,
 			}).then((response) => {
 				if (response.status < 400) {

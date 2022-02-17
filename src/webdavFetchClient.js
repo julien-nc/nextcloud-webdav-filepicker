@@ -39,7 +39,7 @@ export class WebDavFetchClient {
 			this.authHeader = this.token.token_type + ' ' + this.token.access_token
 		}
 		this.credentialsMode = options.useCookies
-			? 'same-origin'
+			? 'include'
 			: 'omit'
 	}
 

@@ -153,6 +153,11 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		// use WebAppPassword login flow
+		useWebapppassword: {
+			type: Boolean,
+			default: false,
+		},
 		/* === props to control the fp component from the parent one === */
 		// file picker mode to determine what is done when the picker is opened
 		pickerMode: {
@@ -505,7 +510,7 @@ export default {
 					useCookies: this.useCookies,
 				})
 				this.getFolderContent(true)
-			} else {
+			} else if (this.useWebapppassword) {
 				// web login flow
 				const authUrl = this.authUrl + '?target-origin=' + encodeURIComponent(window.location.href)
 				this.loginWindow = window.open(
@@ -721,7 +726,7 @@ export default {
 
 					const rawResponse = await fetch(url, {
 						method: 'POST',
-						credentials: 'omit',
+						credentials: this.client.credentialsMode,
 						headers,
 						body: JSON.stringify(req),
 					})
@@ -748,7 +753,7 @@ export default {
 							putHeaders.append('Accept', 'application/json')
 							const rawEditionResponse = await fetch(putUrl, {
 								method: 'PUT',
-								credentials: 'omit',
+								credentials: this.client.credentialsMode,
 								headers: putHeaders,
 								body: JSON.stringify(putReq),
 							})
