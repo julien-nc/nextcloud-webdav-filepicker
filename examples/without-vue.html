@@ -34,7 +34,6 @@
 		<input id="login" type="text" placeholder="login" value="">
 		<input id="password" type="password" placeholder="password" value="">
 		<input id="accessToken" type="password" placeholder="OAuth access token" value="">
-		<input id="oidcToken" type="password" placeholder="OIDC access token" value="">
 		<h3>Theme color</h3>
 		<label for="color">Main file picker color</label>
 		<input id="color" type="color" value="#0082c9">
@@ -82,10 +81,6 @@
 		if (accessToken) {
 			document.getElementById('accessToken').value = accessToken
 		}
-		const oidcToken = params.get('oidcToken')
-		if (oidcToken) {
-			document.getElementById('oidcToken').value = oidcToken
-		}
 		const url = params.get('url')
 		if (url) {
 			document.getElementById('url').value = url
@@ -103,7 +98,6 @@
 		const initialLogin = document.getElementById('login').value
 		const initialPassword = document.getElementById('password').value
 		const initialAccessToken = document.getElementById('accessToken').value
-		const initialOidcToken = document.getElementById('oidcToken').value
 		const initialColor = document.getElementById('color').value
 		const initialDarkMode = document.getElementById('darkmode').checked
 
@@ -112,7 +106,6 @@
 			login: initialLogin,
 			password: initialPassword,
 			accessToken: initialAccessToken,
-			oidcToken: initialOidcToken,
 			useCookies: false,
 			themeColor: initialColor,
 			darkMode: initialDarkMode,
@@ -124,21 +117,22 @@
 			enableGetSaveFilePath: true,
 			enableGetUploadFileLink: true,
 			enableUploadFiles: true,
+			useWebapppassword: true,
 			// language: 'de',
 			// language: 'de-DE',
-			//oidcConfigLocation: 'http://localhost/oidc-config.json',
-			oidcConfig: {
-				openIdConnect: {
-					authority: 'http://localhost:8080/auth/realms/myrealm/.well-known/openid-configuration',
-					client_id: 'superclient',
-					client_secret: 'be4e2e3e-506e-4078-8919-5067edfa722a',
-					popup_redirect_uri: 'http://localhost/oidc-callback.html',
-					response_type: 'code',
-					scope: 'openid email profile',
-					automaticSilentRenew: true,
-					accessTokenExpiringNotificationTime: 50,
-				},
-			},
+			// oidcConfigLocation: 'http://localhost/oidc-config.json',
+			// oidcConfig: {
+			// 	openIdConnect: {
+			// 		authority: 'http://localhost:8080/auth/realms/myrealm/.well-known/openid-configuration',
+			// 		client_id: 'superclient',
+			// 		client_secret: 'be4e2e3e-506e-4078-8919-5067edfa722a',
+			// 		popup_redirect_uri: 'http://localhost/oidc-callback.html',
+			// 		response_type: 'code',
+			// 		scope: 'openid email profile',
+			// 		automaticSilentRenew: true,
+			// 		accessTokenExpiringNotificationTime: 50,
+			// 	},
+			// },
 		})
 
 		// monitor form value change
@@ -152,10 +146,6 @@
 
 		document.getElementById('accessToken').addEventListener('input', (e) => {
 			filepicker.updateAccessToken(e.target.value)
-		})
-
-		document.getElementById('oidcToken').addEventListener('input', (e) => {
-			filepicker.updateOidcToken(e.target.value)
 		})
 
 		document.getElementById('url').addEventListener('input', (e) => {

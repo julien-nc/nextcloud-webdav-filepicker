@@ -40,6 +40,7 @@ window.createFilePicker = (mp, options) => {
 				enableGetUploadFileLink: options.enableGetUploadFileLink,
 				enableUploadFiles: options.enableUploadFiles,
 				language: options.language,
+				useWebapppassword: options.useWebapppassword,
 			},
 		}),
 	})
