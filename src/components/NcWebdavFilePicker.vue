@@ -156,7 +156,7 @@ export default {
 		// use WebAppPassword login flow
 		useWebapppassword: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 		/* === props to control the fp component from the parent one === */
 		// file picker mode to determine what is done when the picker is opened
