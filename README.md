@@ -109,7 +109,7 @@ Accepted options:
 | password | the user password, an app password or an OAuth access token | string | - |
 | accessToken | an OAuth token (use this parameter if you absolutely want to use HTTP Authorization header to authenticate. Using the OAuth token as a password is recommended, see [OAuth token](#restrictions-with-oauth-access-tokens)) | string | - |
 | useCookies | Include cookies in WebDav and OCS requests if true | boolean | false |
-| color | the main file picker color | hex color string | Nextcloud blue: `#0082c9` |
+| themeColor | the main file picker color | hex color string | Nextcloud blue: `#0082c9` |
 | darkMode | toggle the dark theme | boolean | `false` |
 | multipleDownload | let the user select multiple files in the file picker | boolean | `true` |
 | multipleUpload | let the user select multiple local files to upload | boolean | `true` |
