@@ -350,10 +350,10 @@ export default {
 				: colorOpacity(this.mainColor, 0.2)
 		},
 		authUrl() {
-			return this.ncUrl + '/index.php/apps/webapppassword'
+			return this.url + '/index.php/apps/webapppassword'
 		},
 		davUrl() {
-			return this.ncUrl + '/remote.php/dav/files'
+			return this.url + '/remote.php/dav/files'
 		},
 	},
 
