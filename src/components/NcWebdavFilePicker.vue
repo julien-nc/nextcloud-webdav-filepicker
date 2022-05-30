@@ -440,6 +440,7 @@ export default {
 			const userId = userObject?.profile?.preferred_username
 			this.client = new WebDavFetchClient({
 				url: this.davUrl + '/' + userId,
+				userId,
 				token: {
 					access_token: oidcToken,
 					token_type: 'Bearer',
@@ -478,6 +479,7 @@ export default {
 			if (this.login && this.password) {
 				this.client = new WebDavFetchClient({
 					url: this.davUrl + '/' + this.login,
+					userId: this.login,
 					username: this.login,
 					password: this.password,
 					useCookies: this.useCookies,
@@ -487,6 +489,7 @@ export default {
 				// OAuth2 token
 				this.client = new WebDavFetchClient({
 					url: this.davUrl + '/' + this.login,
+					userId: this.login,
 					token: {
 						access_token: this.accessToken,
 						token_type: 'Bearer',
@@ -506,6 +509,7 @@ export default {
 				// no auth, no web login
 				this.client = new WebDavFetchClient({
 					url: this.davUrl + '/' + this.login,
+					userId: this.login,
 					username: this.login,
 					useCookies: this.useCookies,
 				})

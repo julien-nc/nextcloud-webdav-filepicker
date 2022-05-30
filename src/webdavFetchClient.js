@@ -20,6 +20,10 @@ const propertyRequestBody = `<?xml version="1.0"?>
   </d:prop>
 </d:propfind>`
 
+function escapeRegExp(string) {
+	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 export class WebDavFetchClient {
 
 	constructor(options) {
@@ -29,6 +33,9 @@ export class WebDavFetchClient {
 		this.url = options.url
 		const parsedUrl = new URL(this.url)
 		this.basePath = parsedUrl.pathname
+		// this is used to compute the relative path (without relying on the base path)
+		this.userId = options.userId
+		this.pathRegex = new RegExp('.*' + escapeRegExp('/remote.php/dav/files/' + this.userId), 'g')
 
 		this.username = options.username
 		this.password = options.password
@@ -63,7 +70,7 @@ export class WebDavFetchClient {
 			const elem = {}
 			const e = responseList.item(i)
 			elem.filename = decodeURIComponent(e.getElementsByTagNameNS(this.ns, 'href').item(0).innerHTML)
-			elem.filename = elem.filename.replace(this.basePath, '').replace(/\/$/, '')
+			elem.filename = elem.filename.replace(this.pathRegex, '').replace(/\/$/, '')
 			elem.fileid = parseInt(e.getElementsByTagName('oc:fileid')?.item(0)?.innerHTML ?? 0)
 			if (e.getElementsByTagNameNS(this.ns, 'resourcetype').item(0).getElementsByTagNameNS(this.ns, 'collection').length > 0) {
 				// skip current directory
