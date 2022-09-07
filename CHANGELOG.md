@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.0.25 – 2022-09-07
+### Fixed
+- Don't stop everything if there's an error when getting the quota
+
 ## 0.0.11 – 2021-02-04
 ### Added
 - public link creation
