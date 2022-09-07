@@ -806,7 +806,8 @@ export default {
 					if (error.response?.status === 401) {
 						this.onUnauthorized(error.response)
 					}
-					this.resetFilePicker()
+					// do not reset the filepicker here as the problem might only be on the quota requests
+					// this.resetFilePicker()
 				}
 			}
 		},
