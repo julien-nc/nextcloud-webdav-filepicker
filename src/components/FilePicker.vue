@@ -313,14 +313,12 @@ export default {
 			}
 		},
 		quotaText() {
-			if (this.quota?.used && this.quota?.available) {
+			const used = parseInt(this.quota.used)
+			if (!isNaN(used) && this.quota?.available) {
 				const available = parseInt(this.quota.available)
-				const used = parseInt(this.quota.used)
-				return !isNaN(used)
-					? (!isNaN(available) && available !== 0)
-						? t('filepicker', '{size} used ({percent}% of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
-						: t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
-					: t('filepicker', 'invalid quota')
+				return (!isNaN(available) && available !== 0)
+					? t('filepicker', '{size} used ({percent}% of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
+					: t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
 			} else {
 				return t('filepicker', 'invalid quota')
 			}
