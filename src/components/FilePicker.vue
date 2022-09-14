@@ -548,7 +548,8 @@ export default {
 		}
 
 		.quota {
-			width: 170px;
+			min-width: 150px;
+			max-width: 250px;
 			margin: 9px 20px 0 0;
 			position: relative;
 			bottom: -5px;
