@@ -12,37 +12,30 @@
 import Vue from 'vue'
 import NcWebdavFilePicker from './components/NcWebdavFilePicker.vue'
 
-// eslint-disable-next-line
-'use strict'
-
 window.createFilePicker = (mp, options) => {
-	const vm = new Vue({
-		el: '#' + mp,
-		render: h => h(NcWebdavFilePicker, {
-			props: {
-				ncUrl: options.url,
-				ncLogin: options.login,
-				ncPassword: options.password,
-				ncAccessToken: options.accessToken,
-				ncOidcConfig: options.oidcConfig,
-				oidcConfigLocation: options.oidcConfigLocation,
-				useCookies: options.useCookies,
-				themeColor: options.themeColor,
-				darkMode: options.darkMode,
-				displayPreviews: options.displayPreviews,
-				multipleDownload: options.multipleDownload,
-				multipleUpload: options.multipleUpload,
-				enableGetFilesPath: options.enableGetFilesPath,
-				enableGetFilesLink: options.enableGetFilesLink,
-				enableDownloadFiles: options.enableDownloadFiles,
-				enableGetSaveFilePath: options.enableGetSaveFilePath,
-				enableGetUploadFileLink: options.enableGetUploadFileLink,
-				enableUploadFiles: options.enableUploadFiles,
-				language: options.language,
-				useWebapppassword: options.useWebapppassword,
-			},
-		}),
-	})
-
-	return vm.$children[0]
+	const View = Vue.extend(NcWebdavFilePicker)
+	return new View({
+		propsData: {
+			ncUrl: options.url,
+			ncLogin: options.login,
+			ncPassword: options.password,
+			ncAccessToken: options.accessToken,
+			ncOidcConfig: options.oidcConfig,
+			oidcConfigLocation: options.oidcConfigLocation,
+			useCookies: options.useCookies,
+			themeColor: options.themeColor,
+			darkMode: options.darkMode,
+			displayPreviews: options.displayPreviews,
+			multipleDownload: options.multipleDownload,
+			multipleUpload: options.multipleUpload,
+			enableGetFilesPath: options.enableGetFilesPath,
+			enableGetFilesLink: options.enableGetFilesLink,
+			enableDownloadFiles: options.enableDownloadFiles,
+			enableGetSaveFilePath: options.enableGetSaveFilePath,
+			enableGetUploadFileLink: options.enableGetUploadFileLink,
+			enableUploadFiles: options.enableUploadFiles,
+			language: options.language,
+			useWebapppassword: options.useWebapppassword,
+		},
+	}).$mount('#' + mp)
 }
