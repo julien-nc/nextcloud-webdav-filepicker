@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.0.0 – 2022-12-12
+### Added
+- new prop/param to disable previews
+
+### Changed
+- update all npm pkgs
+- adjust to new eslint config
+- adjust to @nextcloud/vue 7.2.0 (mostly style issues with breadcrumb, popover)
+
 ## 0.0.26 – 2022-09-07
 ### Fixed
 - Don't stop everything if there's an error when getting the quota
