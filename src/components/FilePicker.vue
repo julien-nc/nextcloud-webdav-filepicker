@@ -32,14 +32,20 @@
 				<slot name="file-icon" :node="node" />
 			</template>
 		</FileBrowser>
-		<EmptyContent v-else-if="connected"
-			icon="icon-folder"
+		<NcEmptyContent v-else-if="connected"
+			:title="t('filepicker', 'This folder is empty')"
 			class="empty-content">
-			{{ t('filepicker', 'This folder is empty') }}
-		</EmptyContent>
-		<EmptyContent v-else icon="icon-disabled-user" class="empty-content">
-			{{ t('filepicker', 'Not connected') }}
-		</EmptyContent>
+			<template #icon>
+				<FolderIcon />
+			</template>
+		</NcEmptyContent>
+		<NcEmptyContent v-else
+			:title="t('filepicker', 'Not connected')"
+			class="empty-content">
+			<template #icon>
+				<AccountOffIcon />
+			</template>
+		</NcEmptyContent>
 
 		<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
 			<div class="spacer" />
@@ -162,6 +168,9 @@
 </template>
 
 <script>
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import AccountOffIcon from 'vue-material-design-icons/AccountOff.vue'
+
 import PickerBreadcrumbs from './PickerBreadcrumbs'
 import FileBrowser from './FileBrowser'
 import MyDatetimePicker from './MyDatetimePicker'
@@ -171,7 +180,7 @@ import { humanFileSize } from '../utils'
 import ProgressBar from 'vue-simple-progress'
 
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import { dirname, basename } from '@nextcloud/paths'
 
 export default {
@@ -181,8 +190,10 @@ export default {
 		PickerBreadcrumbs,
 		FileBrowser,
 		ProgressBar,
-		EmptyContent,
+		NcEmptyContent,
 		MyDatetimePicker,
+		FolderIcon,
+		AccountOffIcon,
 	},
 
 	directives: {

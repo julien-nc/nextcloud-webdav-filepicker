@@ -56,8 +56,9 @@
 			type="file"
 			:multiple="multipleUpload"
 			@change="onFileInputChange">
-		<Modal v-if="isOpen"
+		<NcModal v-if="isOpen"
 			:can-close="false"
+			size="large"
 			:style="cssVars"
 			@close="close">
 			<FilePicker
@@ -90,7 +91,7 @@
 						:client="client" />
 				</template>
 			</FilePicker>
-		</Modal>
+		</NcModal>
 	</div>
 </template>
 
@@ -98,7 +99,6 @@
 import { setLanguage, t, n } from '../translation'
 import { WebDavFetchClient } from '../webdavFetchClient'
 import moment from '@nextcloud/moment'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
 import { colorOpacity } from '../utils'
 import '../../css/filepicker.scss'
 import axios from 'axios'
@@ -107,11 +107,13 @@ import { initVueAuthenticate } from '../services/auth'
 import FilePicker from './FilePicker'
 import NextcloudFileIcon from './NextcloudFileIcon'
 
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+
 export default {
 	name: 'NcWebdavFilePicker',
 
 	components: {
-		Modal,
+		NcModal,
 		FilePicker,
 		NextcloudFileIcon,
 	},

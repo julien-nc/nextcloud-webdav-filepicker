@@ -1,24 +1,24 @@
 <template>
-	<Breadcrumbs>
-		<Breadcrumb title="Home" href="#/" />
-		<Breadcrumb v-for="p in parts"
+	<NcBreadcrumbs>
+		<NcBreadcrumb title="Home" href="#/" />
+		<NcBreadcrumb v-for="p in parts"
 			:key="p.path"
 			:title="p.name"
 			:href="'#' + p.path" />
-	</Breadcrumbs>
+	</NcBreadcrumbs>
 </template>
 
 <script>
 import { addCustomEventListener } from '../utils'
-import Breadcrumb from '@nextcloud/vue/dist/Components/Breadcrumb'
-import Breadcrumbs from '@nextcloud/vue/dist/Components/Breadcrumbs'
+import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
+import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 
 export default {
 	name: 'PickerBreadcrumbs',
 
 	components: {
-		Breadcrumb,
-		Breadcrumbs,
+		NcBreadcrumb,
+		NcBreadcrumbs,
 	},
 
 	props: {
@@ -36,7 +36,7 @@ export default {
 	},
 
 	mounted() {
-		addCustomEventListener('.crumb a', 'click', this.hashChange)
+		addCustomEventListener('.vue-crumb a', 'click', this.hashChange)
 	},
 
 	methods: {
@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-::v-deep .crumb {
+::v-deep .vue-crumb {
 	>a {
 		padding: 12px;
 		text-decoration: none;
