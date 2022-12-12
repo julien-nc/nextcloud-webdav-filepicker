@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 /**
  * Nextcloud - filepicker
  *
@@ -12,13 +10,7 @@
  */
 
 import Vue from 'vue'
-import ExampleApp from './views/ExampleApp'
+import ExampleApp from './views/ExampleApp.vue'
 
-// eslint-disable-next-line
-'use strict'
-
-// eslint-disable-next-line
-new Vue({
-	el: '#mount_point',
-	render: h => h(ExampleApp),
-})
+const View = Vue.extend(ExampleApp)
+new View().$mount('#mount_point')

@@ -46,8 +46,7 @@
 			NcWebdavFilePicker component is placed under the following line. It shows every button by default.
 		</p>
 		<hr>
-		<NcWebdavFilePicker
-			ref="filepicker"
+		<NcWebdavFilePicker ref="filepicker"
 			:commented-nc-oidc-config="oidcConfig"
 			:commented-oidc-config-location="oidcConfigLocation"
 			:nc-url="ncUrl"
@@ -104,7 +103,7 @@
 </template>
 
 <script>
-import NcWebdavFilePicker from '../components/NcWebdavFilePicker'
+import NcWebdavFilePicker from '../components/NcWebdavFilePicker.vue'
 
 export default {
 	name: 'ExampleApp',

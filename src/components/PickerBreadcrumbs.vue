@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { addCustomEventListener } from '../utils'
+import { addCustomEventListener } from '../utils.js'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 

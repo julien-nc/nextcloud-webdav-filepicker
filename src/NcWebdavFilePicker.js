@@ -20,6 +20,6 @@
  *
  */
 
-import NcWebdavFilePicker from './components/NcWebdavFilePicker'
+import NcWebdavFilePicker from './components/NcWebdavFilePicker.vue'
 
 export default NcWebdavFilePicker

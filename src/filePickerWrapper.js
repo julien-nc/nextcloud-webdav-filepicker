@@ -10,7 +10,7 @@
  */
 
 import Vue from 'vue'
-import NcWebdavFilePicker from './components/NcWebdavFilePicker'
+import NcWebdavFilePicker from './components/NcWebdavFilePicker.vue'
 
 // eslint-disable-next-line
 'use strict'

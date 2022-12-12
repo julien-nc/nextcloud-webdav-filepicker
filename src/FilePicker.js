@@ -20,6 +20,6 @@
  *
  */
 
-import FilePicker from './components/FilePicker'
+import FilePicker from './components/FilePicker.vue'
 
 export default FilePicker

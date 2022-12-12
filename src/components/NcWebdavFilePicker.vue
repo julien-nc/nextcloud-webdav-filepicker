@@ -97,16 +97,18 @@
 </template>
 
 <script>
-import { setLanguage, t, n } from '../translation'
-import { WebDavFetchClient } from '../webdavFetchClient'
-import moment from '@nextcloud/moment'
-import { colorOpacity } from '../utils'
-import '../../css/filepicker.scss'
-import axios from 'axios'
-import { initVueAuthenticate } from '../services/auth'
+import { setLanguage, t, n } from '../translation.js'
+import { WebDavFetchClient } from '../webdavFetchClient.js'
+import { initVueAuthenticate } from '../services/auth.js'
+import { colorOpacity } from '../utils.js'
 
-import FilePicker from './FilePicker'
-import NextcloudFileIcon from './NextcloudFileIcon'
+import '../../css/filepicker.scss'
+
+import axios from 'axios'
+import moment from '@nextcloud/moment'
+
+import FilePicker from './FilePicker.vue'
+import NextcloudFileIcon from './NextcloudFileIcon.vue'
 
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 

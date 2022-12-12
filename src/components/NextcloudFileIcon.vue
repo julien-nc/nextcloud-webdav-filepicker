@@ -12,8 +12,8 @@
 
 <script>
 import axios from 'axios'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import { getElemTypeClass } from '../utils'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import { getElemTypeClass } from '../utils.js'
 
 const PREVIEW_WIDTH = 128
 const PREVIEW_HEIGHT = 128

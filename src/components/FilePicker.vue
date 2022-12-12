@@ -171,15 +171,15 @@
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import AccountOffIcon from 'vue-material-design-icons/AccountOff.vue'
 
-import PickerBreadcrumbs from './PickerBreadcrumbs'
-import FileBrowser from './FileBrowser'
-import MyDatetimePicker from './MyDatetimePicker'
-import { t, n } from '../translation'
-import { humanFileSize } from '../utils'
+import PickerBreadcrumbs from './PickerBreadcrumbs.vue'
+import FileBrowser from './FileBrowser.vue'
+import MyDatetimePicker from './MyDatetimePicker.vue'
+import { t, n } from '../translation.js'
+import { humanFileSize } from '../utils.js'
 
 import ProgressBar from 'vue-simple-progress'
 
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import { dirname, basename } from '@nextcloud/paths'
 

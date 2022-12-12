@@ -70,11 +70,11 @@
 </template>
 
 <script>
-import { t, n } from '../translation'
-import moment from '@nextcloud/moment'
-import { humanFileSize, getElemTypeClass } from '../utils'
-import MyVTh from './MyVTh'
+import { t, n } from '../translation.js'
+import { humanFileSize, getElemTypeClass } from '../utils.js'
+import MyVTh from './MyVTh.vue'
 
+import moment from '@nextcloud/moment'
 import { VTable } from 'vuejs-smart-table'
 
 export default {
