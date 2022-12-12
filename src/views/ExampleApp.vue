@@ -59,6 +59,7 @@
 			:multiple-download="true"
 			:theme-color="color"
 			:dark-mode="darkMode"
+			:display-previews="true"
 			:picker-is-open="false"
 			:enable-get-files-path="true"
 			:enable-get-files-link="true"

@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 /**
  * Nextcloud - filepicker
  *
@@ -31,6 +29,7 @@ window.createFilePicker = (mp, options) => {
 				useCookies: options.useCookies,
 				themeColor: options.themeColor,
 				darkMode: options.darkMode,
+				displayPreviews: options.displayPreviews,
 				multipleDownload: options.multipleDownload,
 				multipleUpload: options.multipleUpload,
 				enableGetFilesPath: options.enableGetFilesPath,

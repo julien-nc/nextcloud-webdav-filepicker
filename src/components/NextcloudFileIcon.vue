@@ -45,6 +45,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		displayPreviews: {
+			type: Boolean,
+			default: true,
+		},
 	},
 
 	data() {
@@ -72,7 +76,7 @@ export default {
 	},
 
 	mounted() {
-		if (this.node.type === 'file' && this.node.haspreview) {
+		if (this.displayPreviews && this.node.type === 'file' && this.node.haspreview) {
 			this.setImgSrc()
 		}
 	},

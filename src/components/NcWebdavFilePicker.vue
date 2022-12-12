@@ -88,6 +88,7 @@
 						:nc-url="url"
 						:node="node"
 						:dark-mode="myDarkMode"
+						:display-previews="displayPreviews"
 						:client="client" />
 				</template>
 			</FilePicker>
@@ -202,6 +203,10 @@ export default {
 		darkMode: {
 			type: Boolean,
 			default: false,
+		},
+		displayPreviews: {
+			type: Boolean,
+			default: true,
 		},
 		/* === toggle buttons === */
 		// display the button to get files path

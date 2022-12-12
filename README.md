@@ -111,6 +111,7 @@ Accepted options:
 | useCookies | Include cookies in WebDav and OCS requests if true | boolean | false |
 | themeColor | the main file picker color | hex color string | Nextcloud blue: `#0082c9` |
 | darkMode | toggle the dark theme | boolean | `false` |
+| displayPreviews | toggle the file preview display | boolean | `true` |
 | multipleDownload | let the user select multiple files in the file picker | boolean | `true` |
 | multipleUpload | let the user select multiple local files to upload | boolean | `true` |
 | enableGetFilesPath | show the "Get files path" button | boolean | `false` |
@@ -347,6 +348,10 @@ themeColor: {
 darkMode: {
 	type: Boolean,
 	default: false,
+},
+displayPreviews: {
+	type: Boolean,
+	default: true,
 },
 /* === toggle buttons === */
 // display the button to get files path
