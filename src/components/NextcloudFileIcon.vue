@@ -1,7 +1,7 @@
 <template>
 	<div class="nc-icon-container">
 		<img v-if="imgSrc"
-			v-tooltip.right="{ content: tooltipHtml, classes: darkMode ? 'dark' : '', html: true, offset: 10 }"
+			v-tooltip.right="{ content: tooltipHtml, popperClass: darkMode ? 'dark' : '', html: true, offset: 10 }"
 			:src="imgSrc"
 			alt=""
 			class="small">

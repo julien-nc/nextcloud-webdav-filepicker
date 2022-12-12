@@ -110,7 +110,7 @@
 			<div v-if="connected && ['getSaveFilePath', 'uploadFiles', 'getUploadFileLink'].includes(mode)"
 				class="newDirectory">
 				<button v-if="!namingNewDirectory"
-					v-tooltip.top="{ content: t('filepicker', 'Create new folder'), classes: darkMode ? 'dark' : '' }"
+					v-tooltip.top="{ content: t('filepicker', 'Create new folder'), popperClass: darkMode ? 'dark' : '' }"
 					class="newDirectoryButton"
 					@click="onCreateDirectory">
 					<span class="icon icon-add" />
@@ -123,13 +123,13 @@
 						@keyup.escape="onCancelNewDirectory"
 						@keyup.enter="createDirectory">
 					<button
-						v-tooltip.top="{ content: t('filepicker', 'Cancel'), classes: darkMode ? 'dark' : '' }"
+						v-tooltip.top="{ content: t('filepicker', 'Cancel'), popperClass: darkMode ? 'dark' : '' }"
 						class="newDirectoryButton"
 						@click="onCancelNewDirectory">
 						<span class="icon icon-history" />
 					</button>
 					<button
-						v-tooltip.top="{ content: t('filepicker', 'Ok'), classes: darkMode ? 'dark' : '' }"
+						v-tooltip.top="{ content: t('filepicker', 'Ok'), popperClass: darkMode ? 'dark' : '' }"
 						class="newDirectoryButton"
 						@click="createDirectory">
 						<span class="icon icon-checkmark" />

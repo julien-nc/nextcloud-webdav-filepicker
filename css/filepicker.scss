@@ -1,45 +1,45 @@
 // as the vue-tooltip element is placed outside our component, we use global style
-.vue-tooltip {
+.v-popper__popper {
 	font-weight: normal;
 	font-size: 0.875em;
 	font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Cantarell,Ubuntu,'Helvetica Neue',Arial,'Noto Color Emoji',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
 	color: #222;
 
-	&[x-placement="top"] .tooltip-arrow {
+	&[data-popper-placement="top"] .v-popper__arrow-container {
 		border-top-color: white !important;
 	}
-	&[x-placement="bottom"] .tooltip-arrow {
+	&[data-popper-placement="bottom"] .v-popper__arrow-container {
 		border-bottom-color: white !important;
 	}
-	&[x-placement="right"] .tooltip-arrow {
+	&[data-popper-placement="right"] .v-popper__arrow-container {
 		border-right-color: white !important;
 	}
-	&[x-placement="left"] .tooltip-arrow {
+	&[data-popper-placement="left"] .v-popper__arrow-container {
 		border-left-color: white !important;
 	}
-	.tooltip-inner {
+	.v-popper__inner {
 		border-radius: 3px !important;
 		background: white !important;
-		filter: drop-shadow(rgba(77, 77, 77, 0.5) 0px 1px 10px) !important;
+		filter: drop-shadow(0px 1px 10px rgba(77, 77, 77, 0.5)) !important;
 	}
 }
-.vue-tooltip.dark {
+.v-popper__popper.dark {
 	color: #d8d8d8;
 
-	&[x-placement="top"] .tooltip-arrow {
+	&[data-popper-placement="top"] .v-popper__arrow-container {
 		border-top-color: black !important;
 	}
-	&[x-placement="bottom"] .tooltip-arrow {
+	&[data-popper-placement="bottom"] .v-popper__arrow-container {
 		border-bottom-color: black !important;
 	}
-	&[x-placement="right"] .tooltip-arrow {
+	&[data-popper-placement="right"] .v-popper__arrow-container {
 		border-right-color: black !important;
 	}
-	&[x-placement="left"] .tooltip-arrow {
+	&[data-popper-placement="left"] .v-popper__arrow-container {
 		border-left-color: black !important;
 	}
-	.tooltip-inner {
+	.v-popper__inner {
 		background: black !important;
-		filter: drop-shadow(rgba(77, 77, 77, 0.5) 0px 1px 10px) !important;
+		filter: drop-shadow(0px 1px 10px rgba(77, 77, 77, 0.5)) !important;
 	}
 }
