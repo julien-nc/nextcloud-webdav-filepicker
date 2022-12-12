@@ -1,6 +1,6 @@
 # <a id='s1' />📂 Nextcloud WebDav file picker
 
-![pages](https://github.com/eneiluj/nextcloud-webdav-filepicker/workflows/build-pages/badge.svg?branch=master&event=push)
+![pages](https://github.com/julien-nc/nextcloud-webdav-filepicker/workflows/build-pages/badge.svg?branch=master&event=push)
 
 The Nextcloud WebDav file picker is a web component to access Nextcloud files.
 
@@ -32,8 +32,8 @@ It requires the [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword)
 
 # <a id='s2' /> 👀 Demo
 
-* [Example of Vue application using the component](https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html)
-* [Example of simple script using the file picker wrapper](https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/without-vue.html)
+* [Example of Vue application using the component](https://julien-nc.github.io/nextcloud-webdav-filepicker/examples/with-vue.html)
+* [Example of simple script using the file picker wrapper](https://julien-nc.github.io/nextcloud-webdav-filepicker/examples/without-vue.html)
 
 See how to [pass GET parameters](#demo-pages-get-parameters)
 
@@ -90,7 +90,7 @@ or
 import('[...]/node_modules/nextcloud-webdav-filepicker/js/filePickerWrapper.js').then(() => { main() })
 ```
 
-[Complete single file example](https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/examples/without-vue.html)
+[Complete single file example](https://github.com/julien-nc/nextcloud-webdav-filepicker/blob/master/examples/without-vue.html)
 
 Once you've imported `filePickerWrapper.js` you can call the `window.createFilePicker()` function
 to mount the file picker somewhere in your web page. This function returns the component to let you interact with it later.
@@ -227,7 +227,7 @@ And use it:
 import NcWebdavFilePicker from 'nextcloud-webdav-filepicker'
 ```
 
-[Complete Vue app example](https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/src/views/ExampleApp.vue) (top component using the file picker)
+[Complete Vue app example](https://github.com/julien-nc/nextcloud-webdav-filepicker/blob/master/src/views/ExampleApp.vue) (top component using the file picker)
 
 ## <a id='s5-1' />Example
 
@@ -511,7 +511,7 @@ and let the browser write the files to local filesystem.
 
 You can pass GET parameters to demo pages in order to initialize field values. It makes it easier to provide demo links directly working. For example:
 
-https://eneiluj.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkMode=1 (url, login and password are examples)
+https://julien-nc.github.io/nextcloud-webdav-filepicker/examples/with-vue.html?url=https://my.nextcloud.org&login=jason&password=Nm8cC-kHczM-HGz55-S9SE2-Frf4F&color=aa82c9&darkMode=1 (url, login and password are examples)
 
 Accepted parameters are:
 * url

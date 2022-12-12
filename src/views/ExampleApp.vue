@@ -4,7 +4,7 @@
 			This page is an example Vue application using the file picker component.
 			<br>
 			<img src="https://vuejs.org/images/logo.png" width="25px" style="margin-bottom: -2px;"> 🚀
-			Checkout the <a href="https://github.com/eneiluj/nextcloud-webdav-filepicker/blob/master/src/exampleVue.js">source file</a>
+			Checkout the <a href="https://github.com/julien-nc/nextcloud-webdav-filepicker/blob/master/src/exampleVue.js">source file</a>
 		</h2>
 		<p>
 			You can try the file picker with your Nextcloud instance from this page.
@@ -97,7 +97,7 @@
 			</div>
 		</div>
 		<div class="ribbon">
-			<a href="https://github.com/eneiluj/nextcloud-webdav-filepicker" target="_blank">Repository and documentation</a>
+			<a href="https://github.com/julien-nc/nextcloud-webdav-filepicker" target="_blank">Repository and documentation</a>
 		</div>
 	</div>
 </template>
