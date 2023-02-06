@@ -193,7 +193,7 @@ export default {
 	overflow-y: scroll;
 	overflow-x: hidden;
 	scrollbar-color: var(--color-border-dark) transparent;
-	scrollbar-width: thin;
+	scrollbar-width: auto;
 	display: block;
 	border-spacing: 0;
 	// padding: 10px 0 10px 0;
