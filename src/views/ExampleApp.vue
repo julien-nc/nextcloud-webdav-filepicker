@@ -56,6 +56,7 @@
 			:use-cookies="false"
 			:multiple-upload="true"
 			:multiple-download="true"
+			:close-on-error="false"
 			:theme-color="color"
 			:dark-mode="darkMode"
 			:display-previews="true"

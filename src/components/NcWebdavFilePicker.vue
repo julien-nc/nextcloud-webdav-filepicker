@@ -185,6 +185,11 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		// close the picker on network error (like when password policy refuses a link password)
+		closeOnError: {
+			type: Boolean,
+			default: false,
+		},
 		// file picker title
 		getTitle: {
 			type: String,
@@ -657,14 +662,14 @@ export default {
 				document.dispatchEvent(event)
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
-				const createdLinks = await this.getFilesShareLink(this.selection, options)
+				const shareLinksResult = await this.getFilesShareLink(this.selection, options)
 				const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
 				const genericShareLink = this.url + '/index.php/s/TOKEN'
 				const detail = {
 					pathList: this.selection,
 					ocsUrl,
 					genericShareLink,
-					shareLinks: createdLinks,
+					shareLinks: shareLinksResult.publicLinks,
 					linkOptions: options,
 				}
 				// for parent component
@@ -672,7 +677,9 @@ export default {
 				// for potential global listener
 				const event = new CustomEvent('get-files-link', { detail })
 				document.dispatchEvent(event)
-				this.close()
+				if (shareLinksResult.error === false || this.closeOnError) {
+					this.close()
+				}
 			} else if (this.mode === 'getSaveFilePath') {
 				console.debug('user wants to save in ' + this.currentPath)
 				const detail = { path: this.currentPath }
@@ -716,7 +723,10 @@ export default {
 			// problem : CORS headers don't allow this for the moment,
 			// this could be done by adding a global origin whitelist in NC server
 			const url = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
-			const publicLinks = []
+			const shareLinksResult = {
+				error: false,
+				publicLinks: [],
+			}
 			let path
 			for (let i = 0; i < pathList.length; i++) {
 				path = pathList[i]
@@ -749,6 +759,7 @@ export default {
 						publicLink.url = response.ocs.data.url
 					} else {
 						publicLink.error = response?.ocs?.meta?.message ?? ''
+						shareLinksResult.error = true
 					}
 
 					if (creationSuccess && options.allowEdition) {
@@ -791,18 +802,20 @@ export default {
 								console.error('Impossible to edit shared access')
 								console.error(error.response?.data?.ocs?.meta?.message)
 								console.error(error)
-								return null
+								shareLinksResult.error = error
+								return shareLinksResult
 							}
 						}
 					}
 				} catch (error) {
 					console.error('Impossible to create public links')
 					console.error(error)
-					return null
+					shareLinksResult.error = error
+					return shareLinksResult
 				}
-				publicLinks.push(publicLink)
+				shareLinksResult.publicLinks.push(publicLink)
 			}
-			return publicLinks
+			return shareLinksResult
 		},
 		async updateWebdavQuota() {
 			if (this.client) {

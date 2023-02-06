@@ -28,6 +28,7 @@ window.createFilePicker = (mp, options) => {
 			displayPreviews: options.displayPreviews,
 			multipleDownload: options.multipleDownload,
 			multipleUpload: options.multipleUpload,
+			closeOnError: options.closeOnError,
 			enableGetFilesPath: options.enableGetFilesPath,
 			enableGetFilesLink: options.enableGetFilesLink,
 			enableDownloadFiles: options.enableDownloadFiles,
