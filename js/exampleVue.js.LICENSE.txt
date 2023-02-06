@@ -84,16 +84,6 @@ version: 2.9.0
  * https://crypto-js.googlecode.com/svn-history/r667/branches/3.x/src/core.js
  */
 
-/*! For license information please see NcBreadcrumb.js.LICENSE.txt */
-
-/*! For license information please see NcBreadcrumbs.js.LICENSE.txt */
-
-/*! For license information please see NcDatetimePicker.js.LICENSE.txt */
-
-/*! For license information please see NcModal.js.LICENSE.txt */
-
-/*! For license information please see Tooltip.js.LICENSE.txt */
-
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
  *
@@ -116,7 +106,7 @@ version: 2.9.0
  *
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -138,7 +128,7 @@ version: 2.9.0
  *
  * @author Georg Ehrke <georg-nextcloud@ehrke.email>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -160,7 +150,7 @@ version: 2.9.0
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
