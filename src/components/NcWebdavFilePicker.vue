@@ -185,7 +185,7 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		// close the picker on network error (like when password policy refuses a link password)
+		// close the picker on network error for getFilesLink, uploadFiles and downloadFiles (like when password policy refuses a link password)
 		closeOnError: {
 			type: Boolean,
 			default: false,
@@ -663,6 +663,7 @@ export default {
 				this.close()
 			} else if (this.mode === 'getFilesLink') {
 				const shareLinksResult = await this.getFilesShareLink(this.selection, options)
+				const shouldClosePicker = shareLinksResult.error === false || this.closeOnError
 				const ocsUrl = this.url + '/ocs/v2.php/apps/files_sharing/api/v1/shares'
 				const genericShareLink = this.url + '/index.php/s/TOKEN'
 				const detail = {
@@ -671,13 +672,15 @@ export default {
 					genericShareLink,
 					shareLinks: shareLinksResult.publicLinks,
 					linkOptions: options,
+					error: shareLinksResult.error,
+					pickerStillOpen: !shouldClosePicker,
 				}
 				// for parent component
 				this.$emit('get-files-link', detail)
 				// for potential global listener
 				const event = new CustomEvent('get-files-link', { detail })
 				document.dispatchEvent(event)
-				if (shareLinksResult.error === false || this.closeOnError) {
+				if (shouldClosePicker) {
 					this.close()
 				}
 			} else if (this.mode === 'getSaveFilePath') {
@@ -876,10 +879,13 @@ export default {
 				this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
 				this.getFolderContent()
 			}
+
+			const shouldClosePicker = errorFiles.length === 0 || this.closeOnError
 			const detail = {
 				targetDir: this.currentPath,
 				successFiles,
 				errorFiles,
+				pickerStillOpen: !shouldClosePicker,
 			}
 			// for parent component
 			this.$emit('files-uploaded', detail)
@@ -891,6 +897,9 @@ export default {
 			this.uploadProgress = 0
 			this.filesToUpload = []
 			this.updateWebdavQuota()
+			if (shouldClosePicker) {
+				this.close()
+			}
 		},
 		async webdavDownload() {
 			this.downloadingFiles = true
@@ -952,16 +961,20 @@ export default {
 					continue
 				}
 			}
+			const shouldClosePicker = errorFilePaths.length === 0 || this.closeOnError
 			const detail = {
 				successFiles: results,
 				errorFilePaths,
+				pickerStillOpen: !shouldClosePicker,
 			}
 			// for parent component
 			this.$emit('files-downloaded', detail)
 			// for potential global listener
 			const event = new CustomEvent('files-downloaded', { detail })
 			document.dispatchEvent(event)
-			this.close()
+			if (shouldClosePicker) {
+				this.close()
+			}
 			this.downloadingFiles = false
 			this.downloadProgress = 0
 		},

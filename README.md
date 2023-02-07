@@ -114,6 +114,7 @@ Accepted options:
 | displayPreviews | toggle the file preview display | boolean | `true` |
 | multipleDownload | let the user select multiple files in the file picker | boolean | `true` |
 | multipleUpload | let the user select multiple local files to upload | boolean | `true` |
+| closeOnError | close the picker on network error for getFilesLink, uploadFiles and downloadFiles (like when password policy refuses a link password) | boolean | `false` |
 | enableGetFilesPath | show the "Get files path" button | boolean | `false` |
 | enableGetFilesLink | show the "Get files link" button | boolean | `false` |
 | enableDownloadFiles | show the "Get files link" button | boolean | `false` |
@@ -327,6 +328,11 @@ multipleDownload: {
 multipleUpload: {
 	type: Boolean,
 	default: true,
+},
+// close the picker on network error for getFilesLink, uploadFiles and downloadFiles (like when password policy refuses a link password)
+closeOnError: {
+	type: Boolean,
+	default: false,
 },
 // file picker title
 getTitle: {
