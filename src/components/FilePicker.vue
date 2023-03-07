@@ -317,7 +317,7 @@ export default {
 				const available = parseInt(this.quota.available)
 				const used = parseInt(this.quota.used)
 				return (!isNaN(available) && available !== 0 && !isNaN(used))
-					? parseInt(used / available * 100)
+					? parseInt(used / (available + used) * 100)
 					: 0
 			} else {
 				return 0
@@ -328,7 +328,7 @@ export default {
 			if (!isNaN(used) && this.quota?.available) {
 				const available = parseInt(this.quota.available)
 				return (!isNaN(available) && available !== 0)
-					? t('filepicker', '{size} used ({percent}% of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available, true) })
+					? t('filepicker', '{size} used ({percent}% of {total})', { size: this.myHumanFileSize(used, true), percent: this.quotaPercent, total: this.myHumanFileSize(available + used, true) })
 					: t('filepicker', '{size} used', { size: this.myHumanFileSize(used, true) })
 			} else {
 				return t('filepicker', 'invalid quota')
