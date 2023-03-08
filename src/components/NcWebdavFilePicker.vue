@@ -76,8 +76,11 @@
 				:mode="mode"
 				:multiple-download="multipleDownload"
 				:quota="quota"
+				:quota-loading="quotaLoading"
+				:display-quota-refresh="displayQuotaRefresh"
 				:files-to-upload="filesToUpload"
 				@close="close(true)"
+				@refresh-quota="updateWebdavQuota"
 				@folder-clicked="onFolderClicked"
 				@selection-changed="onSelectionChanged"
 				@create-directory="createDirectory"
@@ -215,6 +218,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		displayQuotaRefresh: {
+			type: Boolean,
+			default: false,
+		},
 		/* === toggle buttons === */
 		// display the button to get files path
 		enableGetFilesPath: {
@@ -273,6 +280,7 @@ export default {
 			currentPath: '/',
 			selection: [],
 			quota: null,
+			quotaLoading: false,
 			loadingDirectory: false,
 			uploadingFiles: false,
 			uploadProgress: 0,
@@ -824,6 +832,7 @@ export default {
 		},
 		async updateWebdavQuota() {
 			if (this.client) {
+				this.quotaLoading = true
 				try {
 					this.quota = await this.client.getQuota()
 					console.debug('quota')
@@ -836,6 +845,7 @@ export default {
 					// do not reset the filepicker here as the problem might only be on the quota requests
 					// this.resetFilePicker()
 				}
+				this.quotaLoading = false
 			}
 		},
 		async webdavUploadFiles() {

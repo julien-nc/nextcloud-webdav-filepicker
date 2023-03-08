@@ -60,6 +60,7 @@
 			:theme-color="color"
 			:dark-mode="darkMode"
 			:display-previews="true"
+			:display-quota-refresh="false"
 			:picker-is-open="false"
 			:enable-get-files-path="true"
 			:enable-get-files-link="true"

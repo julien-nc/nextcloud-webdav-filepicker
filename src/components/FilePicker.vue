@@ -101,6 +101,14 @@
 			:max="100"
 			:text="downloadProgress + '%'" />
 		<div v-else class="footer">
+			<button v-if="displayQuotaRefresh && quota"
+				:title="t('filepicker', 'Update quota')"
+				class="refreshQuotaButton"
+				@click="$emit('refresh-quota')">
+				<span v-if="quotaLoading"
+					:class="{ icon: true, 'loading-custom': true, rotate: true, dark: darkMode }" />
+				<RefreshIcon v-else />
+			</button>
 			<ProgressBar v-if="quota"
 				size="small"
 				class="quota"
@@ -168,6 +176,7 @@
 </template>
 
 <script>
+import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import AccountOffIcon from 'vue-material-design-icons/AccountOff.vue'
 
@@ -194,6 +203,7 @@ export default {
 		MyDatetimePicker,
 		FolderIcon,
 		AccountOffIcon,
+		RefreshIcon,
 	},
 
 	directives: {
@@ -232,6 +242,14 @@ export default {
 		quota: {
 			type: Object,
 			default: () => {},
+		},
+		quotaLoading: {
+			type: Boolean,
+			default: false,
+		},
+		displayQuotaRefresh: {
+			type: Boolean,
+			default: false,
 		},
 		connected: {
 			type: Boolean,
@@ -489,6 +507,24 @@ export default {
 
 		&:hover {
 			border-color: var(--color-primary-element);
+		}
+	}
+
+	.refreshQuotaButton {
+		width: 44px;
+		height: 44px;
+		border: 0;
+		background-color: var(--color-main-background);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
+		.icon {
+			background-color: rgba(0, 0, 0, 0);
+			margin: 0;
+			background-size: 20px;
 		}
 	}
 

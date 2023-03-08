@@ -26,6 +26,7 @@ window.createFilePicker = (mp, options) => {
 			themeColor: options.themeColor,
 			darkMode: options.darkMode,
 			displayPreviews: options.displayPreviews,
+			displayQuotaRefresh: options.displayQuotaRefresh,
 			multipleDownload: options.multipleDownload,
 			multipleUpload: options.multipleUpload,
 			closeOnError: options.closeOnError,
