@@ -397,7 +397,7 @@ export default {
 		pickerIsOpen() {
 			if (this.pickerIsOpen) {
 				this.isOpen = true
-				this.getFolderContent(true)
+				this.getFolderContent()
 			}
 		},
 	},
@@ -443,7 +443,7 @@ export default {
 				// only load the content if we just created the client, otherwise it's most likely a token renew
 				// and we want it to be transparent
 				if (clientWasNull) {
-					this.getFolderContent(true)
+					this.getFolderContent()
 				}
 			})
 		},
@@ -498,7 +498,7 @@ export default {
 					password: this.password,
 					useCookies: this.useCookies,
 				})
-				this.getFolderContent(true)
+				this.getFolderContent()
 			} else if (this.login && this.accessToken) {
 				// OAuth2 token
 				this.client = new WebDavFetchClient({
@@ -510,12 +510,12 @@ export default {
 					},
 					useCookies: this.useCookies,
 				})
-				this.getFolderContent(true)
+				this.getFolderContent()
 			} else if (this.oidcConfig) {
 				// OIDC client
 				if (this.oidcAuthInstance.isAuthenticated()) {
 					this.createClientFromOidcAuth()
-					this.getFolderContent(true)
+					this.getFolderContent()
 				} else {
 					this.oidcAuthInstance.authenticate()
 				}
@@ -527,7 +527,7 @@ export default {
 					username: this.login,
 					useCookies: this.useCookies,
 				})
-				this.getFolderContent(true)
+				this.getFolderContent()
 			} else if (this.useWebapppassword) {
 				// web login flow
 				const authUrl = this.authUrl + '?target-origin=' + encodeURIComponent(window.location.href)
@@ -584,7 +584,7 @@ export default {
 		},
 		openFilePicker() {
 			this.isOpen = true
-			this.getFolderContent(true)
+			this.getFolderContent()
 		},
 		onUnauthorized(response) {
 			const detail = { response }
@@ -593,7 +593,7 @@ export default {
 			document.dispatchEvent(event)
 			// this.close()
 		},
-		async getFolderContent(updateQuota = false, path = null) {
+		async getFolderContent(path = null) {
 			if (path) {
 				this.currentPath = path
 			}
@@ -604,8 +604,13 @@ export default {
 				this.currentElementsByPath = {}
 				this.loadingDirectory = true
 				try {
-					const directoryItems = await this.client.getDirectoryContents(this.currentPath)
-					this.currentElements = directoryItems.map((el) => {
+					const getQuotaFromPropfind = (path === null || path === '/' || path === '')
+					const directoryContent = await this.client.getDirectoryContents(this.currentPath, getQuotaFromPropfind)
+					console.debug('webdav client result', directoryContent)
+					if (getQuotaFromPropfind && directoryContent.quota) {
+						this.quota = directoryContent.quota
+					}
+					this.currentElements = directoryContent.nodes.map((el) => {
 						this.currentElementsByPath[el.filename] = el
 						return {
 							...el,
@@ -622,9 +627,6 @@ export default {
 					this.resetFilePicker()
 				}
 				this.loadingDirectory = false
-				if (updateQuota) {
-					this.updateWebdavQuota()
-				}
 			}
 		},
 		close(manually = false) {
@@ -639,13 +641,13 @@ export default {
 			}
 		},
 		onFolderClicked(path) {
-			this.getFolderContent(false, path)
+			this.getFolderContent(path)
 		},
 		onSelectionChanged(selection) {
 			this.selection = selection
 		},
 		onBreadcrumbChange(path) {
-			this.getFolderContent(false, path)
+			this.getFolderContent(path)
 		},
 		async onValidate(options = {}) {
 			if (this.mode === 'uploadFiles') {
@@ -877,7 +879,6 @@ export default {
 				console.debug('UPLOAD success ' + file.name)
 				totalUploaded += file.size
 				this.uploadProgress = parseInt(totalUploaded / totalSize * 100)
-				this.getFolderContent()
 			}
 
 			const shouldClosePicker = errorFiles.length === 0 || this.closeOnError
@@ -896,9 +897,12 @@ export default {
 			this.uploadingFiles = false
 			this.uploadProgress = 0
 			this.filesToUpload = []
-			this.updateWebdavQuota()
 			if (shouldClosePicker) {
+				console.debug('close after upload')
 				this.close()
+			} else {
+				this.getFolderContent()
+				this.updateWebdavQuota()
 			}
 		},
 		async webdavDownload() {
@@ -981,7 +985,7 @@ export default {
 		async createDirectory(newDirectoryName) {
 			const newDirectoryPath = this.currentPath.replace(/^\/$/, '') + '/' + newDirectoryName
 			await this.webdavCreateDirectory(newDirectoryPath)
-			this.getFolderContent(false, newDirectoryPath)
+			this.getFolderContent(newDirectoryPath)
 		},
 		async webdavCreateDirectory(path) {
 			try {

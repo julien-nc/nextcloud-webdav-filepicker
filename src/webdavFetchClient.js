@@ -20,6 +20,27 @@ const propertyRequestBody = `<?xml version="1.0"?>
   </d:prop>
 </d:propfind>`
 
+const propertyRequestBodyWithQuota = `<?xml version="1.0"?>
+<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+  <d:prop>
+        <d:quota-available-bytes />
+        <d:quota-used-bytes />
+        <d:getlastmodified />
+        <d:getetag />
+        <d:getcontenttype />
+        <d:resourcetype />
+        <oc:fileid />
+        <oc:permissions />
+        <oc:size />
+        <d:getcontentlength />
+        <nc:has-preview />
+        <oc:favorite />
+        <oc:comments-unread />
+        <oc:owner-display-name />
+        <oc:share-types />
+  </d:prop>
+</d:propfind>`
+
 function escapeRegExp(string) {
 	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
@@ -62,41 +83,46 @@ export class WebDavFetchClient {
 		}
 	}
 
-	parseWebDavFileListXML(xmlString, path) {
+	parseWebDavFileListXML(xmlString, path, getQuota = false) {
 		const dom = this.xmlParser.parseFromString(xmlString, 'application/xml')
 		const responseList = dom.documentElement.getElementsByTagNameNS(this.ns, 'response')
-		const elemList = []
+		const result = {
+			nodes: [],
+		}
 		for (let i = 0; i < responseList.length; i++) {
-			const elem = {}
+			const node = {}
 			const e = responseList.item(i)
-			elem.filename = decodeURIComponent(e.getElementsByTagNameNS(this.ns, 'href').item(0).innerHTML)
-			elem.filename = elem.filename.replace(this.pathRegex, '').replace(/\/$/, '')
-			elem.fileid = parseInt(e.getElementsByTagName('oc:fileid')?.item(0)?.innerHTML ?? 0)
+			node.filename = decodeURIComponent(e.getElementsByTagNameNS(this.ns, 'href').item(0).innerHTML)
+			node.filename = node.filename.replace(this.pathRegex, '').replace(/\/$/, '')
+			node.fileid = parseInt(e.getElementsByTagName('oc:fileid')?.item(0)?.innerHTML ?? 0)
 			if (e.getElementsByTagNameNS(this.ns, 'resourcetype').item(0).getElementsByTagNameNS(this.ns, 'collection').length > 0) {
 				// skip current directory
-				if (elem.filename === path.replace(/\/$/, '')) {
+				if (node.filename === path.replace(/\/$/, '')) {
 					continue
 				}
-				elem.type = 'directory'
+				node.type = 'directory'
 			} else {
-				elem.type = 'file'
-				elem.mime = e.getElementsByTagNameNS(this.ns, 'getcontenttype').item(0).innerHTML
-				elem.etag = e.getElementsByTagNameNS(this.ns, 'getetag').item(0).innerHTML
+				node.type = 'file'
+				node.mime = e.getElementsByTagNameNS(this.ns, 'getcontenttype').item(0).innerHTML
+				node.etag = e.getElementsByTagNameNS(this.ns, 'getetag').item(0).innerHTML
 			}
-			elem.size = +e.getElementsByTagNameNS(this.ns, 'getcontentlength')?.item(0)?.innerHTML
-			if (!elem.size) {
-				elem.size = +e.getElementsByTagName('oc:size')?.item(0)?.innerHTML
+			node.size = +e.getElementsByTagNameNS(this.ns, 'getcontentlength')?.item(0)?.innerHTML
+			if (!node.size) {
+				node.size = +e.getElementsByTagName('oc:size')?.item(0)?.innerHTML
 			}
-			elem.haspreview = e.getElementsByTagName('nc:has-preview')?.item(0)?.innerHTML === 'true'
-			elem.basename = basename(elem.filename)
-			elem.lastmod = e.getElementsByTagNameNS(this.ns, 'getlastmodified').item(0).innerHTML
+			node.haspreview = e.getElementsByTagName('nc:has-preview')?.item(0)?.innerHTML === 'true'
+			node.basename = basename(node.filename)
+			node.lastmod = e.getElementsByTagNameNS(this.ns, 'getlastmodified').item(0).innerHTML
 			// elem.Status = e.getElementsByTagNameNS(this.ns, 'status').item(0).innerHTML
-			elemList.push(elem)
+			result.nodes.push(node)
 		}
-		return elemList
+		if (getQuota) {
+			result.quota = this.getQuotaFromParsedXml(dom)
+		}
+		return result
 	}
 
-	getDirectoryContents(path) {
+	getDirectoryContents(path, getQuota = false) {
 		const headers = new Headers()
 		headers.append('Accept', 'text/plain')
 		headers.append('Depth', '1')
@@ -108,11 +134,11 @@ export class WebDavFetchClient {
 				method: 'PROPFIND',
 				credentials: this.credentialsMode,
 				headers,
-				body: propertyRequestBody,
+				body: getQuota ? propertyRequestBodyWithQuota : propertyRequestBody,
 			}).then((response) => {
 				response.text().then(text => {
 					if (response.status < 400) {
-						resolve(this.parseWebDavFileListXML(text, path))
+						resolve(this.parseWebDavFileListXML(text, path, getQuota))
 					} else {
 						reject(new Error({ response }), text)
 					}
@@ -210,21 +236,30 @@ export class WebDavFetchClient {
 
 	parseWebDavQuotaXML(xmlString) {
 		const dom = this.xmlParser.parseFromString(xmlString, 'application/xml')
-		const used = dom.documentElement.getElementsByTagNameNS(this.ns, 'quota-used-bytes')
-		const available = dom.documentElement.getElementsByTagNameNS(this.ns, 'quota-available-bytes')
-		const availableRawValue = available
-			? parseInt(available.item(0).innerHTML)
-			: undefined
-		// negative -> unlimited
-		const availableValue = availableRawValue
-			? availableRawValue >= 0
-				? availableRawValue
-				: 'unlimited'
-			: undefined
-		return {
-			used: used ? parseInt(used.item(0).innerHTML) : undefined,
-			available: availableValue,
+		return this.getQuotaFromParsedXml(dom)
+	}
+
+	getQuotaFromParsedXml(dom) {
+		try {
+			const used = dom.documentElement.getElementsByTagNameNS(this.ns, 'quota-used-bytes')
+			const available = dom.documentElement.getElementsByTagNameNS(this.ns, 'quota-available-bytes')
+			const availableRawValue = available
+				? parseInt(available.item(0).innerHTML)
+				: undefined
+			// negative -> unlimited
+			const availableValue = availableRawValue
+				? availableRawValue >= 0
+					? availableRawValue
+					: 'unlimited'
+				: undefined
+			return {
+				used: used ? parseInt(used.item(0).innerHTML) : undefined,
+				available: availableValue,
+			}
+		} catch (e) {
+			console.error('Failed to parse quota', e)
 		}
+		return null
 	}
 
 	getFileDownloadLink(path) {
