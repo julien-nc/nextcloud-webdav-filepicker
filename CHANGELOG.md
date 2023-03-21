@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.0.4 – 2023-03-21
+### Changed
+- get quota directly with PROPFIND on root dir, no extra request except after uploading if picker is not closed
+- optional button to refresh quota
+
+## 1.0.3 – 2023-03-07
+### Fixed
+- computed quota value
+
+## 1.0.2 – 2023-02-07
+### Added
+- new option to avoid closing the picker on error
+
 ## 1.0.0 – 2022-12-12
 ### Added
 - new prop/param to disable previews
