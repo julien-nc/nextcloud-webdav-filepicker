@@ -51,9 +51,6 @@ webpackConfig.plugins.push(
 )
 
 webpackConfig.module.rules.push(
-	// Fix can't resolve 'process/browser' issue.
-	// when importing vue from @nextcloud-vue
-	// as in https://github.com/kktjs/kkt/commit/36f644dac16dbb47d50822c532efd914825313fb
 	{
 	test: /\.mjs$/,
 	include: /node_modules/,
