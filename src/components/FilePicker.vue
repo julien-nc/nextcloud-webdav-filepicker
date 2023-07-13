@@ -6,6 +6,17 @@
 			</h2>
 			<span v-show="downloadingFiles || uploadingFiles"
 				:class="{ icon: true, 'loading-custom': true, rotate: true, dark: darkMode }" />
+			<div v-if="connected && mode === 'getFilesLink'" class="share-link-searcher">
+				<div class="spacer" />
+			</div>
+			<div class="search-container">
+				<div v-if="showSearch">
+					<PickerSearch
+						initial-search-text=""
+						:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
+						@do-search="onDoSearch" />
+				</div>
+			</div>
 			<button class="closeButton"
 				@click="$emit('close')">
 				<span class="icon icon-close" />
@@ -26,6 +37,7 @@
 			:can-select-files="['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(mode)"
 			:multiple-select="multipleDownload"
 			:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
+			:searching-mode="searching"
 			@folder-clicked="$emit('folder-clicked', $event)"
 			@selection-changed="onSelectionChange">
 			<template #file-icon="{node}">
@@ -46,7 +58,9 @@
 				<AccountOffIcon />
 			</template>
 		</NcEmptyContent>
-
+		<small v-if="searching && currentElements.length >= 20">
+			{{ t('filepicker', 'Current search results are limited to 20 results, narrow your search please.') }}
+		</small>
 		<div v-if="connected && mode === 'getFilesLink'" class="share-link-settings footer">
 			<div class="spacer" />
 			<div v-if="showLinkSettings">
@@ -180,6 +194,7 @@ import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import AccountOffIcon from 'vue-material-design-icons/AccountOff.vue'
 
+import PickerSearch from './PickerSearch.vue'
 import PickerBreadcrumbs from './PickerBreadcrumbs.vue'
 import FileBrowser from './FileBrowser.vue'
 import MyDatetimePicker from './MyDatetimePicker.vue'
@@ -196,6 +211,7 @@ export default {
 	name: 'FilePicker',
 
 	components: {
+		PickerSearch,
 		PickerBreadcrumbs,
 		FileBrowser,
 		ProgressBar,
@@ -278,6 +294,14 @@ export default {
 		downloadProgress: {
 			type: Number,
 			default: 0,
+		},
+		showSearch: {
+			type: Boolean,
+			default: true,
+		},
+		searching: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
@@ -399,6 +423,9 @@ export default {
 	},
 
 	methods: {
+		onDoSearch(searchText, searchOptions) {
+			this.$emit('search-text-submitted', searchText, searchOptions)
+		},
 		onBreadcrumbChange(path) {
 			this.$emit('breadcrumb-hash-changed', path)
 		},
@@ -554,8 +581,11 @@ export default {
 
 	.bread-container {
 		display: inline-flex;
-		width: 100%;
-		margin-top: 10px;
+	}
+
+	.search-container {
+		display: inline-flex;
+		flex-direction: row-reverse;
 	}
 
 	.footer {
@@ -633,6 +663,17 @@ export default {
 		}
 		label {
 			cursor: pointer;
+		}
+
+		input[type=text] {
+			-moz-appearance: textfield;
+			-webkit-appearance: textfield;
+			background-color: var(--color-main-background);
+			color: var(--color-main-text);
+			border: 1px solid lightgrey;
+			border-radius: 3px;
+			padding: 0px 6px;
+			height: 34px;
 		}
 	}
 

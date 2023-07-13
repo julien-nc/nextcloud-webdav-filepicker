@@ -41,6 +41,41 @@ const propertyRequestBodyWithQuota = `<?xml version="1.0"?>
   </d:prop>
 </d:propfind>`
 
+const searchRequestBody = `<?xml version="1.0" encoding="UTF-8"?>
+ <d:searchrequest xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns" xmlns:ns="https://github.com/icewind1991/SearchDAV/ns">
+     <d:basicsearch>
+         <d:select>
+			<d:prop>
+						<oc:fileid/>
+				<d:getlastmodified />
+				<d:resourcetype />
+				<d:getcontentlength />
+				<nc:has-preview />
+				<oc:favorite />
+						<d:displayname/>
+						<d:getcontenttype/>
+						<d:getetag/>
+						<oc:size/>
+				<oc:owner-display-name />
+				<oc:share-types />
+			</d:prop>
+         </d:select>
+         <d:from>
+             <d:scope>
+                 <d:href>/files/kinta</d:href>
+                 <d:depth>0</d:depth>
+             </d:scope>
+         </d:from>
+         <d:where>
+         </d:where>
+         <d:orderby/>
+		<d:limit>
+			<d:nresults>20</d:nresults>
+			<ns:firstresult>0</ns:firstresult>
+		</d:limit>
+    </d:basicsearch>
+</d:searchrequest>`
+
 function escapeRegExp(string) {
 	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
@@ -148,6 +183,105 @@ export class WebDavFetchClient {
 				reject(err)
 			})
 		})
+	}
+
+	getSearchContents(path, searchText, searchOptions, getQuota = false) {
+		const headers = new Headers()
+		headers.append('Accept', 'text/plain')
+		headers.append('Content-Type', 'application/xml')
+		this.appendAuthHeader(headers)
+
+		return new Promise((resolve, reject) => {
+
+			const dom = this.xmlParser.parseFromString(searchRequestBody, 'application/xml')
+			dom.documentElement.getElementsByTagNameNS(this.ns, 'depth').item(0).innerHTML = searchOptions.depth
+			const from = dom.documentElement.getElementsByTagNameNS(this.ns, 'from')
+			from[0].getElementsByTagNameNS(this.ns, 'scope')[0].getElementsByTagNameNS(this.ns, 'href')[0].innerHTML = `/files/${this.userId}${path}`
+
+			searchOptions.content_type.forEach(contentType => {
+				if (contentType.id === 'document/%') {
+					this.addWhereCondition(dom, 'd:like', 'd:getcontenttype', 'application/%', searchOptions.conditionsCounter, 'or')
+					this.addWhereCondition(dom, 'd:like', 'd:getcontenttype', 'text/%', searchOptions.conditionsCounter, 'or')
+				} else {
+					this.addWhereCondition(dom, 'd:like', 'd:getcontenttype', contentType.id, searchOptions.conditionsCounter, 'or')
+				}
+			})
+
+			if (searchText) {
+				this.addWhereCondition(dom, 'd:like', 'd:displayname', '%' + searchText + '%', searchOptions.conditionsCounter)
+			}
+
+			if (searchOptions.modified_date && searchOptions.modified_date_operator !== 'disabled') {
+				this.addWhereCondition(dom, 'd:' + searchOptions.modified_date_operator, 'd:getlastmodified', searchOptions.modified_date, searchOptions.conditionsCounter)
+			}
+
+			if (searchOptions.favorited) {
+				this.addWhereCondition(dom, 'd:eq', 'oc:favorite', searchOptions.favorited, searchOptions.conditionsCounter)
+			}
+
+			const serializer = new XMLSerializer()
+			const parsedSearchRequestBody = serializer.serializeToString(dom)
+			// console.debug(parsedSearchRequestBody)
+			fetch(this.url.replace('/files/' + this.userId, ''), {
+				method: 'SEARCH',
+				credentials: this.credentialsMode,
+				headers,
+				body: parsedSearchRequestBody, // getQuota ? propertyRequestBodyWithQuota : searchRequestBody,
+			}).then((response) => {
+				response.text().then(text => {
+					if (response.status < 400) {
+						resolve(this.parseWebDavFileListXML(text, path, getQuota))
+					} else {
+						reject(new Error({ response }), text)
+					}
+				})
+			}).catch(err => {
+				console.error(err)
+				reject(err)
+			})
+		})
+	}
+
+	addWhereCondition(dom, relationalOperand, field, fieldValue, conditionsCounter, subsetLogicalOperand = null) {
+		const multipleConditions = conditionsCounter > 1
+		const domRelationalOperand = dom.createElement(relationalOperand)
+		const domConditionProp = dom.createElement('d:prop')
+		const domConditionLiteral = dom.createElement('d:literal')
+		const domConditionField = dom.createElement(field)
+
+		domConditionProp.appendChild(domConditionField)
+		domConditionLiteral.appendChild(dom.createTextNode(fieldValue))
+
+		domRelationalOperand.appendChild(domConditionProp)
+		domRelationalOperand.appendChild(domConditionLiteral)
+
+		let domConditionsSlot
+		if (multipleConditions) {
+			const domWhere = dom.documentElement.getElementsByTagNameNS(this.ns, 'where').item(0)
+
+			domConditionsSlot = domWhere.getElementsByTagName('d:and').item(0)
+			if (!domConditionsSlot) {
+				const domLogicalOperand = dom.createElement('d:and')
+				domConditionsSlot = domWhere.appendChild(domLogicalOperand)
+			}
+		} else {
+			domConditionsSlot = dom.documentElement.getElementsByTagNameNS(this.ns, 'where').item(0)
+		}
+
+		if (subsetLogicalOperand === 'or') {
+			// If wants an or subset in and set check if already exists the or subset
+			// if not create and append to and before.
+			const subsetCondition = domConditionsSlot.getElementsByTagName('d:or').item(0)
+			if (subsetCondition) {
+				subsetCondition.appendChild(domRelationalOperand)
+			} else {
+				const subsetCondition = dom.createElement('d:or')
+				subsetCondition.appendChild(domRelationalOperand)
+				domConditionsSlot.appendChild(subsetCondition)
+			}
+		} else {
+			domConditionsSlot.appendChild(domRelationalOperand)
+		}
 	}
 
 	createDirectory(path) {

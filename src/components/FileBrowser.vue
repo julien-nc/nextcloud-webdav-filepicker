@@ -50,6 +50,13 @@
 					</slot>
 				</td>
 				<td :style="''">
+					<div v-if="searchingMode"
+						class="element-path"
+						@click="onElemClick({ type:'directory', filename:filenamePath(value) })">
+						<small>
+							{{ filenamePath(value) }}
+						</small>
+					</div>
 					<div>
 						{{ value.basename }}
 					</div>
@@ -106,6 +113,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		searchingMode: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -138,6 +149,9 @@ export default {
 		},
 		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
 			return humanFileSize(bytes, approx, si, dp)
+		},
+		filenamePath(e) {
+			return e.filename.replace(new RegExp(e.basename + '$'), '')
 		},
 		isSelectable(elem) {
 			return elem.type === 'directory' || this.canSelectFiles
@@ -197,6 +211,10 @@ export default {
 	display: block;
 	border-spacing: 0;
 	// padding: 10px 0 10px 0;
+
+	.element-path {
+		color: var(--color-text-maxcontrast);
+	}
 
 	// for the NextcloudFileIcon
 	::v-deep .nc-icon-container,

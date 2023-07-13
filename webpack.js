@@ -50,4 +50,14 @@ webpackConfig.plugins.push(
 	}),
 )
 
+webpackConfig.module.rules.push(
+	{
+	test: /\.mjs$/,
+	include: /node_modules/,
+	type: 'javascript/auto',
+	resolve: {
+		fullySpecified: false
+	}
+})
+
 module.exports = webpackConfig

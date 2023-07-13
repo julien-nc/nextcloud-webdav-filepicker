@@ -69,6 +69,7 @@
 				:upload-progress="uploadProgress"
 				:download-progress="downloadProgress"
 				:downloading-files="downloadingFiles"
+				:searching="searching"
 				:dark-mode="myDarkMode"
 				:current-path="currentPath"
 				:current-elements="currentElements"
@@ -85,7 +86,8 @@
 				@selection-changed="onSelectionChanged"
 				@create-directory="createDirectory"
 				@validate="onValidate"
-				@breadcrumb-hash-changed="onBreadcrumbChange">
+				@breadcrumb-hash-changed="onBreadcrumbChange"
+				@search-text-submitted="onSearchSubmitted">
 				<template #file-icon="{node}">
 					<NextcloudFileIcon
 						:nc-url="url"
@@ -106,6 +108,7 @@ import { initVueAuthenticate } from '../services/auth.js'
 import { colorOpacity } from '../utils.js'
 
 import '../../css/filepicker.scss'
+import '../../css/assets/additional.css'
 
 import axios from 'axios'
 import moment from '@nextcloud/moment'
@@ -297,6 +300,8 @@ export default {
 			// OIDC
 			oidcConfig: null,
 			oidcAuthInstance: null,
+			// searching
+			searching: false,
 		}
 	},
 
@@ -602,6 +607,7 @@ export default {
 			// this.close()
 		},
 		async getFolderContent(path = null) {
+			this.searching = false
 			if (path) {
 				this.currentPath = path
 			}
@@ -648,11 +654,46 @@ export default {
 				document.dispatchEvent(manuallyClosedEvent)
 			}
 		},
+		async getSearchContent(searchText, searchOptions) {
+			this.currentSearch = searchText
+			this.currentSearchOptions = searchOptions
+
+			this.selection = []
+			this.currentElementsByPath = {}
+			this.loadingDirectory = true
+			this.searching = true
+			try {
+				const getQuotaFromPropfind = (this.currentPath === null || this.currentPath === '/' || this.currentPath === '')
+				const searchContent = await this.client.getSearchContents(this.currentPath, this.currentSearch, this.currentSearchOptions, getQuotaFromPropfind)
+				if (getQuotaFromPropfind && searchContent.quota) {
+					this.quota = searchContent.quota
+				}
+				this.currentElements = searchContent.nodes.map((el) => {
+					this.currentElementsByPath[el.filename] = el
+					return {
+						...el,
+						lastmod_ts: moment(el.lastmod).unix(),
+					}
+				})
+				this.connected = true
+			} catch (error) {
+				console.error(error)
+				if (error.response?.status === 401) {
+					this.onUnauthorized(error.response)
+				}
+				this.resetFilePicker()
+			}
+			this.loadingDirectory = false
+
+		},
 		onFolderClicked(path) {
 			this.getFolderContent(path)
 		},
 		onSelectionChanged(selection) {
 			this.selection = selection
+		},
+		onSearchSubmitted(searchText, searchOptions) {
+			this.getSearchContent(searchText, searchOptions)
 		},
 		onBreadcrumbChange(path) {
 			this.getFolderContent(path)
@@ -1117,15 +1158,5 @@ export default {
 		}
 	}
 
-	input[type=text] {
-		-moz-appearance: textfield;
-		-webkit-appearance: textfield;
-		background-color: var(--color-main-background);
-		color: var(--color-main-text);
-		border: 1px solid lightgrey;
-		border-radius: 3px;
-		padding: 0px 6px;
-		height: 34px;
-	}
 }
 </style>
