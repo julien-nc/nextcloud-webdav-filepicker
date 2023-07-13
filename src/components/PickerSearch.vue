@@ -69,6 +69,7 @@
 		<div>
 			<NcButton
 				:aria-label="labels.searchButton"
+				:disabled="searchDisabled()"
 				type="secondary"
 				class="search-button"
 				@click="doSearch">
@@ -211,6 +212,23 @@ export default {
 		clearText() {
 			this.searchingText = ''
 		},
+		searchDisabled() {
+			let conditionsCounter = 0
+			// count conditions to help in building the query
+			if (this.contentTypesSelect.props.value) {
+				conditionsCounter = this.contentTypesSelect.props.value.length
+			}
+			if (this.searchingText) {
+				++conditionsCounter
+			}
+			if (this.modifiedDateOperator.props.value.id && this.modifiedDateOperator.props.value.id !== 'disabled') {
+				++conditionsCounter
+			}
+			if (this.favorited) {
+				++conditionsCounter
+			}
+			return conditionsCounter < 1
+		},
 		doSearch(event, elem) {
 			event.preventDefault()
 			event.stopPropagation()
@@ -229,14 +247,16 @@ export default {
 				if (this.favorited) {
 					++conditionsCounter
 				}
-				this.$emit('do-search', this.searchingText, {
-					depth: this.depthSelect.props.value.id,
-					content_type: this.contentTypesSelect.props.value || [],
-					modified_date: this.modifiedDate.toISOString().split('.')[0] + 'Z' || '',
-					modified_date_operator: this.modifiedDateOperator.props.value.id,
-					favorited: this.favorited,
-					conditionsCounter,
-				})
+				if (conditionsCounter > 0) {
+					this.$emit('do-search', this.searchingText, {
+						depth: this.depthSelect.props.value.id,
+						content_type: this.contentTypesSelect.props.value || [],
+						modified_date: this.modifiedDate.toISOString().split('.')[0] + 'Z' || '',
+						modified_date_operator: this.modifiedDateOperator.props.value.id,
+						favorited: this.favorited,
+						conditionsCounter,
+					})
+				}
 			}
 		},
 	},
