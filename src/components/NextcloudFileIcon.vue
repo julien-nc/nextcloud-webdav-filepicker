@@ -15,8 +15,8 @@ import axios from 'axios'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 import { getElemTypeClass } from '../utils.js'
 
-const PREVIEW_WIDTH = 128
-const PREVIEW_HEIGHT = 128
+const PREVIEW_WIDTH = 200
+const PREVIEW_HEIGHT = 200
 
 export default {
 	name: 'NextcloudFileIcon',
@@ -71,7 +71,7 @@ export default {
 				+ '&forceIcon=0&a=0'
 		},
 		tooltipHtml() {
-			return '<img src="' + this.imgSrc + '" width="128" height="128" alt="">'
+			return '<img src="' + this.imgSrc + '" width="200" height="200" alt="">'
 		},
 	},
 
@@ -128,8 +128,8 @@ export default {
 	align-items: center;
 
 	img.small {
-		width: 32px;
-		height: 32px;
+		width: 200px;
+		aspect-ratio: 16 / 9;
 		margin: auto;
 	}
 }

@@ -408,10 +408,12 @@ export default {
 
 			::v-deep .nc-icon-container {
 				width: 100%;
+				height: unset;
 				.icon {
 					width: 200px;
 					aspect-ratio: 16 / 10;
 					margin: 0 auto;
+					object-fit: cover;
 				}
 			}
 			.item-name {
