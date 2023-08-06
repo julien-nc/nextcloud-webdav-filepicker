@@ -4,8 +4,8 @@
 		class="element-table"
 		:data="elements">
 		<thead slot="head">
-			<th style="width: 10%;" />
-			<MyVTh sort-key="basename" style="width: 50%;">
+			<th :style="elementsLayout === 'grid' ? 'width:70%;' : 'width: 10%;'" />
+			<MyVTh sort-key="basename" :style="elementsLayout === 'grid' ? 'width:10%;' : 'width: 50%;'">
 				<template #descIcon>
 					<svg width="16"
 						height="16"
@@ -32,39 +32,74 @@
 				</template>
 				{{ t('filepicker', 'Name') }}
 			</MyVTh>
-			<MyVTh sort-key="size" style="width: 15%;">
+			<MyVTh sort-key="size" :style="elementsLayout === 'grid' ? 'width:10%;' : 'width: 15%;'">
 				{{ t('filepicker', 'Size') }}
 			</MyVTh>
-			<MyVTh sort-key="lastmod_ts" style="width: 25%;">
+			<MyVTh sort-key="lastmod_ts" :style="elementsLayout === 'grid' ? 'width:60%;' : 'width: 25%;'">
 				{{ t('filepicker', 'Modified') }}
 			</MyVTh>
 		</thead>
-		<tbody slot="body" slot-scope="{displayData}">
-			<tr v-for="value in displayData"
-				:key="value.filename"
-				:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
-				@click="onElemClick(value)">
-				<td>
-					<slot name="file-icon" :node="value">
-						<span :class="{ icon: true, ...getElemTypeClass(value) }" />
-					</slot>
-				</td>
-				<td :style="''">
-					<div>
-						{{ value.basename }}
-					</div>
-				</td>
-				<td :style="''">
-					<div>
-						{{ myHumanFileSize(value.size, true) }}
-					</div>
-				</td>
-				<td :style="''">
-					<div>
-						{{ lastModFormat(value.lastmod_ts) }}
-					</div>
-				</td>
-			</tr>
+		<tbody slot="body"
+			slot-scope="{displayData}"
+			:class="elementsLayout === 'grid' ? 'grid-layout' : 'list-layout'">
+			<template v-if="elementsLayout === 'grid'">
+				<tr>
+					<td colspan="4">
+						<div class="grid-container">
+							<div v-for="value in displayData"
+								:key="value.filename"
+								:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename), 'grid-item': true }"
+								@click="onElemClick(value)">
+								<slot name="file-icon" :node="value">
+									<span :class="{ icon: true, ...getElemTypeClass(value) }" />
+								</slot>
+								<span
+									class="item-name"
+									:title="value.basename"
+									:aria-label="value.basename">
+									{{ value.basename }}
+								</span>
+								<p class="item-info">
+									{{ myHumanFileSize(value.size, true) }}
+									<span
+										class="item-date"
+										:title="lastModFormat(value.lastmod_ts)"
+										:aria-label="lastModFormat(value.lastmod_ts)">
+										{{ lastModFormatShort(value.lastmod_ts) }}
+									</span>
+								</p>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</template>
+			<template v-if="elementsLayout === 'list'">
+				<tr v-for="value in displayData"
+					:key="value.filename"
+					:class="{ selectable: isSelectable(value), selected: selection.includes(value.filename) }"
+					@click="onElemClick(value)">
+					<td>
+						<slot name="file-icon" :node="value">
+							<span :class="{ icon: true, ...getElemTypeClass(value) }" />
+						</slot>
+					</td>
+					<td :style="''">
+						<div>
+							{{ value.basename }}
+						</div>
+					</td>
+					<td :style="''">
+						<div>
+							{{ myHumanFileSize(value.size, true) }}
+						</div>
+					</td>
+					<td :style="''">
+						<div>
+							{{ lastModFormat(value.lastmod_ts) }}
+						</div>
+					</td>
+				</tr>
+			</template>
 		</tbody>
 	</VTable>
 </template>
@@ -106,6 +141,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		elementsLayout: {
+			type: String,
+			default: () => { return 'list' },
+		},
 	},
 
 	data() {
@@ -135,6 +174,9 @@ export default {
 	methods: {
 		lastModFormat(ts) {
 			return moment.unix(ts).format('L HH:mm:ss')
+		},
+		lastModFormatShort(ts) {
+			return moment.unix(ts).format('L HH:mm')
 		},
 		myHumanFileSize(bytes, approx = false, si = false, dp = 1) {
 			return humanFileSize(bytes, approx, si, dp)
@@ -229,32 +271,34 @@ export default {
 		}
 	}
 
-	tr {
-		z-index: 1;
+	.list-layout {
+		tr {
+			z-index: 1;
 
-		&:not(:first-child) td {
-			border-top: 1px solid var(--color-border);
-		}
+			&:not(:first-child) td {
+				border-top: 1px solid var(--color-border);
+			}
 
-		&:not(.selectable) td > * {
-			opacity: 30%;
-		}
+			&:not(.selectable) td > * {
+				opacity: 30%;
+			}
 
-		&.selectable {
-			cursor: pointer;
-			td {
+			&.selectable {
 				cursor: pointer;
-				* {
+				td {
 					cursor: pointer;
+					* {
+						cursor: pointer;
+					}
 				}
-			}
 
-			&.selected {
-				background-color: var(--color-background-darker);
-			}
+				&.selected {
+					background-color: var(--color-background-darker);
+				}
 
-			&:hover:not(.selected) {
-				background-color: var(--color-background-hover);
+				&:hover:not(.selected) {
+					background-color: var(--color-background-hover);
+				}
 			}
 		}
 	}
@@ -324,6 +368,64 @@ export default {
 	::v-deep .icon-calendar,
 	::v-deep .icon-picture {
 		background-image: unset;
+	}
+
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		grid-column-gap: 1em;
+		grid-row-gap: 1em;
+		z-index: 1;
+		border-top: 1px solid var(--color-border);
+		.grid-item {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			&.selectable > * {
+				opacity: 100%;
+			}
+			&:not(.selectable) > * {
+				opacity: 30%;
+			}
+
+			&.selectable {
+				cursor: pointer;
+				td {
+					cursor: pointer;
+					* {
+						cursor: pointer;
+					}
+				}
+
+				&.selected {
+					background-color: var(--color-background-darker);
+				}
+
+				&:hover:not(.selected) {
+					background-color: var(--color-background-hover);
+				}
+			}
+
+			::v-deep .nc-icon-container {
+				width: 100%;
+				.icon {
+					width: 200px;
+					aspect-ratio: 16 / 10;
+					margin: 0 auto;
+				}
+			}
+			.item-name {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.item-info {
+				font-size: 70%;
+				.item-date {
+					color: var(--color-text-lighter);
+				}
+			}
+		}
 	}
 }
 </style>
