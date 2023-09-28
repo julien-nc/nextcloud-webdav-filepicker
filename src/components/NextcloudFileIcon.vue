@@ -92,7 +92,7 @@ export default {
 			}).then((response) => {
 				const b64image = btoa(
 					new Uint8Array(response.data)
-						.reduce((data, byte) => data + String.fromCharCode(byte), '')
+						.reduce((data, byte) => data + String.fromCharCode(byte), ''),
 				)
 				const mime = response.headers['content-type'].toLowerCase()
 				this.imgSrc = `data:${mime};base64,${b64image}`

@@ -542,7 +542,7 @@ export default {
 				this.loginWindow = window.open(
 					authUrl,
 					'Nextcloud Login',
-					'width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no'
+					'width=400,height=400,menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no',
 				)
 				window.addEventListener('message', this.onReceiveWindowMessage)
 			}
