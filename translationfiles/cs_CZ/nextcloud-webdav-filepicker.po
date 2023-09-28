@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-09-28 10:09+0200\n"
-"PO-Revision-Date: 2023-09-28 08:13\n"
+"PO-Revision-Date: 2023-09-28 08:23\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -19,40 +19,40 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:1
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:2
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:3
 msgid "Modified"
-msgstr ""
+msgstr "Změněno"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
 msgid "This folder is empty"
-msgstr ""
+msgstr "Tato složka je prázdná"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
 msgid "Not connected"
-msgstr ""
+msgstr "Nepřipojeno"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
 msgid "Password protect"
-msgstr ""
+msgstr "Ochránit heslem"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:7
 msgid "Allow editing"
-msgstr ""
+msgstr "Povolit úpravy"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:8
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:9
 msgid "Expires on"
-msgstr ""
+msgstr "Platnost končí"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:10
 msgid "Link settings"
-msgstr ""
+msgstr "Nastavení odkazu"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
 msgid "Update quota"
@@ -60,20 +60,20 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
 msgid "Create new folder"
-msgstr ""
+msgstr "Vytvořit novou složku"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
 msgid "New folder name"
-msgstr ""
+msgstr "Název nové složky"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:14
 msgid "Cancel"
-msgstr ""
+msgstr "Storno"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:15
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
 msgid "Deselect all"
@@ -85,70 +85,70 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
 msgid "Select one or multiple files"
-msgstr ""
+msgstr "Vyberte jeden nebo více souborů"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:19
 msgid "Select a file"
-msgstr ""
+msgstr "Vyberte soubor"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
 msgid "Save to"
-msgstr ""
+msgstr "Uložit do"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
 #, javascript-format
 msgid "{size} used ({percent}% of {total})"
-msgstr ""
+msgstr "{size} použito ({percent}% z {total})"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
 msgid "{size} used"
-msgstr ""
+msgstr "{size} použito"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
 msgid "invalid quota"
-msgstr ""
+msgstr "neplatná kvóta"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
 msgid "{nbSelected} selected"
 msgid_plural "{nbSelected} selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{nbSelected} vybráno"
+msgstr[1] "{nbSelected} vybrány"
+msgstr[2] "{nbSelected} vybráno"
+msgstr[3] "{nbSelected} vybrány"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:28
 msgid "Get files path"
-msgstr ""
+msgstr "Získat popis umístění souborů"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:29
 msgid "Get files link"
-msgstr ""
+msgstr "Získat odkaz na soubory"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:30
 msgid "Download files"
-msgstr ""
+msgstr "Stáhnout soubory"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:31
 msgid "Get save file path"
-msgstr ""
+msgstr "Získat popis umístění uložení souboru"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:32
 msgid "Get file upload link"
-msgstr ""
+msgstr "Získat odkaz pro nahrání souborů"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:33
 msgid "Upload files"
-msgstr ""
+msgstr "Nahrát soubory"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
 msgid "Upload {nbToUpload} file to {path}"
 msgid_plural "Upload {nbToUpload} files to {path}"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Nahrát {nbToUpload} soubor do {path}"
+msgstr[1] "Nahrát {nbToUpload} soubory do {path}"
+msgstr[2] "Nahrát {nbToUpload} souborů do {path}"
+msgstr[3] "Nahrát {nbToUpload} soubory do {path}"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
 msgid "Save to {path}"
-msgstr ""
+msgstr "Uložit do {path}"
 
