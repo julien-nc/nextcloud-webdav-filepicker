@@ -1,5 +1,5 @@
 import { translations } from './translations.js'
-import { getGettextBuilder } from '@nextcloud/l10n/dist/gettext.js'
+import { getGettextBuilder } from '@nextcloud/l10n/gettext'
 import { po } from 'gettext-parser'
 
 const langConvertions = {
