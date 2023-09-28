@@ -149,12 +149,12 @@
 				<button v-if="showSelectNone"
 					@click="selectNone">
 					<span class="icon custom-icon icon-unchecked" />
-					{{ t('filepicker', 'None') }}
+					{{ t('filepicker', 'Deselect all') }}
 				</button>
 				<button v-if="showSelectAll"
 					@click="selectAll">
 					<span class="icon custom-icon icon-checked" />
-					{{ t('filepicker', 'All') }}
+					{{ t('filepicker', 'Select all') }}
 				</button>
 			</div>
 
