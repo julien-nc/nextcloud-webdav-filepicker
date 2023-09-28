@@ -1,52 +1,65 @@
 <template>
-	<div class="nextcloud-filepicker">
+	<div class="nextcloud-filepicker"
+		:style="cssVars">
 		<div id="trigger-buttons">
 			<div v-if="enableGetFilesPath" @click="getFilesPath">
 				<slot name="get-files-path">
-					<button>
-						<span class="icon icon-download" />
+					<NcButton>
 						{{ t('filepicker', 'Get files path') }}
-					</button>
+						<template #icon>
+							<DownloadIcon />
+						</template>
+					</NcButton>
 				</slot>
 			</div>
 			<div v-if="enableGetFilesLink" @click="onGetFilesLinkClick">
 				<slot name="get-files-link">
-					<button>
-						<span class="icon icon-public" />
+					<NcButton>
 						{{ t('filepicker', 'Get files link') }}
-					</button>
+						<template #icon>
+							<LinkVariantIcon />
+						</template>
+					</NcButton>
 				</slot>
 			</div>
 			<div v-if="enableDownloadFiles" @click="downloadFiles">
 				<slot name="download-files">
-					<button>
-						<span class="icon icon-download" />
+					<NcButton>
 						{{ t('filepicker', 'Download files') }}
-					</button>
+						<template #icon>
+							<DownloadIcon />
+						</template>
+					</NcButton>
 				</slot>
 			</div>
 			<div v-if="enableGetSaveFilePath" @click="getSaveFilePath">
 				<slot name="get-save-file-path">
-					<button>
-						<span class="icon icon-upload" />
+					<NcButton>
 						{{ t('filepicker', 'Get save file path') }}
-					</button>
+						<template #icon>
+							<UploadIcon />
+						</template>
+					</NcButton>
 				</slot>
 			</div>
 			<div v-if="enableGetUploadFileLink" @click="getUploadFileLink">
 				<slot name="get-upload-fileLink">
-					<button>
-						<span class="icon icon-upload" />
+					<NcButton>
 						{{ t('filepicker', 'Get file upload link') }}
-					</button>
+						<template #icon>
+							<UploadIcon />
+						</template>
+					</NcButton>
 				</slot>
 			</div>
 			<div v-if="enableUploadFiles" @click="openFileInput">
 				<slot name="open-file-input">
-					<button>
-						<span class="icon icon-upload" />
+					<NcButton>
 						{{ t('filepicker', 'Upload files') }}
-					</button>
+						<template #icon>
+							<UploadIcon />
+						</template>
+					</NcButton>
 				</slot>
 			</div>
 		</div>
@@ -113,7 +126,12 @@ import moment from '@nextcloud/moment'
 import FilePicker from './FilePicker.vue'
 import NextcloudFileIcon from './NextcloudFileIcon.vue'
 
+import DownloadIcon from 'vue-material-design-icons/Download.vue'
+import UploadIcon from 'vue-material-design-icons/Upload.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'NcWebdavFilePicker',
@@ -122,6 +140,10 @@ export default {
 		NcModal,
 		FilePicker,
 		NextcloudFileIcon,
+		NcButton,
+		DownloadIcon,
+		UploadIcon,
+		LinkVariantIcon,
 	},
 
 	props: {
@@ -305,7 +327,10 @@ export default {
 			return {
 				'--color-primary': this.mainColor,
 				'--color-primary-element': this.mainColor,
+				'--color-primary-element-hover': this.colorPrimaryElementHover,
 				'--color-primary-text': '#ffffff',
+				'--color-primary-element-text': this.colorPrimaryElementText,
+				'--color-primary-element-light-text': this.mainTextColor,
 				'--color-primary-element-light': this.mainColorLight,
 				'--color-primary-light': this.mainColorLighter,
 				'--color-main-background': this.mainBackgroundColor,
@@ -370,6 +395,12 @@ export default {
 			return this.myDarkMode
 				? colorOpacity(this.mainColor, 0.8)
 				: colorOpacity(this.mainColor, 0.2)
+		},
+		colorPrimaryElementText() {
+			return '#fff'
+		},
+		colorPrimaryElementHover() {
+			return colorOpacity(this.mainColor, 0.8)
 		},
 		authUrl() {
 			return this.url + '/index.php/apps/webapppassword'
@@ -1020,14 +1051,6 @@ export default {
 .nextcloud-filepicker {
 	#trigger-buttons {
 		display: flex;
-
-		button {
-			padding: 10px;
-			font-weight: bold;
-			border-radius: 100px;
-			border: 1px solid lightgrey;
-			cursor: pointer;
-		}
 	}
 
 	.icon {
