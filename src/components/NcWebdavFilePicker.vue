@@ -69,7 +69,7 @@
 			type="file"
 			:multiple="multipleUpload"
 			@change="onFileInputChange">
-		<NcModal v-if="isOpen"
+		<NcModal v-if="isOpen && useModal"
 			:can-close="false"
 			size="large"
 			:style="cssVars"
@@ -109,6 +109,44 @@
 				</template>
 			</FilePicker>
 		</NcModal>
+		<div v-if="!useModal" 
+            class="nextcloud-filepicker-wrapper"
+			:style="cssVars">
+            <FilePicker
+				:get-title="getTitle"
+				:put-title="putTitle"
+				:loading-directory="loadingDirectory"
+				:uploading-files="uploadingFiles"
+				:upload-progress="uploadProgress"
+				:download-progress="downloadProgress"
+				:downloading-files="downloadingFiles"
+				:dark-mode="myDarkMode"
+				:current-path="currentPath"
+				:current-elements="currentElements"
+				:connected="connected"
+				:mode="mode"
+				:multiple-download="multipleDownload"
+				:quota="quota"
+				:quota-loading="quotaLoading"
+				:display-quota-refresh="displayQuotaRefresh"
+				:files-to-upload="filesToUpload"
+				@close="close(true)"
+				@refresh-quota="updateWebdavQuota"
+				@folder-clicked="onFolderClicked"
+				@selection-changed="onSelectionChanged"
+				@create-directory="createDirectory"
+				@validate="onValidate"
+				@breadcrumb-hash-changed="onBreadcrumbChange">
+				<template #file-icon="{node}">
+					<NextcloudFileIcon
+						:nc-url="url"
+						:node="node"
+						:dark-mode="myDarkMode"
+						:display-previews="displayPreviews"
+						:client="client" />
+				</template>
+			</FilePicker>
+		</div>		
 	</div>
 </template>
 
@@ -280,6 +318,11 @@ export default {
 			type: String,
 			default: null,
 		},
+		// display as modal or as div
+		useModal: {
+			type: Boolean,
+			default: true,
+		}		
 	},
 
 	data() {
@@ -1069,7 +1112,7 @@ export default {
 	}
 }
 
-::v-deep .modal-container {
+::v-deep .modal-container, ::v-deep .nextcloud-filepicker-wrapper {
 	display: flex !important;
 	min-height: 80%;
 	border-radius: 10px !important;

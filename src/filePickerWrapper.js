@@ -38,6 +38,7 @@ window.createFilePicker = (mp, options) => {
 			enableUploadFiles: options.enableUploadFiles,
 			language: options.language,
 			useWebapppassword: options.useWebapppassword,
+			useModal: options.useModal,
 		},
 	}).$mount('#' + mp)
 }
