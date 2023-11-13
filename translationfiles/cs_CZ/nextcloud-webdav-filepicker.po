@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-09-28 10:09+0200\n"
-"PO-Revision-Date: 2023-09-28 08:23\n"
+"PO-Revision-Date: 2023-11-13 23:09\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -56,7 +56,7 @@ msgstr "Nastavení odkazu"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
 msgid "Update quota"
-msgstr ""
+msgstr "Aktualizovat kvótu"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
 msgid "Create new folder"
@@ -77,11 +77,11 @@ msgstr "OK"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
 msgid "Deselect all"
-msgstr ""
+msgstr "Zrušit výběr všeho"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:17
 msgid "Select all"
-msgstr ""
+msgstr "Vybrat vše"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
 msgid "Select one or multiple files"
