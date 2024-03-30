@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-09-28 10:09+0200\n"
-"PO-Revision-Date: 2023-09-28 08:13\n"
+"PO-Revision-Date: 2024-03-30 10:20\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -19,140 +19,140 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:1
 msgid "Name"
-msgstr ""
+msgstr "الاسم"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:2
 msgid "Size"
-msgstr ""
+msgstr "الحجم"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:3
 msgid "Modified"
-msgstr ""
+msgstr "مُعدَّل"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
 msgid "This folder is empty"
-msgstr ""
+msgstr "هذا المجلد فارغ"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
 msgid "Not connected"
-msgstr ""
+msgstr "غير متصل"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
 msgid "Password protect"
-msgstr ""
+msgstr "حماية كلمات المرور"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:7
 msgid "Allow editing"
-msgstr ""
+msgstr "السماح بالتعديل"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:8
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:9
 msgid "Expires on"
-msgstr ""
+msgstr "إلغاء تحديد الكل"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:10
 msgid "Link settings"
-msgstr ""
+msgstr "إعدادات الرابط"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
 msgid "Update quota"
-msgstr ""
+msgstr "حصة الرفع"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
 msgid "Create new folder"
-msgstr ""
+msgstr "إنشاء مجلد جديد"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
 msgid "New folder name"
-msgstr ""
+msgstr "اسم المجلد الجديد"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:14
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:15
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
 msgid "Ok"
-msgstr ""
+msgstr "موافق"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
 msgid "Deselect all"
-msgstr ""
+msgstr "إلغاء تحديد الكل"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:17
 msgid "Select all"
-msgstr ""
+msgstr "تحديد الكل"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
 msgid "Select one or multiple files"
-msgstr ""
+msgstr "تحديد ملف واحد أو أكثر"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:19
 msgid "Select a file"
-msgstr ""
+msgstr "تحديد ملف"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
 msgid "Save to"
-msgstr ""
+msgstr "حفظ إلى"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
 #, javascript-format
 msgid "{size} used ({percent}% of {total})"
-msgstr ""
+msgstr "{size} مستهلكة ({percent}% من {total})"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
 msgid "{size} used"
-msgstr ""
+msgstr "{size} مستهلك"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
 msgid "invalid quota"
-msgstr ""
+msgstr "حصة غير صحيحة"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
 msgid "{nbSelected} selected"
 msgid_plural "{nbSelected} selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "{nbSelected} مُحدَّدة"
+msgstr[1] "{nbSelected} مُحدَّدة"
+msgstr[2] "{nbSelected} مُحدَّدة"
+msgstr[3] "{nbSelected} مُحدَّدة"
+msgstr[4] "{nbSelected} مُحدَّدة"
+msgstr[5] "{nbSelected} مُحدَّدة"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:28
 msgid "Get files path"
-msgstr ""
+msgstr "الحصول على مسار الملفات"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:29
 msgid "Get files link"
-msgstr ""
+msgstr "الحصول على رابط الملفات"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:30
 msgid "Download files"
-msgstr ""
+msgstr "تنزيل ملفات"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:31
 msgid "Get save file path"
-msgstr ""
+msgstr "طلب"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:32
 msgid "Get file upload link"
-msgstr ""
+msgstr "الحصول على رابط رفع الملفات"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:33
 msgid "Upload files"
-msgstr ""
+msgstr "رفع الملفات"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
 msgid "Upload {nbToUpload} file to {path}"
 msgid_plural "Upload {nbToUpload} files to {path}"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "رَفْع {nbToUpload} ملف إلى {path}"
+msgstr[1] "رَفْع {nbToUpload} ملف إلى {path}"
+msgstr[2] "رَفْع {nbToUpload} ملف إلى {path}"
+msgstr[3] "رَفْع {nbToUpload} ملفات إلى {path}"
+msgstr[4] "رَفْع {nbToUpload} ملف إلى {path}"
+msgstr[5] "رَفْع {nbToUpload} ملف إلى {path}"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
 msgid "Save to {path}"
-msgstr ""
+msgstr "حِفْظ في {path}"
 
