@@ -1,13 +1,13 @@
 <template>
 	<NcBreadcrumbs class="crumbs">
-		<NcBreadcrumb title="Home" href="#/">
+		<NcBreadcrumb name="Home" href="#/">
 			<template #icon>
 				<HomeIcon :size="20" />
 			</template>
 		</NcBreadcrumb>
 		<NcBreadcrumb v-for="p in parts"
 			:key="p.path"
-			:title="p.name"
+			:name="p.name"
 			:href="'#' + p.path" />
 	</NcBreadcrumbs>
 </template>
@@ -67,18 +67,12 @@ export default {
 	}
 }
 
-::v-deep .vue-crumb {
+:deep(.vue-crumb) {
 	>a {
-		padding: 12px;
+		padding: 0 8px;
 		text-decoration: none;
 		color: var(--color-text-lighter);
-	}
-
-	.icon {
-		margin-top: -6px;
-		top: 2px;
-		position: relative;
-		// opacity: 0.4;
+		border-radius: 8px;
 	}
 
 	&::before {

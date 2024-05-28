@@ -37,14 +37,14 @@
 			</template>
 		</FileBrowser>
 		<NcEmptyContent v-else-if="connected"
-			:title="t('filepicker', 'This folder is empty')"
+			:name="t('filepicker', 'This folder is empty')"
 			class="empty-content">
 			<template #icon>
 				<FolderIcon />
 			</template>
 		</NcEmptyContent>
 		<NcEmptyContent v-else
-			:title="t('filepicker', 'Not connected')"
+			:name="t('filepicker', 'Not connected')"
 			class="empty-content">
 			<template #icon>
 				<AccountOffIcon />
@@ -171,6 +171,8 @@
 					</template>
 				</NcButton>
 			</div>
+
+			<div class="spacer" />
 
 			<div id="validate">
 				<span v-if="connected && (selection.length > 0 || ['getFilesPath', 'downloadFiles', 'getFilesLink'].includes(mode))"
@@ -480,7 +482,7 @@ export default {
 
 <style scoped lang="scss">
 .picker__content {
-	width: 900px;
+	//width: 900px;
 	// height: 800px;
 	background: var(--color-main-background);
 	color: var(--color-main-text);
@@ -552,7 +554,7 @@ export default {
 
 		.allNoneButtons,
 		.newDirectory {
-			flex-grow: 1;
+			//flex-grow: 1;
 			.newDirectoryForm {
 				display: flex;
 				align-items: center;
@@ -563,6 +565,10 @@ export default {
 			display: flex;
 			gap: 2px;
 			align-items: center;
+		}
+
+		.spacer {
+			flex-grow: 1;
 		}
 
 		#validate {
@@ -614,9 +620,6 @@ export default {
 			> * {
 				margin: auto 2px auto 2px !important;
 			}
-		}
-		.spacer {
-			flex-grow: 1;
 		}
 
 		input[type=checkbox] {

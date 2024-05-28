@@ -75,6 +75,7 @@
 			:style="cssVars"
 			@close="close">
 			<FilePicker
+				class="modal-picker"
 				:get-title="getTitle"
 				:put-title="putTitle"
 				:loading-directory="loadingDirectory"
@@ -343,6 +344,7 @@ export default {
 				'--color-background-darker': this.colorBackgroundDarker,
 				'--border-radius-large': '10px',
 				'--default-font-size': '15px',
+				'--default-grid-baseline': '4px',
 				'--font-face': '-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen-Sans,Cantarell,Ubuntu,\'Helvetica Neue\',Arial,\'Noto Color Emoji\',sans-serif,\'Apple Color Emoji\',\'Segoe UI Emoji\',\'Segoe UI Symbol\'',
 			}
 		},
@@ -1069,10 +1071,18 @@ export default {
 	}
 }
 
+.modal-picker {
+	width: 100%;
+}
+
 ::v-deep .modal-container {
 	display: flex !important;
 	min-height: 80%;
-	border-radius: 10px !important;
+
+	&__content {
+		border-radius: 10px !important;
+		display: flex;
+	}
 
 	.icon {
 		min-width: 16px;

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<NcDatetimePicker
+		<NcDateTimePicker
 			id="my-datepicker"
 			v-bind="$attrs"
 			v-on="$listeners" />
@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import NcDatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 export default {
 	name: 'MyDatetimePicker',
 
 	components: {
-		NcDatetimePicker,
+		NcDateTimePicker,
 	},
 
 	props: [],
