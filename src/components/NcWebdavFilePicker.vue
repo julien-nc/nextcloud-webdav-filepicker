@@ -786,7 +786,7 @@ export default {
 					const req = {
 						path,
 						shareType: 3,
-						label: this.linkLabel || 'File picker link',
+						label: this.linkLabel || 'File picker link ' + moment().format('YYYY-MM-DD'),
 						expireDate: options.expirationDate ? moment(options.expirationDate).format('YYYY-MM-DD') : null,
 						password: options.protectionPassword ? options.protectionPassword : undefined,
 					}
