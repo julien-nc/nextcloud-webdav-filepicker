@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: nextcloud-webdav-filepicker\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2023-09-28 10:09+0200\n"
-"PO-Revision-Date: 2024-09-12 10:50\n"
+"PO-Revision-Date: 2024-09-13 10:53\n"
 "Last-Translator: \n"
 "Language-Team: Galician\n"
 "Language: gl_ES\n"
@@ -19,132 +19,132 @@ msgstr ""
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:1
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:2
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:3
 msgid "Modified"
-msgstr ""
+msgstr "Modificado"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
 msgid "This folder is empty"
-msgstr ""
+msgstr "Este cartafol está baleiro"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
 msgid "Not connected"
-msgstr ""
+msgstr "Sen conexión"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
 msgid "Password protect"
-msgstr ""
+msgstr "Protexer con contrasinal"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:7
 msgid "Allow editing"
-msgstr ""
+msgstr "Permitir a edición"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:8
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:9
 msgid "Expires on"
-msgstr ""
+msgstr "Caduca o"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:10
 msgid "Link settings"
-msgstr ""
+msgstr "Axustes da ligazón"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
 msgid "Update quota"
-msgstr ""
+msgstr "Actualizar a cota"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
 msgid "Create new folder"
-msgstr ""
+msgstr "Crear un novo cartafol"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
 msgid "New folder name"
-msgstr ""
+msgstr "Nome do novo cartafol"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:14
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:15
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
 msgid "Ok"
-msgstr ""
+msgstr "Aceptar"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
 msgid "Deselect all"
-msgstr ""
+msgstr "Deseleccionar todo"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:17
 msgid "Select all"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
 msgid "Select one or multiple files"
-msgstr ""
+msgstr "Seleccione un ou varios ficheiros"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:19
 msgid "Select a file"
-msgstr ""
+msgstr "Seleccione un ficheiro"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
 msgid "Save to"
-msgstr ""
+msgstr "Gardar en"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
 #, javascript-format
 msgid "{size} used ({percent}% of {total})"
-msgstr ""
+msgstr "{size} usado ({percent}% de {total})"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
 msgid "{size} used"
-msgstr ""
+msgstr "{size} usado"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
 msgid "invalid quota"
-msgstr ""
+msgstr "a cota non é válida"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
 msgid "{nbSelected} selected"
 msgid_plural "{nbSelected} selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{nbSelected} seleccionado"
+msgstr[1] "{nbSelected} seleccionados"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:28
 msgid "Get files path"
-msgstr ""
+msgstr "Obter a ruta dos ficheiros"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:29
 msgid "Get files link"
-msgstr ""
+msgstr "Obter a ligazón dos ficheiros"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:30
 msgid "Download files"
-msgstr ""
+msgstr "Descargar ficheiros"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:31
 msgid "Get save file path"
-msgstr ""
+msgstr "Obter a ruta do ficheiro gardado"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:32
 msgid "Get file upload link"
-msgstr ""
+msgstr "Obter a ligazón de envío dos ficheiros"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:33
 msgid "Upload files"
-msgstr ""
+msgstr "Enviar ficheiros"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
 msgid "Upload {nbToUpload} file to {path}"
 msgid_plural "Upload {nbToUpload} files to {path}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Enviar {nbToUpload} ficheiro a {path}"
+msgstr[1] "Enviar {nbToUpload} ficheiros a {path}"
 
 #: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
 msgid "Save to {path}"
-msgstr ""
+msgstr "Gardar en {path}"
 
