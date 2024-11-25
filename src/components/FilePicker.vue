@@ -20,6 +20,16 @@
 				:parts="currentPathParts"
 				:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
 				@hash-changed="onBreadcrumbChange" />
+			<NcButton
+				type="tertiary"
+				:aria-label="gridLabel"
+				:title="gridLabel"
+				@click="toggleGridUsed">
+				<template #icon>
+					<IconViewList v-if="gridUsed" :size="20" />
+					<IconViewGrid v-else :size="20" />
+				</template>
+			</NcButton>
 		</div>
 		<span v-if="loadingDirectory"
 			:class="{ icon: true, 'loading-custom': true, rotate: true, dark: darkMode, 'loading-custom-main': true }" />
@@ -30,6 +40,7 @@
 			:can-select-files="['getFilesPath', 'getFilesLink', 'downloadFiles'].includes(mode)"
 			:multiple-select="multipleDownload"
 			:disabled="loadingDirectory || uploadingFiles || downloadingFiles"
+			:elements-layout="gridUsed? 'grid' : 'list'"
 			@folder-clicked="$emit('folder-clicked', $event)"
 			@selection-changed="onSelectionChange">
 			<template #file-icon="{node}">
@@ -196,6 +207,8 @@
 import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import AccountOffIcon from 'vue-material-design-icons/AccountOff.vue'
+import IconViewGrid from 'vue-material-design-icons/ViewGrid.vue'
+import IconViewList from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
@@ -228,6 +241,8 @@ export default {
 		FolderIcon,
 		AccountOffIcon,
 		RefreshIcon,
+		IconViewGrid,
+		IconViewList,
 		CloseIcon,
 		PlusIcon,
 		CheckIcon,
@@ -323,6 +338,7 @@ export default {
 			namingNewDirectory: false,
 			creatingDirectory: false,
 			newDirectoryName: '',
+			gridUsed: false,
 		}
 	},
 
@@ -411,6 +427,9 @@ export default {
 			}
 			return ''
 		},
+		gridLabel() {
+			return this.gridUsed ? 'Show as list' : 'Show as grid'
+		},
 	},
 
 	watch: {
@@ -475,6 +494,9 @@ export default {
 			} else {
 				this.$emit('validate')
 			}
+		},
+		toggleGridUsed() {
+			this.gridUsed = !this.gridUsed
 		},
 	},
 }
