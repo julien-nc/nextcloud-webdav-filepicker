@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: nextcloud-webdav-filepicker\n"
+"Report-Msgid-Bugs-To: translations\\@example.com\n"
+"POT-Creation-Date: 2023-09-28 10:09+0200\n"
+"PO-Revision-Date: 2025-06-01 18:25\n"
+"Last-Translator: \n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: nextcloud-webdav-filepicker\n"
+"X-Crowdin-Project-ID: 478579\n"
+"X-Crowdin-Language: it\n"
+"X-Crowdin-File: /main/translationfiles/templates/nextcloud-webdav-filepicker.pot\n"
+"X-Crowdin-File-ID: 207\n"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:1
+msgid "Name"
+msgstr "Nome"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:2
+msgid "Size"
+msgstr "Dimensione"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:3
+msgid "Modified"
+msgstr "Modificato"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:4
+msgid "This folder is empty"
+msgstr "Questa cartella è vuota"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:5
+msgid "Not connected"
+msgstr "Non connesso"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:6
+msgid "Password protect"
+msgstr "Protezione con password"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:7
+msgid "Allow editing"
+msgstr "Consenti modifica"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:8
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:9
+msgid "Expires on"
+msgstr "Scade il"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:10
+msgid "Link settings"
+msgstr "Impostazioni link"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:11
+msgid "Update quota"
+msgstr "Aggiorna quota"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:12
+msgid "Create new folder"
+msgstr "Crea nuova cartella"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:13
+msgid "New folder name"
+msgstr "Nome nuova cartella"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:14
+msgid "Cancel"
+msgstr "Annulla"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:15
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:24
+msgid "Ok"
+msgstr "OK"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:16
+msgid "Deselect all"
+msgstr "Deseleziona tutto"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:17
+msgid "Select all"
+msgstr "Seleziona tutto"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:18
+msgid "Select one or multiple files"
+msgstr "Seleziona uno o più file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:19
+msgid "Select a file"
+msgstr "Seleziona un file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:20
+msgid "Save to"
+msgstr "Salva in"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:21
+#, javascript-format
+msgid "{size} used ({percent}% of {total})"
+msgstr "{size} usato ({percent}% di {total})"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:22
+msgid "{size} used"
+msgstr "{size} usato"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:23
+msgid "invalid quota"
+msgstr "quota non valida"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:26
+msgid "{nbSelected} selected"
+msgid_plural "{nbSelected} selected"
+msgstr[0] "{nbSelected} selezionato"
+msgstr[1] "{nbSelected} selezionati"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:28
+msgid "Get files path"
+msgstr "Ottieni percorso file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:29
+msgid "Get files link"
+msgstr "Ottieni link ai file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:30
+msgid "Download files"
+msgstr "Scarica il file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:31
+msgid "Get save file path"
+msgstr "Ottieni il percorso del file di salvataggio"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:32
+msgid "Get file upload link"
+msgstr "Ottieni link di caricamento file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:33
+msgid "Upload files"
+msgstr "Carica i file"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:27
+msgid "Upload {nbToUpload} file to {path}"
+msgid_plural "Upload {nbToUpload} files to {path}"
+msgstr[0] "Carica il file {nbToUpload} su {path}"
+msgstr[1] "Carica i file {nbToUpload} su {path}"
+
+#: /datadisk/tera/julien/html/nextcloud-webdav-filepicker/specialVueFakeDummyForL10nScript.js:25
+msgid "Save to {path}"
+msgstr "Salva in {path}"
+
